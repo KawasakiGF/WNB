@@ -1,1 +1,1 @@
-web: python otamesi.py
+web: python main.py
