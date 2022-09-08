@@ -52,7 +52,7 @@ def handle_image_message(event):
     url="https://www.dropbox.com/s/hnqi5gjgb9b3wmf/Sun.jpg?dl=0"
     line_bot_api.reply_message(
         event.reply_token,
-        ImageSendMessage(ogirinalContentUrl=url,previewImageUrl=url))
+        ImageSendMessage(originalContentUrl=url,previewImageUrl=url))
 
 #関数名は自由
 #def handle_message(event):
