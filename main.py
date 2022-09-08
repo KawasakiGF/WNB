@@ -47,12 +47,12 @@ def callback():
 
 ##########実行するプログラムの内容をここに書く################
 #@handler.addのメソッドの引数にはイベントのモデルを入れる(MessageEvent=メッセージを受けたら)
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent)
 def handle_image_message(event):
     url="https://www.dropbox.com/s/hnqi5gjgb9b3wmf/Sun.jpg?dl=0"
     line_bot_api.reply_message(
         event.reply_token,
-        ImageSendMessage(originalContentUrl=url,previewImageUrl=url))
+        ImageSendMessage(original_content_url=url,preview_image_url=url))
 
 #関数名は自由
 #def handle_message(event):
