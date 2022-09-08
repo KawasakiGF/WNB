@@ -47,23 +47,22 @@ def callback():
 
 ##########実行するプログラムの内容をここに書く################
 #@handler.addのメソッドの引数にはイベントのモデルを入れる(MessageEvent=メッセージを受けたら)
+#関数名は自由
+def handle_message(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=event.message.text))
+        #event.message.textは送られてきた文字列かも
+        #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
+        #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
+        #TextSendMessageオブジェクトを渡しています。
+
 @handler.add(MessageEvent)
 def handle_image_message(event):
     url="https://1.bp.blogspot.com/-eaDZ7sDP9uY/Xhwqlve5SUI/AAAAAAABXBo/EcI2C2vim7w2WV6EYy3ap0QLirX7RPohgCNcBGAsYHQ/s400/pose_syanikamaeru_man.png"
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(original_content_url=url,preview_image_url=url))
-
-#関数名は自由
-#def handle_message(event):
-#    line_bot_api.reply_message(
-#        event.reply_token,
-#        TextSendMessage(text=event.message.text))
-        #event.message.textは送られてきた文字列かも
-        #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
-        #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
-        #TextSendMessageオブジェクトを渡しています。
-#@handler.add(MessageEvent, message=TextMessage)
 ##############################################
 
 #決まり文句
