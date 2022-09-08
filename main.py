@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
+    MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage
 )
 import os
 
@@ -47,11 +47,12 @@ def callback():
 
 ##########実行するプログラムの内容をここに書く################
 #@handler.addのメソッドの引数にはイベントのモデルを入れる(MessageEvent=メッセージを受けたら)
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
+    url="https://www.dropbox.com/s/hnqi5gjgb9b3wmf/Sun.jpg?dl=0"
     line_bot_api.reply_message(
         event.reply_token,
-        ImageSendMessage(ogirinal_content_url='https://1.bp.blogspot.com/-eaDZ7sDP9uY/Xhwqlve5SUI/AAAAAAABXBo/EcI2C2vim7w2WV6EYy3ap0QLirX7RPohgCNcBGAsYHQ/s400/pose_syanikamaeru_man.png',preview_content_url='https://1.bp.blogspot.com/-eaDZ7sDP9uY/Xhwqlve5SUI/AAAAAAABXBo/EcI2C2vim7w2WV6EYy3ap0QLirX7RPohgCNcBGAsYHQ/s400/pose_syanikamaeru_man.png'))
+        ImageSendMessage(ogirinal_content_url=url,preview_content_url=url))
 
 #関数名は自由
 #def handle_message(event):
