@@ -47,6 +47,7 @@ def callback():
 
 ##########実行するプログラムの内容をここに書く################
 #@handler.addのメソッドの引数にはイベントのモデルを入れる(MessageEvent=メッセージを受けたら)
+@handler.add(MessageEvent,message=TextMessage)
 #関数名は自由
 def handle_message(event):
     line_bot_api.reply_message(
