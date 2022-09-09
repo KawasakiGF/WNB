@@ -61,17 +61,10 @@ def handle_message(event):
     if "1" in siteiSyoki:
     #"1(か所)" は siteiSyoki=送られてきたメッセージ の中に含まれているか
       line_bot_api.reply_message(
-          event.reply_token,
-          TextSendMessage(text="何県の天気情報を知りたいですか？"))
-          @handler.add(MessageEvent)
-          def handle_message(event):
-              #siteiBasyo = event.message.text
-              #if "1" in siteiBasyo:
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    [TextSendMessage(text=tenkiInfo),
-                    ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
-                    TextSendMessage(text=fukusou)])
+           event.reply_token,
+           [TextSendMessage(text=tenkiInfo),
+           ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
+           TextSendMessage(text=fukusou)])
     else:
       line_bot_api.reply_message(
           event.reply_token,
