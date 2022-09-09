@@ -56,8 +56,8 @@ def handle_message(event):
     url="https://i.ibb.co/V32pwjv/Cloud.png"
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text),
-        ImageSendMessage(original_content_url=url,preview_image_url=url))
+        [TextSendMessage(text=event.message.text),
+        ImageSendMessage(original_content_url=url,preview_image_url=url)])
         #event.message.textは送られてきた文字列かも
         #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
         #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
