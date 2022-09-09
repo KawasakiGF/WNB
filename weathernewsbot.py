@@ -81,12 +81,12 @@ response=requests.get(url)
 jsonData=response.json()
 
 #天気データ取得
-date=jsonData["forecasts"][d]["date"]
-weather=jsonData["forecasts"][d]["telop"]
-tempMAX=jsonData["forecasts"][d]["temperature"]["max"]["celsius"]
-tempMIN=jsonData["forecasts"][d]["temperature"]["min"]["celsius"]
-amCOR=jsonData["forecasts"][d]["chanceOfRain"]["T06_12"]
-pmCOR=jsonData["forecasts"][d]["chanceOfRain"]["T12_18"] 
+date=jsonData["forecasts"][1]["date"]
+weather=jsonData["forecasts"][1]["telop"]
+tempMAX=jsonData["forecasts"][1]["temperature"]["max"]["celsius"]
+tempMIN=jsonData["forecasts"][1]["temperature"]["min"]["celsius"]
+amCOR=jsonData["forecasts"][1]["chanceOfRain"]["T06_12"]
+pmCOR=jsonData["forecasts"][1]["chanceOfRain"]["T12_18"] 
 #天気データ取得
 
 tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n午前:{4}　午後{5}'.format(date,weather,tempMIN,tempMAX,amCOR,pmCOR)
