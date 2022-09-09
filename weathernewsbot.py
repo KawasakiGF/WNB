@@ -117,7 +117,7 @@ def callback():
 #関数名handle_messageは自由
 def handle_message(event):
     youkyuu = event.message.text
-    if youkyuu in "*天気*":
+    if "天気" in youkyuu:
     #" * "はワイルドカード
       line_bot_api.reply_message(
           event.reply_token,
