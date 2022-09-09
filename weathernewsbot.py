@@ -113,15 +113,20 @@ def callback():
 ##########実行するプログラムの内容をここに書く################
 #@handler.addのメソッドの引数にはイベントのモデルを入れる(MessageEvent=メッセージを受けたら)
 
-@handler.add(MessageEvent)
+@handler.add(MessageEvent,message=TextMessage)
 #関数名handle_messageは自由
 def handle_message(event):
-    if event in "天気":
+    youkyuu = event.message.text
+    if youkyuu in "天気":
       line_bot_api.reply_message(
           event.reply_token,
           [TextSendMessage(text=tenkiInfo),
           ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
           TextSendMessage(text=fukusou)])
+    else:
+      line_bot_api.reply_message(
+          event.reply_token,
+          TextSendMessage(text="もう一度お願いします"))
           #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
           #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
           #TextSendMessageオブジェクトを渡しています。
