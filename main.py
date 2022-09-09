@@ -10,6 +10,9 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage
 )
 import os
+#import dropbox
+
+#dbx=dropbox.Dropbox("sl.BO3B-FcjRSNl4TXf0jt9PAyeoRFBAydWUjeqq3yoH6o56KbpATYY6NxBbtRnHJxOkgCwP06YPPQtmvAzLBXUSOxAORvb4ba3UKizCRm5jVqUfQGIZmJNPoFnst3cVJ917o9rTUw")
 
 # アプリケーションの名前となる文字列
 # ファイルをスクリプトとして直接実行した場合、 __name__ は __main__ になる
@@ -57,10 +60,9 @@ def handle_message(event):
         #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
         #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
         #TextSendMessageオブジェクトを渡しています。
-
-@handler.add(MessageEvent)
+@handler.add(MessageEvent,message=TextMessage)
 def handle_image_message(event):
-    url="https://1.bp.blogspot.com/-eaDZ7sDP9uY/Xhwqlve5SUI/AAAAAAABXBo/EcI2C2vim7w2WV6EYy3ap0QLirX7RPohgCNcBGAsYHQ/s400/pose_syanikamaeru_man.png"
+    url="https://ibb.co/jHgZJ6L"
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(original_content_url=url,preview_image_url=url))
