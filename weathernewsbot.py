@@ -28,17 +28,72 @@ YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
+
+#####################通信の検証####################
+# @app.route("/callback"...はappに対して/callbackというURLに対応するアクションを記述
+@app.route("/callback", methods=['POST'])
+def callback():
+    # get X-Line-Signature header value 署名検証
+    signature = request.headers['X-Line-Signature']
+
+    # get request body as text リクエストボディ取得(これも検証の一環かしら)
+    body = request.get_data(as_text=True)
+    app.logger.info("Request body: " + body)
+
+    # handle webhook body
+    try:
+        # 署名を検証し、問題なければhandleに定義されている関数を呼び出す
+        handler.handle(body, signature)
+    # 署名検証で失敗したときは例外をあげる
+    except InvalidSignatureError:
+        abort(400)
+
+    return 'OK'
+###############################################
+
+
+##########実行するプログラムの内容をここに書く################
+#@handler.addのメソッドの引数にはイベントのモデルを入れる(MessageEvent=メッセージを受けたら)
+@handler.add(MessageEvent,message=TextMessage)
+#関数名handle_messageは自由
+def handle_message(event):
+    siteiSyoki = event.message.text
+    if "1" in siteiSyoki:
+    #"1(か所)" は siteiSyoki=送られてきたメッセージ の中に含まれているか
+      line_bot_api.reply_message(
+          event.reply_token,
+          TextSendMessage(text="何県の天気情報を知りたいですか？"))
+          @handler.add(MessageEvent)
+          def handle_message(event):
+              #siteiBasyo = event.message.text
+              #if "1" in siteiBasyo:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=tenkiInfo),
+                    ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
+                    TextSendMessage(text=fukusou)])
+    else:
+      line_bot_api.reply_message(
+          event.reply_token,
+          TextSendMessage(text="もう一度入力をお願いします"))
+          #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
+          #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
+          #TextSendMessageオブジェクトを渡しています。
+##############################################
+
+
+##################その他のinfo#####################
 url="https://weather.tsukumijima.net/api/forecast/city/300010"
 response=requests.get(url)
 jsonData=response.json()
 
 #天気データ取得
-date=jsonData["forecasts"][1]["date"]
-weather=jsonData["forecasts"][1]["telop"]
-tempMAX=jsonData["forecasts"][1]["temperature"]["max"]["celsius"]
-tempMIN=jsonData["forecasts"][1]["temperature"]["min"]["celsius"]
-amCOR=jsonData["forecasts"][1]["chanceOfRain"]["T06_12"]
-pmCOR=jsonData["forecasts"][1]["chanceOfRain"]["T12_18"] 
+date=jsonData["forecasts"][d]["date"]
+weather=jsonData["forecasts"][d]["telop"]
+tempMAX=jsonData["forecasts"][d]["temperature"]["max"]["celsius"]
+tempMIN=jsonData["forecasts"][d]["temperature"]["min"]["celsius"]
+amCOR=jsonData["forecasts"][d]["chanceOfRain"]["T06_12"]
+pmCOR=jsonData["forecasts"][d]["chanceOfRain"]["T12_18"] 
 #天気データ取得
 
 tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n午前:{4}　午後{5}'.format(date,weather,tempMIN,tempMAX,amCOR,pmCOR)
@@ -87,52 +142,7 @@ elif weather=="雪時々雨" or weather=="雪一時雨" or weather=="雪のち�
 elif weather=="暴風雨":                                                 picUrl="https://i.ibb.co/y6X5z5X/Typhon.png "
 elif weather=="暴風雪":                                                 picUrl="https://i.ibb.co/2NMQLDS/Heavy-Snow.png"
 #天気アイコン判定
-
-#####################通信の検証####################
-# @app.route("/callback"...はappに対して/callbackというURLに対応するアクションを記述
-@app.route("/callback", methods=['POST'])
-def callback():
-    # get X-Line-Signature header value 署名検証
-    signature = request.headers['X-Line-Signature']
-
-    # get request body as text リクエストボディ取得(これも検証の一環かしら)
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
-
-    # handle webhook body
-    try:
-        # 署名を検証し、問題なければhandleに定義されている関数を呼び出す
-        handler.handle(body, signature)
-    # 署名検証で失敗したときは例外をあげる
-    except InvalidSignatureError:
-        abort(400)
-
-    return 'OK'
-###############################################
-
-##########実行するプログラムの内容をここに書く################
-#@handler.addのメソッドの引数にはイベントのモデルを入れる(MessageEvent=メッセージを受けたら)
-
-@handler.add(MessageEvent,message=TextMessage)
-#関数名handle_messageは自由
-def handle_message(event):
-    youkyuu = event.message.text
-    if "天気" in youkyuu:
-    #" * "はワイルドカード
-      line_bot_api.reply_message(
-          event.reply_token,
-          [TextSendMessage(text=tenkiInfo),
-          ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
-          TextSendMessage(text=fukusou)])
-    else:
-      line_bot_api.reply_message(
-          event.reply_token,
-          TextSendMessage(text="もう一度お願いします"))
-          #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
-          #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
-          #TextSendMessageオブジェクトを渡しています。
-##############################################
-
+###################################################
 #決まり文句
 if __name__ == "__main__":
 #    app.run()
