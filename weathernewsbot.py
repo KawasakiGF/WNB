@@ -112,17 +112,18 @@ def callback():
 
 ##########実行するプログラムの内容をここに書く################
 #@handler.addのメソッドの引数にはイベントのモデルを入れる(MessageEvent=メッセージを受けたら)
-@handler.add(MessageEvent)
+if TextMessage in "天気":
+  @handler.add(MessageEvent)
 #関数名は自由
-def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        [TextSendMessage(text=tenkiInfo),
-        ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
-        TextSendMessage(text=fukusou)])
-        #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
-        #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
-        #TextSendMessageオブジェクトを渡しています。
+  def handle_message(event):
+      line_bot_api.reply_message(
+          event.reply_token,
+          [TextSendMessage(text=tenkiInfo),
+          ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
+          TextSendMessage(text=fukusou)])
+          #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
+          #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
+          #TextSendMessageオブジェクトを渡しています。
 ##############################################
 
 #決まり文句
