@@ -118,7 +118,7 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         [TextSendMessage(text=tenkiInfo),
-        ImageSendMessage(original_content_pic=picUrl,preview_image_url=picUrl),
+        ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
         TextSendMessage(text=fukusou)])
         #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
         #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
