@@ -62,7 +62,7 @@ def handle_message(event):
         #TextSendMessageオブジェクトを渡しています。
 @handler.add(MessageEvent,message=TextMessage)
 def handle_image_message(event):
-    url="https://ibb.co/jHgZJ6L"
+    url="https://i.ibb.co/V32pwjv/Cloud.png"
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(original_content_url=url,preview_image_url=url))
