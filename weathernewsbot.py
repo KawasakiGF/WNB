@@ -115,7 +115,7 @@ class MySession:
 
 #都道府県コードを返す
 def todoufukenNum(num):
-     if (num/10) == 0:
+     if num <= 10:
           return "0" + str(num)
      else: return str(num)
 
@@ -126,7 +126,8 @@ def codeKaraFind(finder):
           if ("finder" + "*") in Tcode[i]:
                teijiBasyoList = "\n ・" + Tname[i]
                j+=1
-     return teijiBasyoList
+
+     MySession.update_basyoList(user_id, teijiBasyoList)
       
 #天気メッセージを作る
 def OtenkiMessageMaker(code, itu):
@@ -265,7 +266,8 @@ def handle_message(event):
           MySession.update_areaT(user_id, talk)
           MySession.update_area(user_id, todoufukenNum(int(todoufuken.index(talk)) + 1))
           #area, basyoListは文字型
-          MySession.update_basyoList(user_id, codeKaraFind(MySession.read_area(user_id)))
+          #MySession.update_basyoList(user_id, codeKaraFind(MySession.read_area(user_id)))
+          codeKaraFind(MySession.read_area(user_id))
           line_bot_api.reply_message(
                event.reply_token,
                [TextSendMessage(text=(talk + tellBasyoKwsk)),
