@@ -120,7 +120,7 @@ def handle_message(event):
 #1か所の天気情報を教える
       line_bot_api.reply_message(
            event.reply_token,
-           [TextSendMessage(text=areaT + talk + checkBasyoKwsk),
+           [TextSendMessage(text=areaT + talk + checkBasyoKwsk + day[date] + "の" + areaT + talk + "の天気情報を表示します！"),
            TextSendMessage(text=tenkiInfo),
            ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
            TextSendMessage(text=fukusou)])
@@ -248,9 +248,9 @@ elif weather=="暴風雪":                                                 picUr
 
 #対話内容まとめ
 tellDay = "1か所の天気情報ですね。分かりました！\nでは次に、天気を知りたい日を、今日、明日、明後日の中から選んでください。"
-tellBasyo = "の天気情報ですね。分かりました！\nでは次に、知りたい場所の都道府県を教えてください。(県、府、都もお忘れなく！)"
+tellBasyo = "の天気情報ですね。分かりました！\nでは次に、知りたい場所の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく！)"
 tellBasyoKwsk = "の天気情報ですね。分かりました！\nでは最後に、知りたい場所に最も近い場所を選んでください。"
-checkBasyoKwsk = "の天気情報ですね。分かりました！
+checkBasyoKwsk = "の天気情報ですね。分かりました！\nそれでは、"
 ###################################################
 
 
