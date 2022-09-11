@@ -212,7 +212,7 @@ def handle_message(event):
     talk = event.message.text
     user_id = event.source.user_id
 
-    Mysession.register(user_id)
+    MySession.register(user_id)
 
 #会話を中断したいとき
     if ((MySession.read_context(user_id) == "10" or MySession.read_context(user_id) == "11" or MySession.read_context(user_id) == "12" or MySession.read_context(user_id) == "20") and text == "キャンセル"):
