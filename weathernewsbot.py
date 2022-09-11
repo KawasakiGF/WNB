@@ -32,13 +32,35 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 class Status:
      def __init__(self):
           self.context = 0
+          self.date = 0
+          self.area = "init"
+          self.areaT = "init"
 
+    def get_context(self):
+        return self.context
+    def set_context(self, context):
+          self.context = context
 
-#変数の初期化
-def reset():
-          date = 0
-          area = "init"
-          areaT = "init"
+    def get_date(self):
+        return self.date
+    def set_date(self, date):
+          self.context = date
+
+    def get_area(self):
+        return self.area
+    def set_area(self, area):
+          self.context = area
+
+    def get_areaT(self):
+        return self.areaT
+    def set_areaT(self, areaT):
+          self.context = areaT
+
+    def reset(self, context, date, area, areaT):
+          self.context = 0
+          self.date = 0
+          self.area = "init"
+          self.areaT = "init"
 
 #都道府県コードを返す
 def todoufukenNum(num):
@@ -150,21 +172,22 @@ def callback():
 #statusで1か所or2か所を管理。1x...1か所。2x...2か所
 def handle_message(event):
     talk = event.message.text
+    context = 0
 #1か所の場所を聞く####################
-    if (Status.context == 0 and "1" in talk):
+    if (Status.get_context(context) == 0 and "1" in talk):
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=tellDay))
-      Status.context = 10
+      Status.set_context(context, 10)
 #日にちを聞く
-    if (Status.context == 10 and day in talk):
+    if (Status.get_context(context) == 10 and day in talk):
       date = day.index(talk)
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=day[date] + tellBasyo))
-      Status.context = 11
+      Status.set_context(context, 11)
 #1か所の場所の詳細を聞く
-    if (Status.context == 11 and todoufuken in talk):
+    if (Status.get_context(context) == 11 and todoufuken in talk):
       areaT = talk
       area = todoufukenNum(int(todoufuken.index(talk)) + 1)
       #areaは文字型
@@ -173,9 +196,9 @@ def handle_message(event):
            event.reply_token,
            [TextSendMessage(text=(talk + tellBasyoKwsk)),
             TextSendMessage(text=basyoList)])
-      Status.context = 12
+      Status.set_context(context, 12)
 #1か所の天気情報を教える
-    if (Status.context == 12 and basyoList in talk):
+    if (Status.get_context(context) == 12 and basyoList in talk):
       picUrl = picUrlMaker(OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], date))
       fukusou = fukusouHantei(OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], date))
       line_bot_api.reply_message(
