@@ -29,12 +29,6 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #対話内容を管理する変数などの初期設定
-#def __init__(self):
-   status = 0
-   date = 0
-   area = "init"
-   areaT = "init"
-
 class Status:
      def __init__(self):
           self.context = 0
