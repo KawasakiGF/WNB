@@ -224,7 +224,7 @@ def handle_message(event):
 
 #1か所の場所を聞く####################
     if MySession.read_context(user_id) == "0":
-       if "1" in talk:
+       if ("1" in talk or "１" in talk):
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay))
@@ -236,7 +236,7 @@ def handle_message(event):
 
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
-       if day in talk:
+       if talk in day:
           MySession.update_date(user_id, day.index(talk))
           line_bot_api.reply_message(
                event.reply_token,
@@ -249,7 +249,7 @@ def handle_message(event):
 
 #1か所の場所を聞く
     elif MySession.read_context(user_id) == "11":
-       if todoufuken in talk:
+       if talk in todoufuken:
           MySession.update_areaT(user_id, talk)
           MySession.update_area(user_id, todoufukenNum(int(todoufuken.index(talk)) + 1))
           #area, basyoListは文字型
@@ -262,7 +262,7 @@ def handle_message(event):
 
 #1か所の場所の詳細を聞く&1か所の天気情報を教える
     elif MySession.read_context(user_id) == "12":
-       if basyoList in talk:
+       if talk in basyoList:
           picUrl = picUrlMaker(OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], MySession.read_date))
           fukusou = fukusouHantei(OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], MySession.read_date))
           line_bot_api.reply_message(
@@ -276,7 +276,7 @@ def handle_message(event):
 
 #2か所の場所を聞く####################
     if MySession.read_context(user_id) == "0":
-       if "2" in talk:
+       if ("2" in talk or "２" in talk):
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay))
