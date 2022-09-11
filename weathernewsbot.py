@@ -80,7 +80,7 @@ class MySession:
 
     def read_date(user_id):
         return MySession._status_map.get(user_id).get_date()
-    def update_date(user_id, daytype):
+    def update_date(user_id, date):
         new_status = MySession._status_map.get(user_id)
         new_status.set_date(date)
         MySession._status_map[user_id] = new_status
