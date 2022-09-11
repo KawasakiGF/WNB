@@ -215,7 +215,7 @@ def handle_message(event):
     MySession.register(user_id)
 
 #会話を中断したいとき
-    if ((MySession.read_context(user_id) == "10" or MySession.read_context(user_id) == "11" or MySession.read_context(user_id) == "12" or MySession.read_context(user_id) == "20") and text == "キャンセル"):
+    if ((MySession.read_context(user_id) == "10" or MySession.read_context(user_id) == "11" or MySession.read_context(user_id) == "12" or MySession.read_context(user_id) == "20") and talk == "キャンセル"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage("最初からやり直します。1か所or2か所を入力してください。"))
