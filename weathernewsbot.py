@@ -37,7 +37,9 @@ areaT = "init"
 #変数の初期化
 def reset():
           status = 0
-          area = 0
+          date = 0
+          area = "init"
+          areaT = "init"
 
 #都道府県コードを返す
 def todoufukenNum(num):
@@ -122,7 +124,7 @@ def handle_message(event):
            TextSendMessage(text=tenkiInfo),
            ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
            TextSendMessage(text=fukusou)])
-           reset()
+      reset()
 
 
 #2か所の場所を聞く####################
