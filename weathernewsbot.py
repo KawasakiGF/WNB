@@ -35,6 +35,7 @@ class Status:
           self.date = 0
           self.area = "init"
           self.areaT = "init"
+          sefl.basyoList = "init"
 
     def get_context(self):
         return self.context
@@ -55,6 +56,12 @@ class Status:
         return self.areaT
     def set_areaT(self, areaT):
           self.context = areaT
+
+    def get_basyoList(self):
+        return self.basyoList
+    def set_areaT(self, basyoList):
+          self.context = basyoList
+
 
 class MySession:
     _status_map = dict()
@@ -99,6 +106,12 @@ class MySession:
         new_status.set_areaT(areaT)
         MySession._status_map[user_id] = new_status
 
+    def read_basyoList(user_id):
+        return MySession._status_map.get(user_id).get_basyoList()
+    def update_basyoList(user_id, basyoList):
+        new_status = MySession._status_map.get(user_id)
+        new_status.set_basyoList(basyoList)
+        MySession._status_map[user_id] = new_status
 
 #都道府県コードを返す
 def todoufukenNum(num):
@@ -108,6 +121,7 @@ def todoufukenNum(num):
 
 #都道府県の場所コード探す
 def codeKaraFind(finder):
+     j = 0
      for i in range(0, len(Tcode)):
           if ("finder" + "*") in Tcode[i]:
                teijiBasyoList = "\n ・" + Tname[i]
@@ -235,7 +249,7 @@ def handle_message(event):
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
        if talk in day:
-          MySession.update_date(user_id, day.index(talk) + 1)
+          MySession.update_date(user_id, day.index(talk))
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=day[MySession.read_date(user_id)+1] + tellBasyo))
@@ -251,11 +265,11 @@ def handle_message(event):
           MySession.update_areaT(user_id, talk)
           MySession.update_area(user_id, todoufukenNum(int(todoufuken.index(talk)) + 1))
           #area, basyoListは文字型
-          basyoList = codeKaraFind(MySession.read_area(user_id))
+          MySession.update_basyoList(user_id, codeKaraFind(MySession.read_area(user_id)))
           line_bot_api.reply_message(
                event.reply_token,
                [TextSendMessage(text=(talk + tellBasyoKwsk)),
-                TextSendMessage(text=basyoList)])
+                TextSendMessage(text=MySession.read_basyoList(user_id))])
           MySession.update_context(user_id, "12")
 
 #1か所の場所の詳細を聞く&1か所の天気情報を教える
