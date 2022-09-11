@@ -62,7 +62,6 @@ def OtenkiMessageMaker(code, itu):
      url="https://weather.tsukumijima.net/api/forecast/city/" + code
      response=requests.get(url)
      jsonData=response.json()
-
      #天気データ取得
      date=jsonData["forecasts"][itu]["date"]
      weather=jsonData["forecasts"][itu]["telop"]
@@ -70,7 +69,6 @@ def OtenkiMessageMaker(code, itu):
      tempMIN=jsonData["forecasts"][itu]["temperature"]["min"]["celsius"]
      amCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T06_12"]
      pmCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T12_18"] 
-
      #天気メッセージ作成
      tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n午前:{4}　午後{5}'.format(date,weather,tempMIN,tempMAX,amCOR,pmCOR)
      tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
@@ -123,9 +121,6 @@ def picUrlMaker(weather):
     return picUrl
 
 
-
-
-
 #####################通信の検証####################
 # @app.route("/callback"...はappに対して/callbackというURLに対応するアクションを記述
 @app.route("/callback", methods=['POST'])
@@ -155,26 +150,22 @@ def callback():
 #関数名handle_messageは自由
 #statusで1か所or2か所を管理。1x...1か所。2x...2か所
 def handle_message(event):
-
     talk = event.message.text
-
 #1か所の場所を聞く####################
     if (status == 0 and "1" in talk):
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=tellDay))
       status = 10
-
-    if (status == 10 and day in talk):
 #日にちを聞く
+    if (status == 10 and day in talk):
       date = day.index(talk)
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=day[date] + tellBasyo))
       status = 11
-
-    if (status == 11 and todoufuken in talk):
 #1か所の場所の詳細を聞く
+    if (status == 11 and todoufuken in talk):
       areaT = talk
       area = todoufukenNum(int(todoufuken.index(talk)) + 1)
       #areaは文字型
@@ -184,9 +175,8 @@ def handle_message(event):
            [TextSendMessage(text=(talk + tellBasyoKwsk)),
             TextSendMessage(text=basyoList)])
       status = 12
-
-    if (status == 12 and basyoList in talk):
 #1か所の天気情報を教える
+    if (status == 12 and basyoList in talk):
       picUrl = picUrlMaker(OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], date))
       fukusou = fukusouHantei(OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], date))
       line_bot_api.reply_message(
@@ -196,15 +186,13 @@ def handle_message(event):
            ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
            TextSendMessage(text=fukusou)])
       reset()
-
-
 #2か所の場所を聞く####################
     if (status == "0" and "2" in talk):
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=tellBasyo))
       status = 20
-
+#該当しないメッセージが送られてきた場合
     else:
       line_bot_api.reply_message(
           event.reply_token,
