@@ -31,8 +31,8 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 #対話内容を管理する変数などの初期設定
 class Status:
     def __init__(self):
-          self.context = 0
-          self.date = 0
+          self.context = "0"
+          self.date = "0"
           self.area = "init"
           self.areaT = "init"
 
@@ -57,8 +57,8 @@ class Status:
           self.context = areaT
 
     def reset(self, context, date, area, areaT):
-          self.context = 0
-          self.date = 0
+          self.context = "0"
+          self.date = "0"
           self.area = "init"
           self.areaT = "init"
 
@@ -172,22 +172,22 @@ def callback():
 #statusで1か所or2か所を管理。1x...1か所。2x...2か所
 def handle_message(event):
     talk = event.message.text
-    context = 0
+    context = "0"
 #1か所の場所を聞く####################
-    if (Status.get_context(context) == 0 and "1" in talk):
+    if (Status.get_context(context) == "0" and "1" in talk):
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=tellDay))
-      Status.set_context(context, 10)
+      Status.set_context(context, "10")
 #日にちを聞く
-    if (Status.get_context(context) == 10 and day in talk):
+    if (Status.get_context(context) == "10" and day in talk):
       date = day.index(talk)
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=day[date] + tellBasyo))
-      Status.set_context(context, 11)
+      Status.set_context(context, "11")
 #1か所の場所の詳細を聞く
-    if (Status.get_context(context) == 11 and todoufuken in talk):
+    if (Status.get_context(context) == "11" and todoufuken in talk):
       areaT = talk
       area = todoufukenNum(int(todoufuken.index(talk)) + 1)
       #areaは文字型
@@ -196,9 +196,9 @@ def handle_message(event):
            event.reply_token,
            [TextSendMessage(text=(talk + tellBasyoKwsk)),
             TextSendMessage(text=basyoList)])
-      Status.set_context(context, 12)
+      Status.set_context(context, "12")
 #1か所の天気情報を教える
-    if (Status.get_context(context) == 12 and basyoList in talk):
+    if (Status.get_context(context) == "12" and basyoList in talk):
       picUrl = picUrlMaker(OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], date))
       fukusou = fukusouHantei(OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], date))
       line_bot_api.reply_message(
@@ -208,9 +208,9 @@ def handle_message(event):
            ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
            TextSendMessage(text=fukusou)])
       reset()
-      Status.context = 0
+      Status.context = "0"
 #2か所の場所を聞く####################
-    if (Status.context == 0 and "2" in talk):
+    if (Status.context == "0" and "2" in talk):
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=tellBasyo))
