@@ -30,7 +30,7 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #対話内容を管理する変数などの初期設定
 class Status:
-     def __init__(self):
+    def __init__(self):
           self.context = 0
           self.date = 0
           self.area = "init"
