@@ -57,6 +57,25 @@ def codeKaraFind(finder):
                break
      return teijiBasyoList
       
+#天気メッセージを作る
+def OtenkiMessageMaker(code, itu):
+     url="https://weather.tsukumijima.net/api/forecast/city/" + code
+     response=requests.get(url)
+     jsonData=response.json()
+
+     #天気データ取得
+     date=jsonData["forecasts"][itu]["date"]
+     weather=jsonData["forecasts"][itu]["telop"]
+     tempMAX=jsonData["forecasts"][itu]["temperature"]["max"]["celsius"]
+     tempMIN=jsonData["forecasts"][itu]["temperature"]["min"]["celsius"]
+     amCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T06_12"]
+     pmCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T12_18"] 
+
+     #天気メッセージ作成
+     tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n午前:{4}　午後{5}'.format(date,weather,tempMIN,tempMAX,amCOR,pmCOR)
+     tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
+
+
 #####################通信の検証####################
 # @app.route("/callback"...はappに対して/callbackというURLに対応するアクションを記述
 @app.route("/callback", methods=['POST'])
@@ -118,10 +137,11 @@ def handle_message(event):
 
     if (status == 12 and basyoList in talk):
 #1か所の天気情報を教える
+      weather = OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], date)
       line_bot_api.reply_message(
            event.reply_token,
            [TextSendMessage(text=areaT + talk + checkBasyoKwsk + day[date] + "の" + areaT + talk + "の天気情報を表示します！"),
-           TextSendMessage(text=tenkiInfo),
+           TextSendMessage(text=OtenkiMessageMaker(Tcode[Tname.index(talk)], date)),
            ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
            TextSendMessage(text=fukusou)])
       reset()
@@ -183,24 +203,6 @@ Tname=["稚内","旭川","留萌", "網走", "北見", "紋別", "根室", "釧�
 "厳原", "福江", "熊本", "阿蘇乙姫","牛深", "人吉", "大分", "中津", "日田", "佐伯", "宮崎", "延岡", "都城", "高千穂",
 "鹿児島","鹿屋", "種子島","名瀬", "那覇", "名護", "久米島","南大東","宮古島","石垣島","与那国島"]
 
-
-
-
-url="https://weather.tsukumijima.net/api/forecast/city/300010"
-response=requests.get(url)
-jsonData=response.json()
-
-#天気データ取得
-date=jsonData["forecasts"][date]["date"]
-weather=jsonData["forecasts"][date]["telop"]
-tempMAX=jsonData["forecasts"][date]["temperature"]["max"]["celsius"]
-tempMIN=jsonData["forecasts"][date]["temperature"]["min"]["celsius"]
-amCOR=jsonData["forecasts"][date]["chanceOfRain"]["T06_12"]
-pmCOR=jsonData["forecasts"][date]["chanceOfRain"]["T12_18"] 
-#天気データ取得
-
-tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n午前:{4}　午後{5}'.format(date,weather,tempMIN,tempMAX,amCOR,pmCOR)
-tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
 
 #服装判定
 if tempMEAN<=5:
