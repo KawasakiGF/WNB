@@ -43,7 +43,7 @@ def reset():
 def todoufukenNum(num):
      if (num/10) == 0:
           return "0" + str(num)
-     else return str(num)
+     else: return str(num)
 
 #都道府県の場所コード探す
 def codeKaraFind(finder):
