@@ -138,7 +138,7 @@ def handle_message(event):
     if (status == 12 and basyoList in talk):
 #1か所の天気情報を教える
       weather = OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], date)
-      tempMIN = OtenkiMessageMaker.tempMIN(Tcode[Tname.index(talk)], date)
+      tempMEAN = OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], date)
       line_bot_api.reply_message(
            event.reply_token,
            [TextSendMessage(text=areaT + talk + checkBasyoKwsk + day[date] + "の" + areaT + talk + "の天気情報を表示します！"),
