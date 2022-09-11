@@ -29,14 +29,19 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #対話内容を管理する変数などの初期設定
-status = 0
-date = 0
-area = "init"
-areaT = "init"
+#def __init__(self):
+   status = 0
+   date = 0
+   area = "init"
+   areaT = "init"
+
+class Status:
+     def __init__(self):
+          self.context = 0
+
 
 #変数の初期化
 def reset():
-          status = 0
           date = 0
           area = "init"
           areaT = "init"
@@ -152,20 +157,20 @@ def callback():
 def handle_message(event):
     talk = event.message.text
 #1か所の場所を聞く####################
-    if (status == 0 and "1" in talk):
+    if (Status.context == 0 and "1" in talk):
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=tellDay))
-      status = 10
+      Status.context = 10
 #日にちを聞く
-    if (status == 10 and day in talk):
+    if (Status.context == 10 and day in talk):
       date = day.index(talk)
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=day[date] + tellBasyo))
-      status = 11
+      Status.context = 11
 #1か所の場所の詳細を聞く
-    if (status == 11 and todoufuken in talk):
+    if (Status.context == 11 and todoufuken in talk):
       areaT = talk
       area = todoufukenNum(int(todoufuken.index(talk)) + 1)
       #areaは文字型
@@ -174,9 +179,9 @@ def handle_message(event):
            event.reply_token,
            [TextSendMessage(text=(talk + tellBasyoKwsk)),
             TextSendMessage(text=basyoList)])
-      status = 12
+      Status.context = 12
 #1か所の天気情報を教える
-    if (status == 12 and basyoList in talk):
+    if (Status.context == 12 and basyoList in talk):
       picUrl = picUrlMaker(OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], date))
       fukusou = fukusouHantei(OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], date))
       line_bot_api.reply_message(
@@ -186,18 +191,20 @@ def handle_message(event):
            ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
            TextSendMessage(text=fukusou)])
       reset()
+      Status.context = 0
 #2か所の場所を聞く####################
-    if (status == "0" and "2" in talk):
+    if (Status.context == 0 and "2" in talk):
       line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=tellBasyo))
-      status = 20
+      Status.context = 20
 #該当しないメッセージが送られてきた場合
     else:
       line_bot_api.reply_message(
           event.reply_token,
           TextSendMessage(text="最初からやり直します。1か所or2か所を入力してください"))
       reset()
+      Status.context = 0
           #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
           #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
           #TextSendMessageオブジェクトを渡しています。
