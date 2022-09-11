@@ -215,7 +215,7 @@ def handle_message(event):
     Mysession.register(user_id)
 
 #会話を中断したいとき
-    if ((MySession.read_context(user_id) == "1" or MySession.read_context(user_id) == "2" ) and text == "キャンセル"):
+    if ((MySession.read_context(user_id) == "10" or MySession.read_context(user_id) == "11" or MySession.read_context(user_id) == "12" or MySession.read_context(user_id) == "20") and text == "キャンセル"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage("最初からやり直します。1か所or2か所を入力してください。"))
@@ -249,7 +249,7 @@ def handle_message(event):
 
 #1か所の場所を聞く
     elif MySession.read_context(user_id) == "11":
-       if todoufuken in talk
+       if todoufuken in talk:
           MySession.update_areaT(user_id, talk)
           MySession.update_area(user_id, todoufukenNum(int(todoufuken.index(talk)) + 1))
           #area, basyoListは文字型
