@@ -77,7 +77,7 @@ def OtenkiMessageMaker(code, itu):
 
 
 #服装判定
-define fukusouHantei(tempMEAN):
+def fukusouHantei(tempMEAN):
   if tempMEAN<=5:
     fukusou = '＜今日の服装＞\n重ね着をし、もふもふのコートやダウンジャケットの着用をするほか、手袋やマフラー、暖かい靴下など、できる限り暖かい服装選びをしましょう。'
   elif tempMEAN<=9:
