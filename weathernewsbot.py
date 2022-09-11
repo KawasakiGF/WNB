@@ -109,7 +109,7 @@ def todoufukenNum(num):
 #都道府県の場所コード探す
 def codeKaraFind(finder):
      for i in range(0, len(Tcode)):
-          if Tcode.startswith(finder):
+          if ("finder" + "*") in Tcode:
                teijiBasyoList = "\n ・" + Tname[i]
                j+=1
           if (int(Tcode)/10000)>finder:
@@ -237,7 +237,7 @@ def handle_message(event):
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
        if talk in day:
-          MySession.update_date(user_id, day.index(talk))
+          MySession.update_date(user_id, day.index(talk)+1)
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo))
