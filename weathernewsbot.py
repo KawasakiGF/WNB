@@ -35,7 +35,7 @@ class Status:
           self.date = 0
           self.area = "init"
           self.areaT = "init"
-          sefl.basyoList = "init"
+          self.basyoList = "init"
 
     def get_context(self):
         return self.context
