@@ -138,7 +138,7 @@ def handle_message(event):
       line_bot_api.reply_message(
           event.reply_token,
           TextSendMessage(text="最初からやり直します。1か所or2か所を入力してください"))
-          reset()
+      reset()
           #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
           #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
           #TextSendMessageオブジェクトを渡しています。
