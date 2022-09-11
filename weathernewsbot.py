@@ -112,8 +112,6 @@ def codeKaraFind(finder):
           if ("finder" + "*") in Tcode[i]:
                teijiBasyoList = "\n ・" + Tname[i]
                j+=1
-          if (int(Tcode[i])/10000)>finder:
-               break
      return teijiBasyoList
       
 #天気メッセージを作る
@@ -237,7 +235,7 @@ def handle_message(event):
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
        if talk in day:
-          MySession.update_date(user_id, day.index(talk))
+          MySession.update_date(user_id, day.index(talk) + 1)
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=day[MySession.read_date(user_id)+1] + tellBasyo))
