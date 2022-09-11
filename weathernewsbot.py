@@ -76,6 +76,56 @@ def OtenkiMessageMaker(code, itu):
      tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
 
 
+#服装判定
+define fukusouHantei(tempMEAN):
+  if tempMEAN<=5:
+    fukusou = '＜今日の服装＞\n重ね着をし、もふもふのコートやダウンジャケットの着用をするほか、手袋やマフラー、暖かい靴下など、できる限り暖かい服装選びをしましょう。'
+  elif tempMEAN<=9:
+    fukusou = '＜今日の服装＞\n重ね着をし、ダウンコートやジャケットを着用しましょう。風が強いときは手袋やマフラーがあると安心です。'
+  elif tempMEAN<=13:
+    fukusou = '＜今日の服装＞\nジャケットやコートなど、風を通さない服装にしましょう。ヒートテックがあると安心です。'
+  elif tempMEAN<=16 and weather == "晴れ":
+    fukusou = '＜今日の服装＞\nニットやセーターにするか、風が無ければ軽い羽織りものを着るとよいでしょう。'
+  elif tempMEAN<=16:
+    fukusou = '＜今日の服装＞\nニットやセーターでOKですが、寒く感じるときはジャケットやコートを着てもよいでしょう。'
+  elif tempMEAN<=19:
+    fukusou = '＜今日の服装＞\n薄手のジャケットやパーカーにし、重ね着をするとよいでしょう。'
+  elif tempMEAN<=22:
+    fukusou = '＜今日の服装＞\n着脱可能な羽織りものにし、温度に合わせて調節できるようにしましょう。'
+  elif tempMEAN<=24:
+    fukusou = '＜今日の服装＞\n長袖が一枚あればOKです。半袖と薄い羽織りものでもよいでしょう。'
+  elif tempMEAN<=29:
+    fukusou = '＜今日の服装＞\n半袖で過ごせそうです。長袖にして腕まくりをするのもよいでしょう。'
+  else:
+    fukusou = '＜今日の服装＞\n半袖の涼しい服装にし、暑さ対策や熱中症対策を怠らないようにしましょう。'
+  return fukusou
+
+#天気アイコン判定
+def picUrlMaker(weather):
+    if weather=="晴れ":                                                     picUrl="https://i.ibb.co/v3Q1SzX/Sun.png"
+    elif weather=="晴時々曇" or weather=="晴一時曇" or weather=="晴のち曇": picUrl="https://i.ibb.co/47Zp7tf/Sun-To-Cloud.png"
+    elif weather=="晴時々雨" or weather=="晴一時雨" or weather=="晴のち雨": picUrl="https://i.ibb.co/w6yBmKP/Sun-To-Rain.png"
+    elif weather=="晴時々雪" or weather=="晴一時雪" or weather=="晴のち雪": picUrl="https://i.ibb.co/2hWsVQy/Sun-To-Snow.png"
+    elif weather=="曇り":                                                   picUrl="https://i.ibb.co/V32pwjv/Cloud.png"
+    elif weather=="曇時々晴" or weather=="曇一時晴" or weather=="曇のち晴": picUrl="https://i.ibb.co/wwc1J9P/Cloud-To-Sun.png"
+    elif weather=="曇時々雨" or weather=="曇一時雨" or weather=="曇のち雨": picUrl="https://i.ibb.co/mSXWrsm/Cloud-To-Rain.png"
+    elif weather=="曇時々雪" or weather=="曇一時雪" or weather=="曇のち雪": picUrl="https://i.ibb.co/Tv42FLY/Cloud-To-Snow.png"
+    elif weather=="雨":                                                     picUrl="https://i.ibb.co/5xkdS8V/Rain.png"
+    elif weather=="雨時々曇" or weather=="雨一時曇" or weather=="雨のち曇": picUrl="https://i.ibb.co/vPgg2nt/Rain-To-Cloud.png"
+    elif weather=="雨時々晴" or weather=="雨一時晴" or weather=="雨のち晴": picUrl="https://i.ibb.co/mzYX8j4/Rain-To-Sun.png"
+    elif weather=="雨時々雪" or weather=="雨一時雪" or weather=="雨のち雪": picUrl="https://i.ibb.co/GsMs2bN/Rain-To-Snow.png"
+    elif weather=="雪":                                                     picUrl="https://i.ibb.co/qrDSG2F/Snow.png"
+    elif weather=="雪時々曇" or weather=="雪一時曇" or weather=="雪のち曇": picUrl="https://i.ibb.co/qdftDWR/Snow-To-Cloud.png"
+    elif weather=="雪時々晴" or weather=="雪一時晴" or weather=="雪のち晴": picUrl="https://i.ibb.co/d4y70W9/Snow-To-Sun.png"
+    elif weather=="雪時々雨" or weather=="雪一時雨" or weather=="雪のち雨": picUrl="https://i.ibb.co/KqnPzr7/Snow-To-Rain.png"
+    elif weather=="暴風雨":                                                 picUrl="https://i.ibb.co/y6X5z5X/Typhon.png "
+    elif weather=="暴風雪":                                                 picUrl="https://i.ibb.co/2NMQLDS/Heavy-Snow.png"
+    return picUrl
+
+
+
+
+
 #####################通信の検証####################
 # @app.route("/callback"...はappに対して/callbackというURLに対応するアクションを記述
 @app.route("/callback", methods=['POST'])
@@ -137,8 +187,8 @@ def handle_message(event):
 
     if (status == 12 and basyoList in talk):
 #1か所の天気情報を教える
-      weather = OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], date)
-      tempMEAN = OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], date)
+      picUrl = picUrlMaker(OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], date))
+      fukusou = fukusouHantei(OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], date))
       line_bot_api.reply_message(
            event.reply_token,
            [TextSendMessage(text=areaT + talk + checkBasyoKwsk + day[date] + "の" + areaT + talk + "の天気情報を表示します！"),
@@ -203,51 +253,6 @@ Tname=["稚内","旭川","留萌", "網走", "北見", "紋別", "根室", "釧�
 "松山", "新居浜","宇和島","高知", "室戸岬","清水", "福岡", "八幡", "飯塚", "久留米","佐賀", "伊万里","長崎", "佐世保",
 "厳原", "福江", "熊本", "阿蘇乙姫","牛深", "人吉", "大分", "中津", "日田", "佐伯", "宮崎", "延岡", "都城", "高千穂",
 "鹿児島","鹿屋", "種子島","名瀬", "那覇", "名護", "久米島","南大東","宮古島","石垣島","与那国島"]
-
-
-#服装判定
-if tempMEAN<=5:
-    fukusou = '＜今日の服装＞\n重ね着をし、もふもふのコートやダウンジャケットの着用をするほか、手袋やマフラー、暖かい靴下など、できる限り暖かい服装選びをしましょう。'
-elif tempMEAN<=9:
-    fukusou = '＜今日の服装＞\n重ね着をし、ダウンコートやジャケットを着用しましょう。風が強いときは手袋やマフラーがあると安心です。'
-elif tempMEAN<=13:
-    fukusou = '＜今日の服装＞\nジャケットやコートなど、風を通さない服装にしましょう。ヒートテックがあると安心です。'
-elif tempMEAN<=16 and weather == "晴れ":
-    fukusou = '＜今日の服装＞\nニットやセーターにするか、風が無ければ軽い羽織りものを着るとよいでしょう。'
-elif tempMEAN<=16:
-    fukusou = '＜今日の服装＞\nニットやセーターでOKですが、寒く感じるときはジャケットやコートを着てもよいでしょう。'
-elif tempMEAN<=19:
-    fukusou = '＜今日の服装＞\n薄手のジャケットやパーカーにし、重ね着をするとよいでしょう。'
-elif tempMEAN<=22:
-    fukusou = '＜今日の服装＞\n着脱可能な羽織りものにし、温度に合わせて調節できるようにしましょう。'
-elif tempMEAN<=24:
-    fukusou = '＜今日の服装＞\n長袖が一枚あればOKです。半袖と薄い羽織りものでもよいでしょう。'
-elif tempMEAN<=29:
-    fukusou = '＜今日の服装＞\n半袖で過ごせそうです。長袖にして腕まくりをするのもよいでしょう。'
-else:
-    fukusou = '＜今日の服装＞\n半袖の涼しい服装にし、暑さ対策や熱中症対策を怠らないようにしましょう。'
-#服装判定
-
-#天気アイコン判定(変数ｍはリストPicNameで使用)
-if weather=="晴れ":                                                     picUrl="https://i.ibb.co/v3Q1SzX/Sun.png"
-elif weather=="晴時々曇" or weather=="晴一時曇" or weather=="晴のち曇": picUrl="https://i.ibb.co/47Zp7tf/Sun-To-Cloud.png"
-elif weather=="晴時々雨" or weather=="晴一時雨" or weather=="晴のち雨": picUrl="https://i.ibb.co/w6yBmKP/Sun-To-Rain.png"
-elif weather=="晴時々雪" or weather=="晴一時雪" or weather=="晴のち雪": picUrl="https://i.ibb.co/2hWsVQy/Sun-To-Snow.png"
-elif weather=="曇り":                                                   picUrl="https://i.ibb.co/V32pwjv/Cloud.png"
-elif weather=="曇時々晴" or weather=="曇一時晴" or weather=="曇のち晴": picUrl="https://i.ibb.co/wwc1J9P/Cloud-To-Sun.png"
-elif weather=="曇時々雨" or weather=="曇一時雨" or weather=="曇のち雨": picUrl="https://i.ibb.co/mSXWrsm/Cloud-To-Rain.png"
-elif weather=="曇時々雪" or weather=="曇一時雪" or weather=="曇のち雪": picUrl="https://i.ibb.co/Tv42FLY/Cloud-To-Snow.png"
-elif weather=="雨":                                                     picUrl="https://i.ibb.co/5xkdS8V/Rain.png"
-elif weather=="雨時々曇" or weather=="雨一時曇" or weather=="雨のち曇": picUrl="https://i.ibb.co/vPgg2nt/Rain-To-Cloud.png"
-elif weather=="雨時々晴" or weather=="雨一時晴" or weather=="雨のち晴": picUrl="https://i.ibb.co/mzYX8j4/Rain-To-Sun.png"
-elif weather=="雨時々雪" or weather=="雨一時雪" or weather=="雨のち雪": picUrl="https://i.ibb.co/GsMs2bN/Rain-To-Snow.png"
-elif weather=="雪":                                                     picUrl="https://i.ibb.co/qrDSG2F/Snow.png"
-elif weather=="雪時々曇" or weather=="雪一時曇" or weather=="雪のち曇": picUrl="https://i.ibb.co/qdftDWR/Snow-To-Cloud.png"
-elif weather=="雪時々晴" or weather=="雪一時晴" or weather=="雪のち晴": picUrl="https://i.ibb.co/d4y70W9/Snow-To-Sun.png"
-elif weather=="雪時々雨" or weather=="雪一時雨" or weather=="雪のち雨": picUrl="https://i.ibb.co/KqnPzr7/Snow-To-Rain.png"
-elif weather=="暴風雨":                                                 picUrl="https://i.ibb.co/y6X5z5X/Typhon.png "
-elif weather=="暴風雪":                                                 picUrl="https://i.ibb.co/2NMQLDS/Heavy-Snow.png"
-#天気アイコン判定
 
 #対話内容まとめ
 tellDay = "1か所の天気情報ですね。分かりました！\nでは次に、天気を知りたい日を、今日、明日、明後日の中から選んでください。"
