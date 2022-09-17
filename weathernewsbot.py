@@ -148,6 +148,7 @@ def OtenkiMessageMaker(code, itu):
      pmCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T12_18"] 
      #天気メッセージ作成
      tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n午前:{4}　午後{5}'.format(date,weather,tempMIN,tempMAX,amCOR,pmCOR)
+     return tenkiInfo
 
 #知りたい場所の天気を作る
 def needWeatherMaker(code, itu):
@@ -311,7 +312,7 @@ def handle_message(event):
                event.reply_token,
                [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
                TextSendMessage(text=OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id))),
-               ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
+               ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                TextSendMessage(text=fukusou)])
           MySession.reset(user_id)
 
