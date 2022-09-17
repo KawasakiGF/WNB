@@ -250,9 +250,9 @@ def handle_message(event):
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
        if talk in day:
-           if "今日" in talk:
+           if talk == "今日":
                    MySession.update_date(user_id, 0)
-           elif "明日" in talk:
+           elif talk == "明日":
                    MySession.update_date(user_id, 1)
            else:
                    MySession.update_date(user_id, 2)
