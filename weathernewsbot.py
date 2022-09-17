@@ -280,7 +280,7 @@ def handle_message(event):
           MySession.update_basyoList(user_id, kwsiBasyoList)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=(talk + tellBasyoKwsk + MySession.read_basyoList(user_id)))
+               TextSendMessage(text=(talk + tellBasyoKwsk + MySession.read_basyoList(user_id))))
           MySession.update_context(user_id, "12")
 
 #1か所の場所の詳細を聞く&1か所の天気情報を教える
