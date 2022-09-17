@@ -275,7 +275,7 @@ def handle_message(event):
 
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
-       if talk in day:
+       if ("今日" in talk) or ("明日" in talk) or ("明後日" in talk):
            if "今日" in talk:    MySession.update_date(user_id, 0)
            elif "明日" in talk: MySession.update_date(user_id, 1)
            else:                       MySession.update_date(user_id, 2)
@@ -308,10 +308,11 @@ def handle_message(event):
        if talk in MySession.read_basyoList(user_id):
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
           fukusou = fukusouHantei(tempMEANMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
+          tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id))
           line_bot_api.reply_message(
                event.reply_token,
                [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
-               TextSendMessage(text=OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id))),
+               TextSendMessage(text=tenkiInfo),
                ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                TextSendMessage(text=fukusou)])
           MySession.reset(user_id)
