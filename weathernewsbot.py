@@ -116,16 +116,21 @@ class MySession:
 
 #都道府県コードを返す
 def todoufukenNum(num):
-     if num < 10:
-          return "0" + str(num)
-     else: return str(num)
+     if num < 9:
+          codeNum = num + 1
+          return "0" + str(codeNum)
+     elif num = 9:
+          return "10"
+     else:
+          codeNum = num + 1
+          return str(codeNum)
 
 #都道府県の場所コード探す
 def codeKaraFind(finder):
      teijiBasyoList = ""
      for i in range(0, len(Tcode)):
           if re.match((finder + "...."), Tcode[i]):
-               teijiBasyoList += "\n ・" + Tname[i]
+               teijiBasyoList += "\n・" + Tname[i]
 
      return teijiBasyoList
       
@@ -275,8 +280,7 @@ def handle_message(event):
           MySession.update_basyoList(user_id, kwsiBasyoList)
           line_bot_api.reply_message(
                event.reply_token,
-               [TextSendMessage(text=(talk + tellBasyoKwsk)),
-                TextSendMessage(text=MySession.read_basyoList(user_id))])
+               TextSendMessage(text=(talk + tellBasyoKwsk + MySession.read_basyoList(user_id)))
           MySession.update_context(user_id, "12")
 
 #1か所の場所の詳細を聞く&1か所の天気情報を教える
