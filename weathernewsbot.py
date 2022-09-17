@@ -162,6 +162,7 @@ def needWeatherMaker(code, itu):
      response=requests.get(url)
      jsonData=response.json()
      #天気データ取得
+     weather="--"
      weather=jsonData["forecasts"][itu]["telop"]
      return weather
 
@@ -171,6 +172,8 @@ def tempMEANMaker(code, itu):
      response=requests.get(url)
      jsonData=response.json()
      #天気データ取得
+     tempMAX=0
+     tempMIN=0
      tempMAX=jsonData["forecasts"][itu]["temperature"]["max"]["celsius"]
      tempMIN=jsonData["forecasts"][itu]["temperature"]["min"]["celsius"]
      tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
