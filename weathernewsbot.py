@@ -257,7 +257,7 @@ def handle_message(event):
                    event.reply_token,
                    TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo))
                    MySession.update_context(user_id, "11")
-        else:
+       else:
             line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="「今日」、「明日」、「明後日」の中から入力してください。"))
