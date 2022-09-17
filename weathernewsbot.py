@@ -176,6 +176,11 @@ def tempMEANMaker(code, itu):
      tempMIN="0"
      tempMAX=jsonData["forecasts"][itu]["temperature"]["max"]["celsius"]
      tempMIN=jsonData["forecasts"][itu]["temperature"]["min"]["celsius"]
+     if tempMAX == null and tempMIN == null:
+        tempMAX == 100
+        tempMIN == 100
+     elif tempMAX == null: tempMAX=tempMIN
+     elif tempMIN == null: tempMIN=tempMAX
      tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
      return tempMEAN
 
@@ -199,8 +204,10 @@ def fukusouHantei(tempMEAN):
     fukusou = '＜今日の服装＞\n長袖が一枚あればOKです。半袖と薄い羽織りものでもよいでしょう。'
   elif tempMEAN <= 29:
     fukusou = '＜今日の服装＞\n半袖で過ごせそうです。長袖にして腕まくりをするのもよいでしょう。'
-  else:
+  elif tempMEAN <= 99:
     fukusou = '＜今日の服装＞\n半袖の涼しい服装にし、暑さ対策や熱中症対策を怠らないようにしましょう。'
+  else:
+    fukusou = '＜今日の服装＞\n気温の情報を取得できませんでした。'
   return fukusou
 
 #天気アイコン判定
