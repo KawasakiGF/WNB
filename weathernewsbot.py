@@ -176,11 +176,11 @@ def tempMEANMaker(code, itu):
      tempMIN=0
      tempMAX=jsonData["forecasts"][itu]["temperature"]["max"]["celsius"]
      tempMIN=jsonData["forecasts"][itu]["temperature"]["min"]["celsius"]
-     if not str(tempMAX) and not str(tempMIN):
+     if ((tempMAX is None) and (tempMIN is None)):
         tempMAX == 100
         tempMIN == 100
-     elif not str(tempMAX): tempMAX=tempMIN
-     elif not str(tempMIN): tempMIN=tempMAX
+     elif tempMAX is None: tempMAX=tempMIN
+     elif tempMIN is None: tempMIN=tempMAX
      tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
      return tempMEAN
 
