@@ -1,3 +1,4 @@
+import re
 import requests
 import os
 import json
@@ -121,11 +122,10 @@ def todoufukenNum(num):
 
 #都道府県の場所コード探す
 def codeKaraFind(finder):
-     j = 0
+     teijiBasyoList = ""
      for i in range(0, len(Tcode)):
-          if (finder + "*") in Tcode[i]:
-               teijiBasyoList = "\n ・" + Tname[i]
-               j+=1
+          if re.match((finder + "...."), Tcode[i]):
+               teijiBasyoList += "\n ・" + Tname[i]
 
      return teijiBasyoList
       
@@ -250,15 +250,17 @@ def handle_message(event):
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
        if talk in day:
-          MySession.update_date(user_id, day.index(talk))
-          line_bot_api.reply_message(
-               event.reply_token,
-               TextSendMessage(text=day[MySession.read_date(user_id)+1] + tellBasyo))
-          MySession.update_context(user_id, "11")
-       else:
-          line_bot_api.reply_message(
-               event.reply_token,
-               TextSendMessage(text="「今日」、「明日」、「明後日」の中から入力してください。"))
+           for n in range(0, len(day)):
+               if talk in day[n]:
+                   MySession.update_date(user_id, day[n])
+                   line_bot_api.reply_message(
+                   event.reply_token,
+                   TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo))
+                   MySession.update_context(user_id, "11")
+        else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="「今日」、「明日」、「明後日」の中から入力してください。"))
 
 #1か所の場所を聞く
     elif MySession.read_context(user_id) == "11":
@@ -337,7 +339,7 @@ Tcode=['011000','012010','012020','013010','013020','013030','014010','014020','
 '400020','400030','400040','410010','410020','420010','420020','420030','420040','430010',
 '430020','430030','430040','440010','440020','440030','440040','450010','450020','450030',
 '450040','460010','460020','460030','460040','471010','471020','471030','472000','473000',
-'474010','474020',]
+'474010','474020']
 Tname=["稚内","旭川","留萌", "網走", "北見", "紋別", "根室", "釧路", "帯広", "室蘭", "浦河", "札幌", "岩見沢","倶知安",
 "函館","江差","青森", "むつ", "八戸","盛岡", "宮古", "大船渡","仙台", "白石", "秋田", "横手", "山形", "米沢", "酒田", 
 "新庄", "福島", "小名浜","若松", "水戸", "土浦", "宇都宮","大田原","前橋", "みなかみ","さいたま","熊谷", "秩父", "千葉", 
