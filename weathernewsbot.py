@@ -249,7 +249,7 @@ def handle_message(event):
 
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
-       if day in talk:
+       if talk in day:
            for n in range(0, len(day)):
                if day[n] in talk:
                    MySession.update_date(user_id, n)
