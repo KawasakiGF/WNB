@@ -148,20 +148,8 @@ def OtenkiMessageMaker(code, itu):
      pmCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T12_18"] 
      #天気メッセージ作成
      tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n午前:{4}　午後{5}'.format(date,weather,tempMIN,tempMAX,amCOR,pmCOR)
-     return tenkiInfo
 
-#平均温度を求める
-def tempMEANMaker(code, itu):
-     url="https://weather.tsukumijima.net/api/forecast/city/" + code
-     response=requests.get(url)
-     jsonData=response.json()
-     #天気データ取得
-     tempMAX=jsonData["forecasts"][itu]["temperature"]["max"]["celsius"]
-     tempMIN=jsonData["forecasts"][itu]["temperature"]["min"]["celsius"]
-     tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
-     return tempMEAN
-
-#知りたい場所の天気を求める
+#知りたい場所の天気を作る
 def needWeatherMaker(code, itu):
      url="https://weather.tsukumijima.net/api/forecast/city/" + code
      response=requests.get(url)
@@ -170,6 +158,15 @@ def needWeatherMaker(code, itu):
      weather=jsonData["forecasts"][itu]["telop"]
      return weather
 
+#気温の平均を作る
+def tempMEANMaker(code, itu):
+     url="https://weather.tsukumijima.net/api/forecast/city/" + code
+     response=requests.get(url)
+     jsonData=response.json()
+     #天気データ取得
+     tempMAX=jsonData["forecasts"][itu]["temperature"]["max"]["celsius"]
+     tempMIN=jsonData["forecasts"][itu]["temperature"]["min"]["celsius"]
+     tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
 
 #服装判定
 def fukusouHantei(tempMEAN):
@@ -310,7 +307,7 @@ def handle_message(event):
           fukusou = fukusouHantei(tempMEANMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
           line_bot_api.reply_message(
                event.reply_token,
-               [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
+               [TextSendMessage(text=MySession.read_areaT + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
                TextSendMessage(text=OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id))),
                ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
                TextSendMessage(text=fukusou)])
