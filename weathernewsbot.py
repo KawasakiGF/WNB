@@ -60,7 +60,7 @@ class Status:
 
     def get_basyoList(self):
         return self.basyoList
-    def set_areaT(self, basyoList):
+    def set_basyoList(self, basyoList):
           self.context = basyoList
 
 
@@ -251,7 +251,7 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "10":
        if talk in day:
            for n in range(0, len(day)):
-               if talk in day[n]:
+               if day[n] in talk:
                    MySession.update_date(user_id, day[n])
                    line_bot_api.reply_message(
                    event.reply_token,
@@ -266,7 +266,8 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "11":
        if talk in todoufuken:
           MySession.update_areaT(user_id, talk)
-          MySession.update_area(user_id, todoufukenNum(int(todoufuken.index(talk)) + 1))
+          TBasyo = todoufukenNum(int(todoufuken.index(talk)))
+          MySession.update_area(user_id, TBasyo)
           #area, basyoListは文字型
           MySession.update_basyoList(user_id, codeKaraFind(MySession.read_area(user_id)))
           line_bot_api.reply_message(
