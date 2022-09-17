@@ -172,15 +172,15 @@ def tempMEANMaker(code, itu):
      response=requests.get(url)
      jsonData=response.json()
      #天気データ取得
-     tempMAX="0"
-     tempMIN="0"
+     tempMAX=0
+     tempMIN=0
      tempMAX=jsonData["forecasts"][itu]["temperature"]["max"]["celsius"]
      tempMIN=jsonData["forecasts"][itu]["temperature"]["min"]["celsius"]
-     if tempMAX == "null" and tempMIN == "null":
+     if not str(tempMAX) and not str(tempMIN):
         tempMAX == 100
         tempMIN == 100
-     elif tempMAX == "null": tempMAX=tempMIN
-     elif tempMIN == "null": tempMIN=tempMAX
+     elif not str(tempMAX): tempMAX=tempMIN
+     elif not str(tempMIN): tempMIN=tempMAX
      tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
      return tempMEAN
 
