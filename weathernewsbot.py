@@ -212,6 +212,8 @@ def picUrlMaker(weather):
     elif weather=="雪時々雨" or weather=="雪一時雨" or weather=="雪のち雨": picUrl="https://i.ibb.co/KqnPzr7/Snow-To-Rain.png"
     elif weather=="暴風雨":                                                 picUrl="https://i.ibb.co/y6X5z5X/Typhon.png "
     elif weather=="暴風雪":                                                 picUrl="https://i.ibb.co/2NMQLDS/Heavy-Snow.png"
+    else: picUrl="null"
+
     return picUrl
 
 
