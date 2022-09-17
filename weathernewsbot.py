@@ -32,7 +32,7 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 #対話内容を管理するクラスとインスタンスの初期設定
 class Status:
     def __init__(self):
-          self.context = ""
+          self.context = "0"
           self.date = 0
           self.area = ""
           self.areaT = ""
