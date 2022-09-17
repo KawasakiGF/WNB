@@ -212,10 +212,9 @@ def picUrlMaker(weather):
     elif weather=="雪時々曇" or weather=="雪一時曇" or weather=="雪のち曇": picUrl="https://i.ibb.co/qdftDWR/Snow-To-Cloud.png"
     elif weather=="雪時々晴" or weather=="雪一時晴" or weather=="雪のち晴": picUrl="https://i.ibb.co/d4y70W9/Snow-To-Sun.png"
     elif weather=="雪時々雨" or weather=="雪一時雨" or weather=="雪のち雨": picUrl="https://i.ibb.co/KqnPzr7/Snow-To-Rain.png"
-    elif weather=="暴風雨":                                                 picUrl="https://i.ibb.co/y6X5z5X/Typhon.png "
+    elif weather=="暴風雨" or weather=="雨で暴風を伴う":                                     picUrl="https://i.ibb.co/y6X5z5X/Typhon.png "
     elif weather=="暴風雪":                                                 picUrl="https://i.ibb.co/2NMQLDS/Heavy-Snow.png"
-    else: picUrl="null"
-
+    else: picUrl="未知の天気"
     return picUrl
 
 
@@ -309,12 +308,19 @@ def handle_message(event):
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
           fukusou = fukusouHantei(tempMEANMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
           tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id))
-          line_bot_api.reply_message(
-               event.reply_token,
-               [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
-               TextSendMessage(text=tenkiInfo),
-               ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
-               TextSendMessage(text=fukusou)])
+          if picUrl == "未知の天気":
+               line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
+                    TextSendMessage(text=tenkiInfo),
+                    TextSendMessage(text=fukusou)])
+          else:
+               line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
+                    TextSendMessage(text=tenkiInfo),
+                    ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
+                    TextSendMessage(text=fukusou)])
           MySession.reset(user_id)
 
 
