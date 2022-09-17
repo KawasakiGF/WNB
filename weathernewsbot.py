@@ -140,7 +140,12 @@ def OtenkiMessageMaker(code, itu):
      response=requests.get(url)
      jsonData=response.json()
      #天気データ取得
-     date="--",weather="--",tempMAX="--",tempMIN="--",amCOR="--",pmCOR="--"
+     date="--"
+     weather="--"
+     tempMAX="--"
+     tempMIN="--"
+     amCOR="--"
+     pmCOR="--"
      date=jsonData["forecasts"][itu]["date"]
      weather=jsonData["forecasts"][itu]["telop"]
      tempMAX=jsonData["forecasts"][itu]["temperature"]["max"]["celsius"]
