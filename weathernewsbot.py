@@ -119,7 +119,7 @@ def todoufukenNum(num):
      if num < 9:
           codeNum = num + 1
           return "0" + str(codeNum)
-     elif num = 9:
+     elif num == 9:
           return "10"
      else:
           codeNum = num + 1
