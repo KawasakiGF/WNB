@@ -250,13 +250,17 @@ def handle_message(event):
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
        if talk in day:
-           for n in range(0, len(day)):
-               if day[n] in talk:
-                   MySession.update_date(user_id, n)
-                   line_bot_api.reply_message(
-                   event.reply_token,
-                   TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo))
-                   MySession.update_context(user_id, "11")
+           if "今日" in talk:
+                   MySession.update_date(user_id, 0)
+           elif "明日" in talk:
+                   MySession.update_date(user_id, 1)
+           else:
+                   MySession.update_date(user_id, 2)
+
+           line_bot_api.reply_message(
+           event.reply_token,
+           TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo))
+           MySession.update_context(user_id, "11")
        else:
             line_bot_api.reply_message(
             event.reply_token,
@@ -280,7 +284,7 @@ def handle_message(event):
 
 #1か所の場所の詳細を聞く&1か所の天気情報を教える
     elif MySession.read_context(user_id) == "12":
-       if talk in basyoList:
+       if talk in MySession.read_basyoList(user_id):
           picUrl = picUrlMaker(OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], MySession.read_date))
           fukusou = fukusouHantei(OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], MySession.read_date))
           line_bot_api.reply_message(
