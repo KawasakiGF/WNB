@@ -32,11 +32,11 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 #対話内容を管理するクラスとインスタンスの初期設定
 class Status:
     def __init__(self):
-          self.context = "0"
+          self.context = ""
           self.date = 0
-          self.area = "init"
-          self.areaT = "init"
-          self.basyoList = "init"
+          self.area = ""
+          self.areaT = ""
+          self.basyoList = ""
 
     def get_context(self):
         return self.context
@@ -46,22 +46,22 @@ class Status:
     def get_date(self):
         return self.date
     def set_date(self, date):
-          self.context = date
+          self.date = date
 
     def get_area(self):
         return self.area
     def set_area(self, area):
-          self.context = area
+          self.area = area
 
     def get_areaT(self):
         return self.areaT
     def set_areaT(self, areaT):
-          self.context = areaT
+          self.areaT = areaT
 
     def get_basyoList(self):
         return self.basyoList
     def set_basyoList(self, basyoList):
-          self.context = basyoList
+          self.basyoList = basyoList
 
 
 class MySession:
@@ -250,12 +250,9 @@ def handle_message(event):
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
        if talk in day:
-           if talk == "今日":
-                   MySession.update_date(user_id, 0)
-           elif talk == "明日":
-                   MySession.update_date(user_id, 1)
-           else:
-                   MySession.update_date(user_id, 2)
+           for n in range(0, len(day)):
+                if talk in day[n]:
+                     MySession.update_date(user_id, n)
 
            line_bot_api.reply_message(
            event.reply_token,
