@@ -169,24 +169,24 @@ def tempMEANMaker(code, itu):
      tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
 
 #服装判定
-def fukusouHantei(tempMEAN):
-  if tempMEAN<=5:
+def fukusouHantei(int(tempMEAN)):
+  if tempMEAN <= 5:
     fukusou = '＜今日の服装＞\n重ね着をし、もふもふのコートやダウンジャケットの着用をするほか、手袋やマフラー、暖かい靴下など、できる限り暖かい服装選びをしましょう。'
-  elif tempMEAN<=9:
+  elif tempMEAN <= 9:
     fukusou = '＜今日の服装＞\n重ね着をし、ダウンコートやジャケットを着用しましょう。風が強いときは手袋やマフラーがあると安心です。'
-  elif tempMEAN<=13:
+  elif tempMEAN <= 13:
     fukusou = '＜今日の服装＞\nジャケットやコートなど、風を通さない服装にしましょう。ヒートテックがあると安心です。'
-  elif tempMEAN<=16 and weather == "晴れ":
+  elif tempMEAN <= 16 and weather == "晴れ":
     fukusou = '＜今日の服装＞\nニットやセーターにするか、風が無ければ軽い羽織りものを着るとよいでしょう。'
-  elif tempMEAN<=16:
+  elif tempMEAN <= 16:
     fukusou = '＜今日の服装＞\nニットやセーターでOKですが、寒く感じるときはジャケットやコートを着てもよいでしょう。'
-  elif tempMEAN<=19:
+  elif tempMEAN <= 19:
     fukusou = '＜今日の服装＞\n薄手のジャケットやパーカーにし、重ね着をするとよいでしょう。'
-  elif tempMEAN<=22:
+  elif tempMEAN <= 22:
     fukusou = '＜今日の服装＞\n着脱可能な羽織りものにし、温度に合わせて調節できるようにしましょう。'
-  elif tempMEAN<=24:
+  elif tempMEAN <= 24:
     fukusou = '＜今日の服装＞\n長袖が一枚あればOKです。半袖と薄い羽織りものでもよいでしょう。'
-  elif tempMEAN<=29:
+  elif tempMEAN <= 29:
     fukusou = '＜今日の服装＞\n半袖で過ごせそうです。長袖にして腕まくりをするのもよいでしょう。'
   else:
     fukusou = '＜今日の服装＞\n半袖の涼しい服装にし、暑さ対策や熱中症対策を怠らないようにしましょう。'
