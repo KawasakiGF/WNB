@@ -256,7 +256,7 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "10":
        if talk in day:
            for n in range(0, len(day)):
-                if talk in day[n]:
+                if day[n] in talk:
                      MySession.update_date(user_id, n)
 
            line_bot_api.reply_message(
@@ -286,12 +286,12 @@ def handle_message(event):
 #1か所の場所の詳細を聞く&1か所の天気情報を教える
     elif MySession.read_context(user_id) == "12":
        if talk in MySession.read_basyoList(user_id):
-          picUrl = picUrlMaker(OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], MySession.read_date))
-          fukusou = fukusouHantei(OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], MySession.read_date))
+          picUrl = picUrlMaker(OtenkiMessageMaker.weather(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
+          fukusou = fukusouHantei(OtenkiMessageMaker.tempMEAN(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
           line_bot_api.reply_message(
                event.reply_token,
-               [TextSendMessage(text=MySession.read_areaT + talk + checkBasyoKwsk + day[MySession.read_date] + "の" + MySession.read_areaT + talk + "の天気情報を表示します！"),
-               TextSendMessage(text=OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date)),
+               [TextSendMessage(text=MySession.read_areaT + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
+               TextSendMessage(text=OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id))),
                ImageSendMessage(original_content_url=picUrl,preview_image_url=picUrl),
                TextSendMessage(text=fukusou)])
           MySession.reset(user_id)
