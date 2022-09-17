@@ -142,8 +142,8 @@ def OtenkiMessageMaker(code, itu):
      #天気データ取得
      date="--"
      weather="--"
-     tempMAX="--"
-     tempMIN="--"
+     tempMAX=0
+     tempMIN=0
      amCOR="--"
      pmCOR="--"
      date=jsonData["forecasts"][itu]["date"]
