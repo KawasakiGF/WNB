@@ -212,24 +212,68 @@ def fukusouHantei(tempMEAN):
 
 #天気アイコン判定
 def picUrlMaker(weather):
-    if weather=="晴れ":                                                     picUrl="https://i.ibb.co/v3Q1SzX/Sun.png"
-    elif weather=="晴時々曇" or weather=="晴一時曇" or weather=="晴のち曇": picUrl="https://i.ibb.co/47Zp7tf/Sun-To-Cloud.png"
-    elif weather=="晴時々雨" or weather=="晴一時雨" or weather=="晴のち雨": picUrl="https://i.ibb.co/w6yBmKP/Sun-To-Rain.png"
-    elif weather=="晴時々雪" or weather=="晴一時雪" or weather=="晴のち雪": picUrl="https://i.ibb.co/2hWsVQy/Sun-To-Snow.png"
-    elif weather=="曇り":                                                   picUrl="https://i.ibb.co/V32pwjv/Cloud.png"
-    elif weather=="曇時々晴" or weather=="曇一時晴" or weather=="曇のち晴": picUrl="https://i.ibb.co/wwc1J9P/Cloud-To-Sun.png"
-    elif weather=="曇時々雨" or weather=="曇一時雨" or weather=="曇のち雨": picUrl="https://i.ibb.co/mSXWrsm/Cloud-To-Rain.png"
-    elif weather=="曇時々雪" or weather=="曇一時雪" or weather=="曇のち雪": picUrl="https://i.ibb.co/Tv42FLY/Cloud-To-Snow.png"
-    elif weather=="雨":                                                     picUrl="https://i.ibb.co/5xkdS8V/Rain.png"
-    elif weather=="雨時々曇" or weather=="雨一時曇" or weather=="雨のち曇": picUrl="https://i.ibb.co/vPgg2nt/Rain-To-Cloud.png"
-    elif weather=="雨時々晴" or weather=="雨一時晴" or weather=="雨のち晴": picUrl="https://i.ibb.co/mzYX8j4/Rain-To-Sun.png"
-    elif weather=="雨時々雪" or weather=="雨一時雪" or weather=="雨のち雪": picUrl="https://i.ibb.co/GsMs2bN/Rain-To-Snow.png"
-    elif weather=="雪":                                                     picUrl="https://i.ibb.co/qrDSG2F/Snow.png"
-    elif weather=="雪時々曇" or weather=="雪一時曇" or weather=="雪のち曇": picUrl="https://i.ibb.co/qdftDWR/Snow-To-Cloud.png"
-    elif weather=="雪時々晴" or weather=="雪一時晴" or weather=="雪のち晴": picUrl="https://i.ibb.co/d4y70W9/Snow-To-Sun.png"
-    elif weather=="雪時々雨" or weather=="雪一時雨" or weather=="雪のち雨": picUrl="https://i.ibb.co/KqnPzr7/Snow-To-Rain.png"
-    elif weather=="暴風雨" or weather=="雨で暴風を伴う":                                     picUrl="https://i.ibb.co/y6X5z5X/Typhon.png "
-    elif weather=="暴風雪":                                                 picUrl="https://i.ibb.co/2NMQLDS/Heavy-Snow.png"
+    if weather=="晴れ" or weather=="晴山沿い雷雨" or weather=="晴山沿い雪" or weather=="朝の内霧後晴" or weather=="晴明け方霧":
+        picUrl="https://i.ibb.co/v3Q1SzX/Sun.png"
+    elif weather=="晴のち曇" or weather=="晴のち一時曇" or weather=="晴のち時々曇":
+        picUrl="https://i.ibb.co/47Zp7tf/Sun-To-Cloud.png"
+    elif weather=="晴のち雨" or weather=="晴のち一時雨"　or weather=="晴のち時々雨" or weather=="晴のち雨か雪" or weather=="晴のち雨か雷雨" or weather=="晴夕方一時雨" or weather=="晴午後は雷雨" or weather=="晴昼頃から雨" or weather=="晴夕方から雨" or weather=="晴夜は雨" or weather=="晴夜半から雨":
+        picUrl="https://i.ibb.co/w6yBmKP/Sun-To-Rain.png"
+    elif weather=="晴のち雪" or weather=="晴のち一時雪"　or weather=="晴のち時々雪"　or weather=="晴のち雪か雨":
+        picUrl="https://i.ibb.co/2hWsVQy/Sun-To-Snow.png"
+    #存在しないパターン
+    elif weather=="晴時々曇" or weather=="晴一時曇":
+        picUrl="https://i.ibb.co/vJn5mwZ/Sun-Or-Cloud.png"
+    elif weather=="晴時々雨" or weather=="晴一時雨" or weather=="晴時々雨か雪" or weather=="晴一時雨か雪" or weather=="晴一時雨か雷雨" or weather=="晴朝夕一時雨" or weather=="晴時々雨で雷雨を伴う":
+        picUrl="https://i.ibb.co/cc9c8F1/Sun-Or-Rain.png"
+    elif weather=="晴時々雪" or weather=="晴一時雪" or weather=="晴時々雪か雨" or weather=="晴一時雪か雨":
+        picUrl="https://i.ibb.co/gZvsSzn/Sun-Or-Snow.png"
+    elif weather=="曇り" or weather=="霧" or weather=="曇海上海岸は霧か霧雨":
+        picUrl="https://i.ibb.co/V32pwjv/Cloud.png"
+    elif weather=="曇のち晴" or weather=="曇のち一時晴" or weather=="曇のち時々晴":
+        picUrl="https://i.ibb.co/wwc1J9P/Cloud-To-Sun.png"
+    elif weather=="曇のち雨" or weather=="曇のち一時雨" or weather=="曇のち時々雨" or weather=="曇のち雨か雪" or weather=="曇のち雨か雷雨" or weather=="曇夕方一時雨" or weather=="曇昼頃から雨" or weather=="曇夕方から雨" or weather=="曇夜は雨" or weather=="曇夜半から雨":
+        picUrl="https://i.ibb.co/mSXWrsm/Cloud-To-Rain.png"
+    elif weather=="曇のち雪" or weather=="曇のち一時雪" or weather=="曇のち時々雪" or weather=="曇昼頃から雪" or weather=="曇夕方から雪" or weather=="曇夜は雪" or weather=="曇のち雪か雨":
+        picUrl="https://i.ibb.co/Tv42FLY/Cloud-To-Snow.png"
+    elif weather=="曇時々晴" or weather=="曇一時晴" or weather=="曇日中時々晴":
+        picUrl="https://i.ibb.co/XX9sp2Y/Cloud-Or-Sun.png"
+    elif weather=="曇時々雨" or weather=="曇一時雨" or weather=="曇時々雨か雪" or weather=="曇一時雨か雪" or weather=="曇一時雨か雷雨" or weather=="曇朝方一時雨" or weather=="曇時々雨で雷を伴う":
+        picUrl="https://i.ibb.co/fkRCR7m/Cloud-Or-Rain.png"
+    elif weather=="曇時々雪" or weather=="曇一時雪" or weather=="曇時々雪で雷を伴う" or weather=="曇一時雪か雨" or weather=="曇時々雪か雨":
+        picUrl="https://i.ibb.co/9nyfKy5/Cloud-Or-Snow.png"
+    elif weather=="雨" or weather=="大雨" or weather=="風雨共に強い" or weather=="雨一時強く降る" or weather=="雨で雷を伴う":
+        picUrl="https://i.ibb.co/5xkdS8V/Rain.png"
+    #存在しないパターン
+    elif weather=="雨のち曇" or weather=="雨のち一時曇" or weather=="雨のち時々曇" or weather=="雨か雪のち曇" or weather=="朝の内雨のち曇":
+        picUrl="https://i.ibb.co/vPgg2nt/Rain-To-Cloud.png"
+    elif weather=="雨のち晴" or weather=="晴朝の内一時雨" or weather=="雨か雪のち晴" or weather=="朝の内雨のち晴" or weather=="雨昼頃から晴" or weather=="雨夕方から晴" or weather=="雨夜は晴":
+        picUrl="https://i.ibb.co/mzYX8j4/Rain-To-Sun.png"
+    elif weather=="雨のち雪" or weather=="雨のち一時雪" or weather=="雨のち時々雪" or weather=="雨夕方から雪" or weather=="雨夜は雪":
+        picUrl="https://i.ibb.co/GsMs2bN/Rain-To-Snow.png"
+    elif weather=="雨時々曇" or weather=="雨一時曇" or weather=="雨時々止む" or weather=="雨一時止む":
+        picUrl="https://i.ibb.co/TbR1wRW/Rain-Or-Cloud.png"
+    elif weather=="雨時々晴" or weather=="雨一時晴":
+        picUrl="https://i.ibb.co/9sdjnNs/Rain-Or-Sun.png"
+    elif weather=="雨時々雪" or weather=="雨一時雪" or weather=="雨か雪" or weather=="雨朝晩一時雪" or weather=="雨一時霙" or weather=="雨一時みぞれ":
+        picUrl="https://i.ibb.co/nMDzd7d/Rain-Or-Snow.png"
+    elif weather=="雪" or weather=="雪一時強く降る":
+        picUrl="https://i.ibb.co/qrDSG2F/Snow.png"
+    elif weather=="雪のち曇" or weather=="雪か雨のち曇" or weather=="朝の内雪のち曇":
+        picUrl="https://i.ibb.co/qdftDWR/Snow-To-Cloud.png"
+    elif weather=="雪のち晴" or weather=="雪か雨のち晴" or weather=="朝の内雪のち晴":
+        picUrl="https://i.ibb.co/d4y70W9/Snow-To-Sun.png"
+    elif weather=="雪のち雨" or weather=="雪のち霙" or weather=="雪のちみぞれ" or weather=="雪昼頃から雨" or weather=="雪夕方から雨" or weather=="雪夜から雨" or weather=="雪夜半から雨":
+        picUrl="https://i.ibb.co/KqnPzr7/Snow-To-Rain.png"
+    elif weather=="雪時々曇" or weather=="雪一時曇" or weather=="雪時々止む" or weather=="雪一時止む":
+        picUrl="https://i.ibb.co/ZmYkPZW/Snow-Or-Cloud.png"
+    elif weather=="雪時々晴" or weather=="雪一時晴":
+        picUrl="https://i.ibb.co/y8M4vgH/Snow-Or-Sun.png"
+    elif weather=="雪時々雨" or weather=="雪一時雨" or weather=="雪か雨" or weather=="雪一時霙" or weather=="雪一時みぞれ":
+        picUrl="https://i.ibb.co/Zm5JnKh/Snow-Or-Rain.png"
+    elif weather=="暴風雨" or weather=="雨で暴風を伴う":
+        picUrl="https://i.ibb.co/y6X5z5X/Typhon.png "
+    elif weather=="暴風雪" or weather=="大雪" or weather=="風雪強い" or weather=="雪で雷を伴う":
+        picUrl="https://i.ibb.co/2NMQLDS/Heavy-Snow.png"
     else: picUrl="未知の天気"
     return picUrl
 
@@ -416,6 +460,5 @@ if __name__ == "__main__":
 #    app.run()
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
 
 
