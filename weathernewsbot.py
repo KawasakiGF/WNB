@@ -400,7 +400,7 @@ def handle_message(event):
     MySession.register(user_id)
 
 #会話を中断したいとき
-    if (talk == "キャンセル"):
+    if (talk == "リセット"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage("最初からやり直します。1か所or2か所を入力してください。"))
@@ -414,10 +414,6 @@ def handle_message(event):
                event.reply_token,
                TextSendMessage(text=tellDay))
           MySession.update_context(user_id, "10")
-       else:
-          line_bot_api.reply_message(
-               event.reply_token,
-               TextSendMessage(text=tellDayError))
 
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
