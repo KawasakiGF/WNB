@@ -216,9 +216,9 @@ def picUrlMaker(weather):
         picUrl="https://i.ibb.co/v3Q1SzX/Sun.png"
     elif weather=="晴のち曇" or weather=="晴のち一時曇" or weather=="晴のち時々曇":
         picUrl="https://i.ibb.co/47Zp7tf/Sun-To-Cloud.png"
-    elif weather=="晴のち雨" or weather=="晴のち一時雨"　or weather=="晴のち時々雨" or weather=="晴のち雨か雪" or weather=="晴のち雨か雷雨" or weather=="晴夕方一時雨" or weather=="晴午後は雷雨" or weather=="晴昼頃から雨" or weather=="晴夕方から雨" or weather=="晴夜は雨" or weather=="晴夜半から雨":
+    elif weather=="晴のち雨" or weather=="晴のち一時雨" or weather=="晴のち時々雨" or weather=="晴のち雨か雪" or weather=="晴のち雨か雷雨" or weather=="晴夕方一時雨" or weather=="晴午後は雷雨" or weather=="晴昼頃から雨" or weather=="晴夕方から雨" or weather=="晴夜は雨" or weather=="晴夜半から雨":
         picUrl="https://i.ibb.co/w6yBmKP/Sun-To-Rain.png"
-    elif weather=="晴のち雪" or weather=="晴のち一時雪"　or weather=="晴のち時々雪"　or weather=="晴のち雪か雨":
+    elif weather=="晴のち雪" or weather=="晴のち一時雪" or weather=="晴のち時々雪" or weather=="晴のち雪か雨":
         picUrl="https://i.ibb.co/2hWsVQy/Sun-To-Snow.png"
     #存在しないパターン
     elif weather=="晴時々曇" or weather=="晴一時曇":
