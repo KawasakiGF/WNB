@@ -199,8 +199,8 @@ def kasaHantei(code, itu):
      AC=re.sub(r"\D", "", amCOR)
      PC=re.sub(r"\D", "", pmCOR)
      if ((AC is None) and (PC is None)):
-        tempMAX == -1
-        tempMIN == -1
+        kasaInfo = "傘情報を取得できませんでした。"
+        return kasaInfo
      elif AC is None: AC=PC
      elif PC is None: PC=AC
      CORMEAN=int((int(AC)+int(PC))/2.0)
@@ -210,8 +210,6 @@ def kasaHantei(code, itu):
         kasaInfo = "雨が降りそうです。傘を持っていきましょう。"
      elif CORMEAN >= 30:
         kasaInfo = "雨が降らないこともありそうです。折り畳み傘があれば十分そうです。"
-     elif CORMEAN == -1:
-        kasaInfo = "傘情報を取得できませんでした。"
      else:
         kasaInfo = "傘は必要ありません。"
      return kasaInfo
@@ -400,13 +398,13 @@ def handle_message(event):
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
           fukusouInfo = fukusouHantei(tempMEANMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
           tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id))
-          kasaInfo = kasaHantei(Tcode[Tname.index(talk)], MySession.read_date(user_id))
+          #kasaInfo = kasaHantei(Tcode[Tname.index(talk)], MySession.read_date(user_id))
           if picUrl == "未知の天気":
                line_bot_api.reply_message(
                     event.reply_token,
                     [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
-                    TextSendMessage(text=kasaInfo),
+                    #TextSendMessage(text=kasaInfo),
                     TextSendMessage(text=fukusouInfo)])
           else:
                line_bot_api.reply_message(
@@ -414,7 +412,7 @@ def handle_message(event):
                     [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
-                    TextSendMessage(text=kasaInfo),
+                    #TextSendMessage(text=kasaInfo),
                     TextSendMessage(text=fukusouinfo)])
           MySession.reset(user_id)
 
