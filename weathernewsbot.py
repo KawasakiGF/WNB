@@ -414,7 +414,7 @@ def handle_message(event):
                     [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
-　　　　　　　　　　TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=kasaInfo),
                     TextSendMessage(text=fukusouinfo)])
           MySession.reset(user_id)
 
