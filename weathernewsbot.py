@@ -704,8 +704,8 @@ def handle_message(event):
           STM = tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
           MTM = tempMEANMaker(Tcode[Tname.index(MySession.read_area2(user_id))], MySession.read_date(user_id))
           fukusouInfo = fukusouHantei2(STM, MTM, para)
-          ST = MySession.read_areaT + MySession.read_area
-          MT = MySession.read_areaT2 + MySession.read_area2
+          ST = MySession.read_areaT(user_id) + MySession.read_area(user_id)
+          MT = MySession.read_areaT2(user_id) + MySession.read_area2(user_id)
           kasaInfo = kasaHantei2(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id), Tcode[Tname.index(MySession.read_area2(user_id))], MySession.read_date2(user_id), ST, MT)
           if picUrlS == "未知の天気" or picUrlM == "未知の天気":
                line_bot_api.reply_message(
@@ -729,7 +729,7 @@ def handle_message(event):
        else:
             line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text= tellBasyoKwskError +  MySession.read_basyoList(user_id)))
+            TextSendMessage(text="「暑がり」、「寒がり」、「どちらでもない」の中から入力してください。服装のおすすめ提示に使用させていただきます。")
 
 ###############################
 
@@ -800,7 +800,7 @@ tellBasyo2_1 = "次に、出発地の都道府県名を教えてください。(
 tellBasyoError = "の都道府県を入力してください。\n入力したはずなのに、と思う場合は県、府、都、道が入力されていない可能性があります。"
 tellBasyoKwsk2_1 = "の天気情報ですね。分かりました！\nでは次に、出発地に最も近い場所を選んでください。"
 tellBasyoKwskError = "詳細な場所が選択できていないようです。以下に選択できるリストをもう一度表示しますので、この中からお選びください。"
-tellDay2_2 = "ですね、承知しました!\nそれでは、目的地に到着する日の予定を教えてください。選択できるのは「今日」、「明日」、「明後日」の3日です。"
+tellDay2_2 = "ですね、承知しました!\nでは次に、目的地に到着する日の予定を教えてください。選択できるのは「今日」、「明日」、「明後日」の3日です。"
 tellBasyo2_2 = "次に、目的地の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく！)"
 tellBasyoKwsk2_2 = "の天気情報ですね。分かりました！\nでは次に、目的地に最も近い場所を選んでください。"
 
