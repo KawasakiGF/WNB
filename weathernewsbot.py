@@ -413,7 +413,7 @@ def handle_message(event):
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                     #TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouinfo)])
+                    TextSendMessage(text=fukusouInfo)])
           MySession.reset(user_id)
 
 
