@@ -327,7 +327,7 @@ def fukusouHantei2(STM, MTM, para):
   return (fukusou + kandansa)
 
 #2か所の傘の有無判定
-def kasaHantei(codeS, ituS, codeM, ituM, ST, MT):
+def kasaHantei2(codeS, ituS, codeM, ituM, ST, MT):
      url="https://weather.tsukumijima.net/api/forecast/city/" + codeS
      response=requests.get(url)
      jsonData=response.json()
