@@ -718,8 +718,7 @@ def handle_message(event):
           else:
                line_bot_api.reply_message(
                     event.reply_token,
-                    [TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + "から" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "への天気情報を表示します！"),
-                    TextSendMessage(text="[出発地]" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n" + tenkiInfoS),
+                    [TextSendMessage(text="[出発地]" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n" + tenkiInfoS),
                     ImageSendMessage(original_content_url=picUrlS, preview_image_url=picUrlS),
                     TextSendMessage(text="[目的地]" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "\n" + tenkiInfoM),
                     ImageSendMessage(original_content_url=picUrlM, preview_image_url=picUrlM),
