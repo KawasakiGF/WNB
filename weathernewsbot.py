@@ -370,9 +370,9 @@ def kasaHantei(codeS, ituS, codeM, ituM, ST, MT):
         kasaInfo = "雨が降りそうです。傘を持っていきましょう。"
      elif (CORMEANS >= 50 and (CORMEANM >= 30 and "雨" in weather)) or (CORMEANM >= 50 and (CORMEANS >= 30 and "雨" in weather)):
         kasaInfo = "雨が降りそうです。傘を持っていきましょう。"
-     elif (CORMEANS >= 50 or (CORMEANS >= 30 and "雨" in weather)) and CORMEANM < 30
+     elif (CORMEANS >= 50 or (CORMEANS >= 30 and "雨" in weather)) and CORMEANM < 30:
         kasaInfo = ST + "では雨が降りそうですが、" + MT + "では雨が降らなさそうです。傘を持つ余裕があれば傘を、無ければ折り畳み傘を持っていきましょう。"
-     elif (CORMEANM >= 50 or (CORMEANM >= 30 and "雨" in weather)) and CORMEANS < 30
+     elif (CORMEANM >= 50 or (CORMEANM >= 30 and "雨" in weather)) and CORMEANS < 30:
         kasaInfo = ST + "では雨が降らなさそうですが、" + MT + "では雨が降りそうです。傘を持つ余裕があれば傘を、無ければ折り畳み傘を持っていきましょう。"
      elif CORMEANS >= 30 or CORMEANM >= 30:
         kasaInfo = "雨が降らないこともありそうです。折り畳み傘があれば十分でしょう。"
