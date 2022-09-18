@@ -406,7 +406,7 @@ def handle_message(event):
                     event.reply_token,
                     [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
-　　　　　　　　　　TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=kasaInfo),
                     TextSendMessage(text=fukusouInfo)])
           else:
                line_bot_api.reply_message(
