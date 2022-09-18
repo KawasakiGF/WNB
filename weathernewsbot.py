@@ -241,7 +241,7 @@ def tempMEANMaker(code, itu):
      tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
      return tempMEAN
 
-#傘の有無判定
+#1か所の傘の有無判定
 def kasaHantei(code, itu):
      url="https://weather.tsukumijima.net/api/forecast/city/" + code
      response=requests.get(url)
@@ -271,7 +271,7 @@ def kasaHantei(code, itu):
         kasaInfo = "傘は必要ありません。"
      return kasaInfo
 
-#服装判定
+#1か所の服装判定
 def fukusouHantei(tempMEAN):
   if tempMEAN <= 5:
     fukusou = '＜今日の服装＞\n重ね着をし、もふもふのコートやダウンジャケットの着用をするほか、手袋やマフラー、暖かい靴下など、できる限り暖かい服装選びをしましょう。'
@@ -296,6 +296,89 @@ def fukusouHantei(tempMEAN):
   else:
     fukusou = '＜今日の服装＞\n気温の情報を取得できませんでした。'
   return fukusou
+
+#2か所の服装判定
+def fukusouHantei2(STM, MTM, para):
+  tempMEAN = int((int(STM)+int(MTM))/2.0) + para
+  if STM-MTM >= 6:
+    kandansa = "\n出発地と目的地で寒暖差が大きい可能性があります。羽織ものなど、温度調節をできる服も持っていくと良さそうです。"
+  if tempMEAN <= 5:
+    fukusou = '＜今日の服装＞\n重ね着をし、もふもふのコートやダウンジャケットの着用をするほか、手袋やマフラー、暖かい靴下など、できる限り暖かい服装選びをしましょう。'
+  elif tempMEAN <= 9:
+    fukusou = '＜今日の服装＞\n重ね着をし、ダウンコートやジャケットを着用しましょう。風が強いときは手袋やマフラーがあると安心です。'
+  elif tempMEAN <= 13:
+    fukusou = '＜今日の服装＞\nジャケットやコートなど、風を通さない服装にしましょう。ヒートテックがあると安心です。'
+  elif tempMEAN <= 16 and weather == "晴れ":
+    fukusou = '＜今日の服装＞\nニットやセーターにするか、風が無ければ軽い羽織りものを着るとよいでしょう。'
+  elif tempMEAN <= 16:
+    fukusou = '＜今日の服装＞\nニットやセーターでOKですが、寒く感じるときはジャケットやコートを着てもよいでしょう。'
+  elif tempMEAN <= 19:
+    fukusou = '＜今日の服装＞\n薄手のジャケットやパーカーにし、重ね着をするとよいでしょう。'
+  elif tempMEAN <= 22:
+    fukusou = '＜今日の服装＞\n着脱可能な羽織りものにし、温度に合わせて調節できるようにしましょう。'
+  elif tempMEAN <= 24:
+    fukusou = '＜今日の服装＞\n長袖が一枚あればOKです。半袖と薄い羽織りものでもよいでしょう。'
+  elif tempMEAN <= 29:
+    fukusou = '＜今日の服装＞\n半袖で過ごせそうです。長袖にして腕まくりをするのもよいでしょう。'
+  elif tempMEAN <= 99:
+    fukusou = '＜今日の服装＞\n半袖の涼しい服装にし、暑さ対策や熱中症対策を怠らないようにしましょう。'
+  else:
+    fukusou = '＜今日の服装＞\n気温の情報を取得できませんでした。'
+  return (fukusou + kandansa)
+
+#2か所の傘の有無判定
+def kasaHantei(codeS, ituS, codeM, ituM, ST, MT):
+     url="https://weather.tsukumijima.net/api/forecast/city/" + codeS
+     response=requests.get(url)
+     jsonData=response.json()
+     #天気データ取得
+     weather="--"
+     amCOR="--"
+     pmCOR="--"
+     weather=jsonData["forecasts"][ituS]["telop"]
+     amCOR=jsonData["forecasts"][ituS]["chanceOfRain"]["T06_12"]
+     pmCOR=jsonData["forecasts"][ituS]["chanceOfRain"]["T12_18"]
+     AC=re.sub(r"\D", "", amCOR)
+     PC=re.sub(r"\D", "", pmCOR)
+     if ((AC == "") and (PC == "")):
+        kasaInfo = "傘情報を取得できませんでした。"
+     elif AC == "": AC=PC
+     elif PC == "": PC=AC
+     CORMEANS=(int(AC)+int(PC))/2.0
+
+     urlM="https://weather.tsukumijima.net/api/forecast/city/" + codeM
+     responseM=requests.get(urlM)
+     jsonDataM=responseM.json()
+     #天気データ取得
+     weatherM="--"
+     amCORM="--"
+     pmCORM="--"
+     weatherM=jsonDataM["forecasts"][ituM]["telop"]
+     amCORM=jsonDataM["forecasts"][ituM]["chanceOfRain"]["T06_12"]
+     pmCORM=jsonDataM["forecasts"][ituM]["chanceOfRain"]["T12_18"]
+     ACM=re.sub(r"\D", "", amCORM)
+     PCM=re.sub(r"\D", "", pmCORM)
+     if ((ACM == "") and (PCM == "")):
+        kasaInfo2 = "傘情報を取得できませんでした。"
+     elif ACM == "": ACM=PCM
+     elif PCM == "": PCM=ACM
+     CORMEANM=int(ACM)+int(PCM))/2.0
+
+     CORMEAN = int((CORMEANS+CORMEANS)/2.0)
+
+     if CORMEANS >= 50 and CORMEANM >= 50:
+        kasaInfo = "雨が降りそうです。傘を持っていきましょう。"
+     elif (CORMEANS >= 50 and (CORMEANM >= 30 and "雨" in weather)) or (CORMEANM >= 50 and (CORMEANS >= 30 and "雨" in weather)):
+        kasaInfo = "雨が降りそうです。傘を持っていきましょう。"
+     elif (CORMEANS >= 50 or (CORMEANS >= 30 and "雨" in weather)) and CORMEANM < 30
+        kasaInfo = ST + "では雨が降りそうですが、" + MT + "では雨が降らなさそうです。傘を持つ余裕があれば傘を、無ければ折り畳み傘を持っていきましょう。"
+     elif (CORMEANM >= 50 or (CORMEANM >= 30 and "雨" in weather)) and CORMEANS < 30
+        kasaInfo = ST + "では雨が降らなさそうですが、" + MT + "では雨が降りそうです。傘を持つ余裕があれば傘を、無ければ折り畳み傘を持っていきましょう。"
+     elif CORMEANS >= 30 or CORMEANM >= 30:
+        kasaInfo = "雨が降らないこともありそうです。折り畳み傘があれば十分でしょう。"
+     else:
+        kasaInfo = "傘は必要ありません。"
+     return kasaInfo
 
 #天気アイコン判定
 def picUrlMaker(weather):
@@ -605,7 +688,48 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text= tellBasyoKwskError +  MySession.read_basyoList2(user_id)))
 
-
+#体調を聞く&2か所の天気情報と総合情報を教える
+    elif MySession.read_context(user_id) == "26":
+       if talk in hotList or talk in coldList or talk in usualList:
+          if talk in hotList:
+              para = 4
+          elif talk in coldList:
+              para = -2
+          elif talk in usualList:
+              para = 1
+          picUrlS = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
+          tenkiInfoS = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
+          picUrlM = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area2(user_id))], MySession.read_date2(user_id)))
+          tenkiInfoM = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area2(user_id))], MySession.read_date2(user_id))
+          STM = tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
+          MTM = tempMEANMaker(Tcode[Tname.index(MySession.read_area2(user_id))], MySession.read_date(user_id))
+          fukusouInfo = fukusouHantei2(STM, MTM, para)
+          ST = MySession.read_areaT + MySession.read_area
+          MT = MySession.read_areaT2 + MySession.read_area2
+          kasaInfo = kasaHantei2(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id), Tcode[Tname.index(MySession.read_area2(user_id))], MySession.read_date2(user_id), ST, MT)
+          if picUrlS == "未知の天気" or picUrlM == "未知の天気":
+               line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + "から" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "への天気情報を表示します！"),
+                    TextSendMessage(text="[出発地]" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n" + tenkiInfoS),
+                    TextSendMessage(text="[目的地]" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "\n" + tenkiInfoM),
+                    TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=fukusouInfo)])
+          else:
+               line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + "から" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "への天気情報を表示します！"),
+                    TextSendMessage(text="[出発地]" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n" + tenkiInfoS),
+                    ImageSendMessage(original_content_url=picUrlS, preview_image_url=picUrlS),
+                    TextSendMessage(text="[目的地]" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "\n" + tenkiInfoM),
+                    ImageSendMessage(original_content_url=picUrlM, preview_image_url=picUrlM),
+                    TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=fukusouInfo)])
+          MySession.reset(user_id)
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= tellBasyoKwskError +  MySession.read_basyoList(user_id)))
 
 ###############################
 
