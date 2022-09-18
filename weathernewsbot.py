@@ -362,7 +362,7 @@ def kasaHantei(codeS, ituS, codeM, ituM, ST, MT):
         kasaInfo2 = "傘情報を取得できませんでした。"
      elif ACM == "": ACM=PCM
      elif PCM == "": PCM=ACM
-     CORMEANM=int(ACM)+int(PCM))/2.0
+     CORMEANM=(int(ACM)+int(PCM))/2.0
 
      CORMEAN = int((CORMEANS+CORMEANS)/2.0)
 
