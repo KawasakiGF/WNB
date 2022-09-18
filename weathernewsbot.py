@@ -729,7 +729,7 @@ def handle_message(event):
        else:
             line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="「暑がり」、「寒がり」、「どちらでもない」の中から入力してください。服装のおすすめ提示に使用させていただきます。")
+            TextSendMessage(text="「暑がり」、「寒がり」、「どちらでもない」の中から入力してください。服装のおすすめ提示に使用させていただきます。"))
 
 ###############################
 
