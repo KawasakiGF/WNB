@@ -184,6 +184,38 @@ def tempMEANMaker(code, itu):
      tempMEAN=(int(tempMAX)+int(tempMIN))/2.0-1.0
      return tempMEAN
 
+#傘の有無判定
+def kasaHantei(code, itu):
+     url="https://weather.tsukumijima.net/api/forecast/city/" + code
+     response=requests.get(url)
+     jsonData=response.json()
+     #天気データ取得
+     weather="--"
+     amCOR="--"
+     pmCOR="--"
+     weather=jsonData["forecasts"][itu]["telop"]
+     amCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T06_12"]
+     pmCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T12_18"]
+     AC=re.sub(r"\D", "", amCOR)
+     PC=re.sub(r"\D", "", pmCOR)
+     if ((AC is None) and (PC is None)):
+        tempMAX == -1
+        tempMIN == -1
+     elif AC is None: AC=PC
+     elif PC is None: PC=AC
+     CORMEAN=int((int(AC)+int(PC))/2.0)
+     if CORMEAN >= 50:
+        kasaInfo = "雨が降りそうです。傘を持っていきましょう。"
+     elif (CORMEAN >= 30 and "雨" in weather):
+        kasaInfo = "雨が降りそうです。傘を持っていきましょう。"
+     elif CORMEAN >= 30:
+        kasaInfo = "雨が降らないこともありそうです。折り畳み傘があれば十分そうです。"
+     elif CORMEAN == -1:
+        kasaInfo = "傘情報を取得できませんでした。"
+     else:
+        kasaInfo = "傘は必要ありません。"
+     return kasaInfo
+
 #服装判定
 def fukusouHantei(tempMEAN):
   if tempMEAN <= 5:
@@ -366,21 +398,24 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "12":
        if talk in MySession.read_basyoList(user_id):
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
-          fukusou = fukusouHantei(tempMEANMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
+          fukusouInfo = fukusouHantei(tempMEANMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
           tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id))
+          kasaInfo = kasaHantei(Tcode[Tname.index(talk)], MySession.read_date(user_id))
           if picUrl == "未知の天気":
                line_bot_api.reply_message(
                     event.reply_token,
                     [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
-                    TextSendMessage(text=fukusou)])
+　　　　　　　　　　TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=fukusouInfo)])
           else:
                line_bot_api.reply_message(
                     event.reply_token,
                     [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
-                    TextSendMessage(text=fukusou)])
+　　　　　　　　　　TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=fukusouinfo)])
           MySession.reset(user_id)
 
 
