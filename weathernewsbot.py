@@ -723,8 +723,7 @@ def handle_message(event):
                     ImageSendMessage(original_content_url=picUrlS, preview_image_url=picUrlS),
                     TextSendMessage(text="[目的地]" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "\n" + tenkiInfoM),
                     ImageSendMessage(original_content_url=picUrlM, preview_image_url=picUrlM),
-                    TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouInfo)])
+                    TextSendMessage(text=kasaInfo + "\n\n" +fukusouInfo)])
           MySession.reset(user_id)
        else:
             line_bot_api.reply_message(
