@@ -198,11 +198,11 @@ def kasaHantei(code, itu):
      pmCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T12_18"]
      AC=re.sub(r"\D", "", amCOR)
      PC=re.sub(r"\D", "", pmCOR)
-     if ((AC is "") and (PC is "")):
+     if ((AC == "") and (PC == "")):
         kasaInfo = "傘情報を取得できませんでした。"
         return kasaInfo
-     elif AC is "": AC=PC
-     elif PC is "": PC=AC
+     elif AC == "": AC=PC
+     elif PC == "": PC=AC
      CORMEAN=int((int(AC)+int(PC))/2.0)
      if CORMEAN >= 50:
         kasaInfo = "雨が降りそうです。傘を持っていきましょう。"
