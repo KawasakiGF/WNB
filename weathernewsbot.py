@@ -299,9 +299,10 @@ def fukusouHantei(tempMEAN):
 
 #2か所の服装判定
 def fukusouHantei2(STM, MTM, para):
+  kandansa = ""
   tempMEAN = int((int(STM)+int(MTM))/2.0) + para
   if STM-MTM >= 6:
-    kandansa = "\n出発地と目的地で寒暖差が大きい可能性があります。羽織ものなど、温度調節をできる服も持っていくと良さそうです。"
+    kandansa = "\n出発地と目的地で寒暖差が大きい可能性があります。羽織ものなど、温度調節をできる服を持っていくと良さそうです。"
   if tempMEAN <= 5:
     fukusou = '＜今日の服装＞\n重ね着をし、もふもふのコートやダウンジャケットの着用をするほか、手袋やマフラー、暖かい靴下など、できる限り暖かい服装選びをしましょう。'
   elif tempMEAN <= 9:
@@ -718,7 +719,9 @@ def handle_message(event):
           else:
                line_bot_api.reply_message(
                     event.reply_token,
-                    [TextSendMessage(text="[出発地]" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n" + tenkiInfoS),
+                    #メッセージは1～5個まで
+                    [#TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + "から" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "への天気情報を表示します！"),
+                    TextSendMessage(text="[出発地]" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n" + tenkiInfoS),
                     ImageSendMessage(original_content_url=picUrlS, preview_image_url=picUrlS),
                     TextSendMessage(text="[目的地]" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "\n" + tenkiInfoM),
                     ImageSendMessage(original_content_url=picUrlM, preview_image_url=picUrlM),
