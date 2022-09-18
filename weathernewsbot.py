@@ -37,6 +37,10 @@ class Status:
           self.area = ""
           self.areaT = ""
           self.basyoList = ""
+          self.date2 = 0
+          self.area2 = ""
+          self.areaT2 = ""
+          self.basyoList2 = ""
 
     def get_context(self):
         return self.context
@@ -62,6 +66,28 @@ class Status:
         return self.basyoList
     def set_basyoList(self, basyoList):
           self.basyoList = basyoList
+
+
+    def get_date2(self):
+        return self.date2
+    def set_date2(self, date2):
+          self.date2 = date2
+
+    def get_area2(self):
+        return self.area2
+    def set_area2(self, area2):
+          self.area2 = area2
+
+    def get_areaT2(self):
+        return self.areaT2
+    def set_areaT2(self, areaT2):
+          self.areaT2 = areaT2
+
+    def get_basyoList2(self):
+        return self.basyoList2
+    def set_basyoList2(self, basyoList2):
+          self.basyoList2 = basyoList2
+
 
 
 class MySession:
@@ -113,6 +139,37 @@ class MySession:
         new_status = MySession._status_map.get(user_id)
         new_status.set_basyoList(basyoList)
         MySession._status_map[user_id] = new_status
+
+
+    def read_date2(user_id):
+        return MySession._status_map.get(user_id).get_date2()
+    def update_date2(user_id, date2):
+        new_status = MySession._status_map.get(user_id)
+        new_status.set_date2(date2)
+        MySession._status_map[user_id] = new_status
+
+    def read_area2(user_id):
+        return MySession._status_map.get(user_id).get_area2()
+    def update_area2(user_id, area2):
+        new_status = MySession._status_map.get(user_id)
+        new_status.set_area2(area2)
+        MySession._status_map[user_id] = new_status
+
+    def read_areaT2(user_id):
+        return MySession._status_map.get(user_id).get_areaT2()
+    def update_areaT2(user_id, areaT2):
+        new_status = MySession._status_map.get(user_id)
+        new_status.set_areaT2(areaT2)
+        MySession._status_map[user_id] = new_status
+
+    def read_basyoList2(user_id):
+        return MySession._status_map.get(user_id).get_basyoList2()
+    def update_basyoList2(user_id, basyoList2):
+        new_status = MySession._status_map.get(user_id)
+        new_status.set_basyoList2(basyoList2)
+        MySession._status_map[user_id] = new_status
+
+
 
 #都道府県コードを返す
 def todoufukenNum(num):
@@ -352,7 +409,7 @@ def handle_message(event):
 
 #1か所の場所を聞く####################
     if MySession.read_context(user_id) == "0":
-       if ("1" in talk or "１" in talk):
+       if ("1" in talk or "１" in talk or "一" in talk):
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay))
@@ -391,43 +448,170 @@ def handle_message(event):
                event.reply_token,
                TextSendMessage(text=(talk + tellBasyoKwsk + MySession.read_basyoList(user_id))))
           MySession.update_context(user_id, "12")
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="知りたい場所" + tellBasyoError))
 
-#1か所の場所の詳細を聞く&1か所の天気情報を教える
+
+#1か所の場所の詳細を聞く
     elif MySession.read_context(user_id) == "12":
        if talk in MySession.read_basyoList(user_id):
-          picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
-          fukusouInfo = fukusouHantei(tempMEANMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id)))
-          tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(talk)], MySession.read_date(user_id))
-          kasaInfo = kasaHantei(Tcode[Tname.index(talk)], MySession.read_date(user_id))
+          MySession.update_area(user_id, talk)
+          line_bot_api.reply_message(
+               event.reply_token,
+               TextSendMessage(text=("知りたい場所は" + MySession.read_areaT(user_id) + talk + tellHotOrCold)))
+          MySession.update_context(user_id, "13")
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= tellBasyoKwskError +  MySession.read_basyoList(user_id)))
+
+#体調を聞く&1か所の天気情報を教える
+    elif MySession.read_context(user_id) == "13":
+       if talk in hotList or talk in coldList or talk in usualList:
+          if talk in hotList:
+              para = 3
+          elif talk in coldList:
+              para = -3
+          elif talk in usualList:
+              para = 0
+          picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
+          fukusouInfo = fukusouHantei(tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para))
+          tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
+          kasaInfo = kasaHantei(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
           if picUrl == "未知の天気":
                line_bot_api.reply_message(
                     event.reply_token,
-                    [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
+                    [TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
                     TextSendMessage(text=kasaInfo),
                     TextSendMessage(text=fukusouInfo)])
           else:
                line_bot_api.reply_message(
                     event.reply_token,
-                    [TextSendMessage(text=MySession.read_areaT(user_id) + talk + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + talk + "の天気情報を表示します！"),
+                    [TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                     TextSendMessage(text=kasaInfo),
                     TextSendMessage(text=fukusouInfo)])
           MySession.reset(user_id)
-
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= tellBasyoKwskError +  MySession.read_basyoList(user_id)))
+###############################
 
 #2か所の場所を聞く####################
     if MySession.read_context(user_id) == "0":
-       if ("2" in talk or "２" in talk):
+       if ("2" in talk or "２" in talk or "二" in talk):
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=tellDay))
+               TextSendMessage(text=tellDay2_1))
           MySession.update_context(user_id, "20")
        else:
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDayError))
+
+#出発する日にちを聞く
+    elif MySession.read_context(user_id) == "20":
+       if ("今日" in talk) or ("明日" in talk) or ("明後日" in talk):
+           if "今日" in talk:    MySession.update_date(user_id, 0)
+           elif "明日" in talk: MySession.update_date(user_id, 1)
+           else:                       MySession.update_date(user_id, 2)
+           line_bot_api.reply_message(
+           event.reply_token,
+           TextSendMessage(text=tellBasyo2_1))
+           MySession.update_context(user_id, "21")
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="「今日」、「明日」、「明後日」の中から入力してください。"))
+
+#出発地の場所を聞く
+    elif MySession.read_context(user_id) == "21":
+       if talk in todoufuken:
+          MySession.update_areaT(user_id, talk)
+          TBasyo = todoufukenNum(int(todoufuken.index(talk)))
+          #TBasyoは文字型
+          MySession.update_area(user_id, TBasyo)
+          #area, basyoListは文字型
+          kwsiBasyoList = codeKaraFind(MySession.read_area(user_id))
+          MySession.update_basyoList(user_id, kwsiBasyoList)
+          line_bot_api.reply_message(
+               event.reply_token,
+               TextSendMessage(text=(talk + tellBasyoKwsk2_1 + MySession.read_basyoList(user_id))))
+          MySession.update_context(user_id, "22")
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="出発地" + tellBasyoError))
+
+#出発地の場所の詳細を聞く
+    elif MySession.read_context(user_id) == "22":
+       if talk in MySession.read_basyoList(user_id):
+          MySession.update_area(user_id, talk)
+          line_bot_api.reply_message(
+               event.reply_token,
+               TextSendMessage(text=("出発地は" + MySession.read_areaT(user_id) + talk + tellDay2_2)))
+          MySession.update_context(user_id, "23")
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= tellBasyoKwskError +  MySession.read_basyoList(user_id)))
+
+
+#目的地に到着する日にちを聞く
+    elif MySession.read_context(user_id) == "23":
+       if ("今日" in talk) or ("明日" in talk) or ("明後日" in talk):
+           if "今日" in talk:    MySession.update_date2(user_id, 0)
+           elif "明日" in talk: MySession.update_date2(user_id, 1)
+           else:                       MySession.update_date2(user_id, 2)
+           line_bot_api.reply_message(
+           event.reply_token,
+           TextSendMessage(text=tellBasyo2_2))
+           MySession.update_context(user_id, "24")
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="「今日」、「明日」、「明後日」の中から入力してください。"))
+
+#目的地の場所を聞く
+    elif MySession.read_context(user_id) == "24":
+       if talk in todoufuken:
+          MySession.update_areaT2(user_id, talk)
+          TBasyo2 = todoufukenNum(int(todoufuken.index(talk)))
+          #TBasyoは文字型
+          MySession.update_area2(user_id, TBasyo2)
+          #area, basyoListは文字型
+          kwsiBasyoList2 = codeKaraFind(MySession.read_area2(user_id))
+          MySession.update_basyoList2(user_id, kwsiBasyoList2)
+          line_bot_api.reply_message(
+               event.reply_token,
+               TextSendMessage(text=(talk + tellBasyoKwsk2_2 + MySession.read_basyoList2(user_id))))
+          MySession.update_context(user_id, "25")
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="目的地" + tellBasyoError))
+
+#目的地の場所の詳細を聞く
+    elif MySession.read_context(user_id) == "25":
+       if talk in MySession.read_basyoList2(user_id):
+          MySession.update_area2(user_id, talk)
+          line_bot_api.reply_message(
+               event.reply_token,
+               TextSendMessage(text=("目的地は" + MySession.read_areaT2(user_id) + talk + tellHotOrCold)))
+          MySession.update_context(user_id, "26")
+       else:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= tellBasyoKwskError +  MySession.read_basyoList2(user_id)))
+
+
+
+###############################
 
 #該当しないメッセージが送られてきた場合
     else:
@@ -479,12 +663,29 @@ Tname=["稚内","旭川","留萌", "網走", "北見", "紋別", "根室", "釧�
 "厳原", "福江", "熊本", "阿蘇乙姫","牛深", "人吉", "大分", "中津", "日田", "佐伯", "宮崎", "延岡", "都城", "高千穂",
 "鹿児島","鹿屋", "種子島","名瀬", "那覇", "名護", "久米島","南大東","宮古島","石垣島","与那国島"]
 
+hotList = ["暑がり","あつがり","暑いのは苦手"]
+coldList = ["寒がり","さむがり","寒いのは苦手"]
+usualList = ["どちらでもない","どっちでもない","該当なし"]
+
 #対話内容まとめ
 tellDay = "1か所の天気情報ですね。分かりました！\nでは次に、いつの天気を知りたいか教えてください。ご提供できるのは「今日」、「明日」、「明後日」の3日です。"
 tellDayError = "知りたい天気の場所を1か所or2か所で指定してください。\n＜ワンポイントアドバイス＞\n1か所は天気をピンポイントで調べるのに、2か所は旅行やお出かけなどお出かけ先の天気を調べるのに適しています！"
 tellBasyo = "の天気情報ですね。分かりました！\nでは次に、知りたい場所の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく！)"
 tellBasyoKwsk = "の天気情報ですね。分かりました！\nでは最後に、知りたい場所に最も近い場所を選んでください。"
+tellHotOrCold = "ですね。分かりました!\n服装のおすすめをするにあたり、暑がりか、寒がりかについてお伺いしたいと思います。あなたは「暑がり」or「寒がり」のどちらに当てはまりますか？どちらでもない場合、「どちらでもない」と入力してください。"
 checkBasyoKwsk = "の天気情報ですね。分かりました！\nそれでは、"
+
+tellDay2_1 = "2か所の天気情報ですね。分かりました!\nでは、始めに出発する日を教えてください。選択できるのは「今日」、「明日」、「明後日」の3日です。"
+tellBasyo2_1 = "次に、出発地の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく！)"
+tellBasyoError = "の都道府県を入力してください。\n入力したはずなのに、と思う場合は県、府、都、道が入力されていない可能性があります。"
+tellBasyoKwsk2_1 = "の天気情報ですね。分かりました！\nでは次に、出発地に最も近い場所を選んでください。"
+tellBasyoKwskError = "詳細な場所が選択できていないようです。以下に選択できるリストをもう一度表示しますので、この中からお選びください。"
+tellDay2_2 = "ですね、承知しました!\nそれでは、目的地に到着する日の予定を教えてください。選択できるのは「今日」、「明日」、「明後日」の3日です。"
+tellBasyo2_2 = "次に、目的地の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく！)"
+tellBasyoKwsk2_2 = "の天気情報ですね。分かりました！\nでは次に、目的地に最も近い場所を選んでください。"
+tellHotOrCold = "ですね。分かりました。"
+
+
 ###################################################
 
 
