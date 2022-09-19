@@ -756,22 +756,22 @@ def handle_message(event):
 ###############################
 
 #その他の会話#######################
-    if MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？"
+    if MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = jikosyoukai))
         MySession.reset(user_id)
-    if MySession.read_context(user_id) == "0" and talk == "その帽子って？"
+    if MySession.read_context(user_id) == "0" and talk == "その帽子って？":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = bousiInfo))
         MySession.reset(user_id)
-    if MySession.read_context(user_id) == "0" and talk == "制作秘話を教えてほしい"
+    if MySession.read_context(user_id) == "0" and talk == "制作秘話を教えてほしい":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = seisakuhiwa))
         MySession.reset(user_id)
-    if MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね")
+    if MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
