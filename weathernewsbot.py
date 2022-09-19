@@ -758,22 +758,22 @@ def handle_message(event):
 
 #その他の会話#######################
 #'''
-    if MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？":
+    elif MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = jikosyoukai))
         MySession.reset(user_id)
-    if MySession.read_context(user_id) == "0" and talk == "その帽子って？":
+    elif MySession.read_context(user_id) == "0" and talk == "その帽子って？":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = bousiInfo))
         MySession.reset(user_id)
-    if MySession.read_context(user_id) == "0" and talk == "制作秘話を教えてほしい":
+    elif MySession.read_context(user_id) == "0" and talk == "制作秘話を教えてほしい":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = seisakuhiwa))
         MySession.reset(user_id)
-    if MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね"):
+    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
@@ -794,15 +794,15 @@ def handle_message(event):
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=kaiwa1_4))
-      if MySession.read_count(user_id) == 16:
+      elif MySession.read_count(user_id) == 16:
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=kaiwa1_3))
-      if MySession.read_count(user_id) == 15:
+      elif MySession.read_count(user_id) == 15:
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=kaiwa1_2))
-      if MySession.read_count(user_id) > 10:
+      elif MySession.read_count(user_id) > 10:
           line_bot_api.reply_message(
               event.reply_token,
               [TextSendMessage(text=kaiwa1_1),
@@ -813,7 +813,6 @@ def handle_message(event):
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text="最初からやり直します。「1か所」or「2か所」を入力してください。"))
-
           #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
           #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
           #TextSendMessageオブジェクトを渡しています。
