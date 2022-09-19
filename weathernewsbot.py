@@ -758,7 +758,7 @@ def handle_message(event):
 ###############################
 
 #その他の会話#######################
-'''
+#'''
     elif MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？":
         line_bot_api.reply_message(
             event.reply_token,
@@ -779,7 +779,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
         MySession.reset(user_id)
-'''
+#'''
 ###############################
 
 #該当しないメッセージが送られてきた場合#########
@@ -787,13 +787,11 @@ def handle_message(event):
       worngCount = MySession.read_count(user_id)
       MySession.reset(user_id)
       MySession.update_count(user_id, worngCount+1)
-      line_bot_api.reply_message(
-          event.reply_token,
-          TextSendMessage(text="最初からやり直します。「1か所」or「2か所」を入力してください。"))
+
 
 ###'''で囲めばその間の行をコメントアウトできる
 ###以下は間違えすぎた時のBOTの反応######
-'''
+#'''
       if MySession.read_count(user_id) >= 17:
           line_bot_api.reply_message(
               event.reply_token,
@@ -812,15 +810,15 @@ def handle_message(event):
               [TextSendMessage(text=kaiwa1_1),
               TextSendMessage(text=kaiwa1_1a)])
       else:
-
+#'''
+############################
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text="最初からやり直します。「1か所」or「2か所」を入力してください。"))
           #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
           #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
           #TextSendMessageオブジェクトを渡しています。
-'''
-############################
+
 ##################################
 ##############################################
 ##############################################
