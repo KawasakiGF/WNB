@@ -787,19 +787,19 @@ def handle_message(event):
 #'''で囲めばその間の行をコメントアウトできる
 #以下は間違えすぎた時のBOTの反応
 #'''
-      if MySession.read_count(user_id) >= 17
+      if MySession.read_count(user_id) >= 17:
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=kaiwa1_4))
-      if MySession.read_count(user_id) == 16
+      if MySession.read_count(user_id) == 16:
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=kaiwa1_3))
-      if MySession.read_count(user_id) == 15
+      if MySession.read_count(user_id) == 15:
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=kaiwa1_2))
-      if MySession.read_count(user_id) > 10
+      if MySession.read_count(user_id) > 10:
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=kaiwa1_1))
