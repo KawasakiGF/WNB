@@ -548,12 +548,12 @@ def handle_message(event):
 
 #体調を聞く&1か所の天気情報を教える
     elif MySession.read_context(user_id) == "13":
-       if talk in hotList or talk in coldList or talk in usualList:
-          if talk in hotList:
+       if "暑" in talk or "あつ" in talk or "寒" in talk or "さむ" in talk or "どちら" in talk or "どっち" in talk or "該当" in talk:
+          if "暑" in talk or "あつ" in talk:
               para = 3
-          elif talk in coldList:
+          elif "寒" in talk or "さむ" in talk:
               para = -3
-          elif talk in usualList:
+          elif "どちら" in talk or "どっち" in talk or "該当" in talk:
               para = 0
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
           fukusouInfo = fukusouHantei(tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para))
@@ -690,12 +690,12 @@ def handle_message(event):
 
 #体調を聞く&2か所の天気情報と総合情報を教える
     elif MySession.read_context(user_id) == "26":
-       if talk in hotList or talk in coldList or talk in usualList:
-          if talk in hotList:
+       if "暑" in talk or "あつ" in talk or "寒" in talk or "さむ" in talk or "どちら" in talk or "どっち" in talk or "該当" in talk:
+          if "暑" in talk or "あつ" in talk:
               para = 4
-          elif talk in coldList:
+          elif "寒" in talk or "さむ" in talk:
               para = -2
-          elif talk in usualList:
+          elif "どちら" in talk or "どっち" in talk or "該当" in talk:
               para = 1
           picUrlS = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
           tenkiInfoS = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
@@ -783,14 +783,14 @@ Tname=["稚内","旭川","留萌", "網走", "北見", "紋別", "根室", "釧�
 "厳原", "福江", "熊本", "阿蘇乙姫","牛深", "人吉", "大分", "中津", "日田", "佐伯", "宮崎", "延岡", "都城", "高千穂",
 "鹿児島","鹿屋", "種子島","名瀬", "那覇", "名護", "久米島","南大東","宮古島","石垣島","与那国島"]
 
-hotList = ["暑がり","あつがり","暑いのは苦手"]
-coldList = ["寒がり","さむがり","寒いのは苦手"]
-usualList = ["どちらでもない","どっちでもない","該当なし"]
+#hotList = ["暑がり","あつがり","暑いのは苦手"]
+#coldList = ["寒がり","さむがり","寒いのは苦手"]
+#usualList = ["どちらでもない","どっちでもない","該当なし"]
 
 #対話内容まとめ
 tellDay = "1か所の天気情報ですね。分かりました！\nでは次に、いつの天気を知りたいか教えてください。ご提供できるのは「今日」、「明日」、「明後日」の3日です。"
 tellDayError = "知りたい天気の場所を1か所or2か所で指定してください。\n＜ワンポイントアドバイス＞\n1か所は天気をピンポイントで調べるのに、2か所は旅行やお出かけなどお出かけ先の天気を調べるのに適しています！"
-tellBasyo = "の天気情報ですね。分かりました！\nでは次に、知りたい場所の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく！)"
+tellBasyo = "の天気情報ですね。分かりました！\nでは次に、知りたい場所の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく!)"
 tellBasyoKwsk = "の天気情報ですね。分かりました！\nでは最後に、知りたい場所に最も近い場所を選んでください。"
 tellHotOrCold = "ですね。分かりました!\n服装のおすすめをするにあたり、暑がりか、寒がりかについてお伺いしたいと思います。あなたは「暑がり」or「寒がり」のどちらに当てはまりますか？どちらでもない場合、「どちらでもない」と入力してください。"
 checkBasyoKwsk = "の天気情報ですね。分かりました！\nそれでは、"
@@ -802,7 +802,7 @@ tellBasyoError = "の都道府県を入力してください。\n入力したは
 tellBasyoKwsk2_1 = "の天気情報ですね。分かりました！\nでは次に、出発地に最も近い場所を選んでください。"
 tellBasyoKwskError = "詳細な場所が選択できていないようです。以下に選択できるリストをもう一度表示しますので、この中からお選びください。"
 tellDay2_2 = "ですね、承知しました!\nでは次に、目的地に到着する日の予定を教えてください。選択できるのは「今日」、「明日」、「明後日」の3日です。"
-tellBasyo2_2 = "次に、目的地の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく！)"
+tellBasyo2_2 = "次に、目的地の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく!)"
 tellBasyoKwsk2_2 = "の天気情報ですね。分かりました！\nでは次に、目的地に最も近い場所を選んでください。"
 
 
