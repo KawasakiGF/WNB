@@ -868,7 +868,7 @@ def handle_message(event):
 
 #該当しないメッセージが送られてきた場合#########
     else:
-      MySession.update_count(user_id, worngCount+1)
+      MySession.update_count(user_id, MySession.read_count(user_id)+1)
 
 
 ###'''で囲めばその間の行をコメントアウトできる
