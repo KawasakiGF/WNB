@@ -485,7 +485,7 @@ def callback():
     return 'OK'
 ###############################################
 
-
+##############################################
 ##########実行するプログラムの内容をここに書く################
 #@handler.addのメソッドの引数にはイベントのモデルを入れる(MessageEvent=メッセージを受けたら)
 @handler.add(MessageEvent,message=TextMessage)
@@ -494,7 +494,7 @@ def callback():
 def handle_message(event):
     talk = event.message.text
     user_id = event.source.user_id
-    user_name = profile.display_name
+    user_name = event.display_name
 
     MySession.register(user_id)
 
@@ -813,6 +813,7 @@ def handle_message(event):
           #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
           #TextSendMessageオブジェクトを渡しています。
 ##################################
+##############################################
 ##############################################
 
 
