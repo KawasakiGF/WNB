@@ -508,11 +508,16 @@ def handle_message(event):
 
 #1か所の場所を聞く####################
     if MySession.read_context(user_id) == "0" and ("1" in talk or "１" in talk or "一" in talk):
+       if "1" in talk or "１" in talk or "一" in talk:
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay))
           MySession.update_context(user_id, "10")
           MySession.update_count(user_id, 0)
+       else:
+          line_bot_api.reply_message(
+               event.reply_token,
+               TextSendMessage(text=tellDayError))
 
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
@@ -599,6 +604,7 @@ def handle_message(event):
 
 #2か所の場所を聞く####################
     if MySession.read_context(user_id) == "0" and ("2" in talk or "２" in talk or "二" in talk):
+       if "2" in talk or "２" in talk or "二" in talk:
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay2_1))
