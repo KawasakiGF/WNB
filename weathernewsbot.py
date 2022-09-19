@@ -529,8 +529,8 @@ def handle_message(event):
            else:                                                       MySession.update_date(user_id, 2)
            line_bot_api.reply_message(
            event.reply_token,
-           TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo))
-           MySession.update_context(user_id, "11")
+           TextSendMessage(text=tellBasyo2_1))
+           MySession.update_context(user_id, "21")
        else:
             line_bot_api.reply_message(
             event.reply_token,
@@ -667,10 +667,10 @@ def handle_message(event):
 
 #目的地に到着する日にちを聞く
     elif MySession.read_context(user_id) == "23":
-       if ("今日" in talk) or ("明日" in talk) or ("明後日" in talk):
-           if "今日" in talk:    MySession.update_date2(user_id, 0)
-           elif "明日" in talk: MySession.update_date2(user_id, 1)
-           else:                       MySession.update_date2(user_id, 2)
+       if ("今日" in talk or "きょう" in talk) or ("明日" in talk or "あした" in talk) or ("明後日" in talk or "あさって" in talk):
+           if "今日" in talk or "きょう" in talk:    MySession.update_date2(user_id, 0)
+           elif "明日" in talk or "あした" in talk: MySession.update_date2(user_id, 1)
+           else:                                                       MySession.update_date2(user_id, 2)
            line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=tellBasyo2_2))
