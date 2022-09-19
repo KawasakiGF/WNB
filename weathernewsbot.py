@@ -520,7 +520,7 @@ def handle_message(event):
         MySession.reset(user_id)
 
 #いつものセットでお天気検索
-    if MySession.read_context(user_id) == "0" and talk == "いつもの":
+    if MySession.read_context(user_id) == "0" and (talk == "いつもの" or talk == "いつもので" or talk == "いつものでお願い" or talk == "いつものでおねがい"):
           para = MySession.read_para(user_id)
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
           fukusouInfo = fukusouHantei((tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para)), needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
@@ -668,6 +668,7 @@ def handle_message(event):
              event.reply_token,
              [TextSendMessage(text="情報保持しました！次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！"),
              TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + para)])
+          MySession.update_context(user_id, "0")
        else:
           MySession.reset(user_id)
 ###############################
@@ -834,35 +835,29 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = jikosyoukai))
-        MySession.reset(user_id)
     elif MySession.read_context(user_id) == "0" and talk == "その帽子って？":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = bousiInfo))
-        MySession.reset(user_id)
     elif MySession.read_context(user_id) == "0" and talk == "制作秘話":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = seisakuhiwa))
-        MySession.reset(user_id)
     elif MySession.read_context(user_id) == "0" and talk == "雑談しよう":
         x = random.randint(0, len(zatudan)) - 1
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = zatudan[x]))
-        MySession.reset(user_id)
     elif MySession.read_context(user_id) == "0" and ("こんぺいとう" in talk and "あげる" in talk):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = getKonpeitou))
-        MySession.reset(user_id)
-    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね" or talk == "教えてくれてありがとう"):
+    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね"):
         thanks = ""
         if talk == "教えてくれてありがとう": thanks = "こちらこそ、ご利用くださり誠に"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = thanks + "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
-        MySession.reset(user_id)
 #'''
 ###############################
 
