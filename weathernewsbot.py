@@ -578,11 +578,12 @@ def handle_message(event):
        else:
             line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=tellHotOrColdError)
+            TextSendMessage(text=tellHotOrColdError))
 ###############################
 
 #2か所の場所を聞く####################
     if MySession.read_context(user_id) == "0" and ("2" in talk or "２" in talk or "二" in talk):
+       if ("2" in talk or "２" in talk or "二" in talk):
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay2_1))
@@ -728,7 +729,7 @@ def handle_message(event):
        else:
             line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=tellHotOrColdError)
+            TextSendMessage(text=tellHotOrColdError))
 
 ###############################
 
