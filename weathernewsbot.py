@@ -176,6 +176,7 @@ class MySession:
         new_status.set_basyoList2(basyoList2)
         MySession._status_map[user_id] = new_status
 
+
     def read_count(user_id):
         return MySession._status_map.get(user_id).get_count()
     def update_count(user_id, count):
@@ -757,7 +758,7 @@ def handle_message(event):
 ###############################
 
 #その他の会話#######################
-#'''
+'''
     elif MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？":
         line_bot_api.reply_message(
             event.reply_token,
@@ -778,7 +779,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
         MySession.reset(user_id)
-#'''
+'''
 ###############################
 
 #該当しないメッセージが送られてきた場合#########
@@ -789,7 +790,7 @@ def handle_message(event):
 
 ###'''で囲めばその間の行をコメントアウトできる
 ###以下は間違えすぎた時のBOTの反応######
-#'''
+'''
       if MySession.read_count(user_id) >= 17:
           line_bot_api.reply_message(
               event.reply_token,
@@ -808,7 +809,7 @@ def handle_message(event):
               [TextSendMessage(text=kaiwa1_1),
               TextSendMessage(text=kaiwa1_1a)])
       else:
-#'''
+'''
 ############################
           line_bot_api.reply_message(
               event.reply_token,
