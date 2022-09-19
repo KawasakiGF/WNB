@@ -41,6 +41,7 @@ class Status:
           self.area2 = ""
           self.areaT2 = ""
           self.basyoList2 = ""
+          self.count = 0
 
     def get_context(self):
         return self.context
@@ -87,6 +88,12 @@ class Status:
         return self.basyoList2
     def set_basyoList2(self, basyoList2):
           self.basyoList2 = basyoList2
+
+
+    def get_count(self):
+        return self.count
+    def set_count(self, count):
+          self.count = count
 
 
 
@@ -167,6 +174,13 @@ class MySession:
     def update_basyoList2(user_id, basyoList2):
         new_status = MySession._status_map.get(user_id)
         new_status.set_basyoList2(basyoList2)
+        MySession._status_map[user_id] = new_status
+
+    def read_count(user_id):
+        return MySession._status_map.get(user_id).get_count()
+    def update_count(user_id, count):
+        new_status = MySession._status_map.get(user_id)
+        new_status.set_count(count)
         MySession._status_map[user_id] = new_status
 
 
@@ -480,6 +494,7 @@ def callback():
 def handle_message(event):
     talk = event.message.text
     user_id = event.source.user_id
+    user_name = profile.display_name
 
     MySession.register(user_id)
 
@@ -497,13 +512,14 @@ def handle_message(event):
                event.reply_token,
                TextSendMessage(text=tellDay))
           MySession.update_context(user_id, "10")
+          MySession.update_count(user_id, 0)
 
 #日にちを聞く
     elif MySession.read_context(user_id) == "10":
-       if ("今日" in talk) or ("明日" in talk) or ("明後日" in talk):
-           if "今日" in talk:    MySession.update_date(user_id, 0)
-           elif "明日" in talk: MySession.update_date(user_id, 1)
-           else:                       MySession.update_date(user_id, 2)
+       if ("今日" in talk or "きょう" in talk) or ("明日" in talk or "あした" in talk) or ("明後日" in talk or "あさって" in talk):
+           if "今日" in talk or "きょう" in talk:    MySession.update_date(user_id, 0)
+           elif "明日" in talk or "あした" in talk: MySession.update_date(user_id, 1)
+           else:                                                       MySession.update_date(user_id, 2)
            line_bot_api.reply_message(
            event.reply_token,
            TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo))
@@ -553,7 +569,7 @@ def handle_message(event):
               para = 3
           elif "寒" in talk or "さむ" in talk:
               para = -3
-          elif "どちら" in talk or "どっち" in talk or "該当" in talk:
+          elif "どちらか" in talk or "どっちか" in talk or "該当" in talk:
               para = 0
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
           fukusouInfo = fukusouHantei((tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para)), needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
@@ -583,11 +599,11 @@ def handle_message(event):
 
 #2か所の場所を聞く####################
     if MySession.read_context(user_id) == "0" and ("2" in talk or "２" in talk or "二" in talk):
-       if ("2" in talk or "２" in talk or "二" in talk):
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay2_1))
           MySession.update_context(user_id, "20")
+          MySession.update_count(user_id, 0)
        else:
           line_bot_api.reply_message(
                event.reply_token,
@@ -733,15 +749,64 @@ def handle_message(event):
 
 ###############################
 
-#該当しないメッセージが送られてきた場合
+#その他の会話#######################
+    if MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = jikosyoukai))
+        MySession.reset(user_id)
+    if MySession.read_context(user_id) == "0" and talk == "その帽子って？"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = bousiInfo))
+        MySession.reset(user_id)
+    if MySession.read_context(user_id) == "0" and talk == "制作秘話を教えてほしい"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = seisakuhiwa))
+        MySession.reset(user_id)
+    if MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね")
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
+        MySession.reset(user_id)
+###############################
+
+#該当しないメッセージが送られてきた場合#########
     else:
-      line_bot_api.reply_message(
-          event.reply_token,
-          TextSendMessage(text="最初からやり直します。1か所or2か所を入力してください。"))
+      worngCount = MySession.read_count(user_id)
       MySession.reset(user_id)
+      MySession.update_count(user_id, worngCount+1)
+
+#'''で囲めばその間の行をコメントアウトできる
+#以下は間違えすぎた時のBOTの反応
+#'''
+      if MySession.read_count(user_id) >= 17
+          line_bot_api.reply_message(
+              event.reply_token,
+              TextSendMessage(text=kaiwa1_4))
+      if MySession.read_count(user_id) == 16
+          line_bot_api.reply_message(
+              event.reply_token,
+              TextSendMessage(text=kaiwa1_3))
+      if MySession.read_count(user_id) == 15
+          line_bot_api.reply_message(
+              event.reply_token,
+              TextSendMessage(text=kaiwa1_2))
+      if MySession.read_count(user_id) > 10
+          line_bot_api.reply_message(
+              event.reply_token,
+              TextSendMessage(text=kaiwa1_1))
+      else:
+#'''
+          line_bot_api.reply_message(
+              event.reply_token,
+              TextSendMessage(text="最初からやり直します。「1か所」or「2か所」を入力してください。"))
+
           #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
           #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
           #TextSendMessageオブジェクトを渡しています。
+##################################
 ##############################################
 
 
@@ -789,7 +854,7 @@ Tname=["稚内","旭川","留萌", "網走", "北見", "紋別", "根室", "釧�
 
 #対話内容まとめ
 tellDay = "1か所の天気情報ですね。分かりました！\nでは次に、いつの天気を知りたいか教えてください。ご提供できるのは「今日」、「明日」、「明後日」の3日です。"
-tellDayError = "知りたい天気の場所を1か所or2か所で指定してください。\n＜ワンポイントアドバイス＞\n1か所は天気をピンポイントで調べるのに、2か所は旅行やお出かけなどお出かけ先の天気を調べるのに適しています！"
+tellDayError = "知りたい天気の場所を「1か所」or「2か所」で指定してください。\n＜ワンポイントアドバイス＞\n1か所は天気をピンポイントで調べるのに、2か所は旅行やお出かけなどお出かけ先の天気を調べるのに適しています！"
 tellBasyo = "の天気情報ですね。分かりました！\nでは次に、知りたい場所の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく!)"
 tellBasyoKwsk = "の天気情報ですね。分かりました！\nでは最後に、知りたい場所に最も近い場所を選んでください。"
 tellHotOrCold = "ですね。分かりました!\n服装のおすすめをするにあたり、暑がりか、寒がりかについてお伺いしたいと思います。あなたは「暑がり」or「寒がり」のどちらに当てはまりますか？どちらでもない場合、「どちらでもない」と入力してください。"
@@ -804,7 +869,14 @@ tellDay2_2 = "ですね、承知しました!\nでは次に、目的地に到着
 tellBasyo2_2 = "次に、目的地の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく!)"
 tellBasyoKwsk2_2 = "の天気情報ですね。分かりました！\nでは次に、目的地に最も近い場所を選んでください。"
 
+kaiwa1_1 = "あれれ、入力できてないです？「1か所」か「2か所」って入力してもらえば大丈夫ですよ。\n...実は、キーワードが「1」「１」「一」(2か所も同じ)って設定されてるので、1って入力するだけでも通っちゃいます。入力ができていないようだったので、一度それで試してみていただけますか？"
+kaiwa1_2 = "ちょっとちょっと、間違えすぎですって！\n...もしかして、わざと間違えてます？"
+kaiwa1_3 = "もしや、ボクに話しかけてくれてますか？\n...でも、あなたとお話をしたくても、ボクはプログラムされた存在だからお話はできないです。ごめんなさい..."
+kaiwa1_4 = "ただ、ちょっとだけならお話できます。判定は厳しめなので、一文字でも間違えちゃいけないですよ？\nこんなキーワードを入力してみてください。\n・「自己紹介してくれる？」\n・「その帽子って？」\n・「制作秘話を教えてほしい」"
 
+jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクはフォグ。このぼっと？を取り仕切るお仕事をしてます！こんぺいとうと誰かのお役にたつことが好きです！まだまだ未熟者で至らない点がたくさんあるかもしれませんが、どうぞよろしくお願いいたします！"
+bousiInfo = "これですか？これはボクのパパから譲り受けた帽子なんです。ボクの一族は代々この仕事に従事していて、ボクも最近着任したばかりなんですよ。"
+seisakuhiwa = "卒研でのシステム開発をするにあたって、マスコットキャラクターを使うか否かを悩みましたね。ただ、対話型のBOTである以上会話してる感が欲しいし、有料無料問わず企業がこういったシステムを開発する際はキャラを用意することもあるだろうと思い使いました。ただ、誰でも開発できるという部分には沿わないかもしれませんが..."
 ###################################################
 
 
