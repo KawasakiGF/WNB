@@ -896,7 +896,7 @@ def handle_message(event):
           line_bot_api.reply_message(
              event.reply_token,
              [TextSendMessage(text="情報を保持しますか？保持する場合は「はい」を入力してください。\n保持すると、次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！"),
-             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + MySession.read_para(user_id)])
+             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + MySession.read_para(user_id))])
           MySession.update_context(user_id, "15")
 ##################################
 ##############################################
