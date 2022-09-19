@@ -514,7 +514,7 @@ def handle_message(event):
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay))
-          MySession.update_context(user_id, "20")
+          MySession.update_context(user_id, "10")
           MySession.update_count(user_id, 0)
        else:
           line_bot_api.reply_message(
