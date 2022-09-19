@@ -545,6 +545,7 @@ def handle_message(event):
 #1か所の場所を聞く####################
     if MySession.read_context(user_id) == "0" and ("1" in talk or "１" in talk or "一" in talk):
        if "1" in talk or "１" in talk or "一" in talk:
+          MySession.reset(user_id)
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay))
@@ -633,7 +634,7 @@ def handle_message(event):
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                     TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouInfo + "\n∇次へ∇(任意文字を入力)")])
+                    TextSendMessage(text=fukusouInfo + "\n\n∇次へ∇(任意文字を入力)")])
           MySession.update_context(user_id, "14")
        else:
             line_bot_api.reply_message(
@@ -656,7 +657,7 @@ def handle_message(event):
 
 #１か所の情報保持判定
     elif MySession.read_context(user_id) == "15":
-       if talk == "はい":
+       if talk == "はい" or talk == "保持する" or talk == "保持" or talk == "お願いします" or talk == "おねがいします" or talk = "おねがい" or talk == "お願い":
           MySession.update_context(user_id, "0")
           if MySession.read_date(user_id) == 0: date="今日"
           elif MySession.read_date(user_id) == 1: date="明日"
@@ -667,15 +668,20 @@ def handle_message(event):
           line_bot_api.reply_message(
              event.reply_token,
              [TextSendMessage(text="情報保持しました！次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！"),
-             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + para)])
+             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + para),
+             TextSendMessage(text="情報は次の1か所or2か所の天気情報検索時まで保持されます。")])
           MySession.update_context(user_id, "0")
        else:
+          line_bot_api.reply_message(
+             event.reply_token,
+             TextSendMessage(text="保持しませんでした。またご利用になられる場合は「1か所」もしくは「2か所」を入力してください"))
           MySession.reset(user_id)
 ###############################
 
 #2か所の場所を聞く####################
     elif MySession.read_context(user_id) == "0" and ("2" in talk or "２" in talk or "二" in talk):
        if "2" in talk or "２" in talk or "二" in talk:
+          MySession.reset(user_id)
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay2_1))
@@ -852,7 +858,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = getKonpeitou))
-    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね"):
+    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね" or talk == "お仕事がんばってるね" or talk == "お仕事がんばってね"):
         thanks = ""
         if talk == "教えてくれてありがとう": thanks = "こちらこそ、ご利用くださり誠に"
         line_bot_api.reply_message(
@@ -863,8 +869,6 @@ def handle_message(event):
 
 #該当しないメッセージが送られてきた場合#########
     else:
-      worngCount = MySession.read_count(user_id)
-      MySession.reset(user_id)
       MySession.update_count(user_id, worngCount+1)
 
 
@@ -877,7 +881,7 @@ def handle_message(event):
               TextSendMessage(text=kaiwa1_4))
       elif MySession.read_count(user_id) == 16:
           rep = ""
-          if rep == "うん" or rep == "せやで" or rep == "そうだよ" or rep == "そうだけど" or rep == "ばれた？": rep = talk
+          if rep == "うん" or rep == "せやで" or rep == "そうだよ" or rep == "そうだけど" or rep == "ばれた？": rep = talk + "、って...からかわないでくださいよもう。\n...あれ、
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=rep + kaiwa1_3))
@@ -966,7 +970,7 @@ tellBasyoKwsk2_2 = "の天気情報ですね。分かりました！\nでは次�
 kaiwa1_1 = "あれれ、入力できてないです？「1か所」か「2か所」って入力してもらえば大丈夫ですよ。\n\nちゃんと入力してるのに、と思われた方へ。\nもしかしたらシステムエラーかもしれないので、日を改めてご利用いただきますようお願いいたします。"
 kaiwa1_1a = "\n...実は、キーワードが「1(半角)」「１(全角)」「一(漢数字)」(2か所も同じ)って設定されてるので、例えば1って入力するだけでも通っちゃいます。入力ができていないようだったので、一度それで試してみていただけますか？"
 kaiwa1_2 = "ちょっとちょっと、間違えすぎですって！\n...もしかして、わざと間違えてます？"
-kaiwa1_3 = "ひょっとして、ボクに話しかけてくれてますか？\n残念ながら、あなたとお話をしたくても、ボクはプログラムされた存在だからお話はできないんです。ごめんなさい..."
+kaiwa1_3 = "ひょっとしてボクに話しかけてくれてますか？\n残念ながら、あなたとお話をしたくても、ボクはプログラムされた存在だからお話はできないんです。ごめんなさい..."
 kaiwa1_4 = "ただ、ちょっとだけならお話できます。判定は厳しめなので、一文字でも間違えちゃダメですよ？\nこんなキーワードを入力してみてください。\n・「自己紹介してくれる？」\n・「その帽子って？」\n・「雑談しよう」"
 
 jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクはフォグ。このぼっと？を取り仕切るお仕事をしてます！こんぺいとうと誰かのお役にたつことが好きです！まだまだ未熟者で至らない点がたくさんあるかもしれませんが、どうぞよろしくお願いいたします！"
