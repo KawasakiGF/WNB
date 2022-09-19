@@ -90,6 +90,10 @@ class Status:
     def set_basyoList2(self, basyoList2):
           self.basyoList2 = basyoList2
 
+    def get_para(self):
+        return self.para
+    def set_para(self, para):
+          self.para = para
 
     def get_count(self):
         return self.count
@@ -177,6 +181,12 @@ class MySession:
         new_status.set_basyoList2(basyoList2)
         MySession._status_map[user_id] = new_status
 
+    def read_para(user_id):
+        return MySession._status_map.get(user_id).get_para()
+    def update_para(user_id, para):
+        new_status = MySession._status_map.get(user_id)
+        new_status.set_para(para)
+        MySession._status_map[user_id] = new_status
 
     def read_count(user_id):
         return MySession._status_map.get(user_id).get_count()
@@ -509,6 +519,29 @@ def handle_message(event):
         # 現在のstatusを消して新規statusで初期化。
         MySession.reset(user_id)
 
+#いつものセットでお天気検索
+    if MySession.read_context(user_id) == "0" and talk == "いつもの":
+          para = MySession.read_para(user_id)
+          picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
+          fukusouInfo = fukusouHantei((tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para)), needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
+          tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
+          kasaInfo = kasaHantei(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
+          if picUrl == "未知の天気":
+               line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
+                    TextSendMessage(text=tenkiInfo),
+                    TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=fukusouInfo)])
+          else:
+               line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
+                    TextSendMessage(text=tenkiInfo),
+                    ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
+                    TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=fukusouInfo)])
+
 #1か所の場所を聞く####################
     if MySession.read_context(user_id) == "0" and ("1" in talk or "１" in talk or "一" in talk):
        if "1" in talk or "１" in talk or "一" in talk:
@@ -574,10 +607,13 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "13":
        if "暑" in talk or "あつ" in talk or "寒" in talk or "さむ" in talk or "どちら" in talk or "どっち" in talk or "該当" in talk:
           if "暑" in talk or "あつ" in talk:
+              MySession.update_para(user_id, 3)
               para = 3
           elif "寒" in talk or "さむ" in talk:
+              MySession.update_para(user_id, -3)
               para = -3
           elif "どちらか" in talk or "どっちか" in talk or "該当" in talk:
+              MySession.update_para(user_id, 0)
               para = 0
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
           fukusouInfo = fukusouHantei((tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para)), needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
@@ -598,11 +634,24 @@ def handle_message(event):
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                     TextSendMessage(text=kasaInfo),
                     TextSendMessage(text=fukusouInfo)])
-          MySession.reset(user_id)
+          MySession.update_context(user_id, "14")
        else:
             line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=tellHotOrColdError))
+
+    elif MySession.read_context(user_id) == "15":
+       if talk == "はい":
+          MySession.update_context(user_id, "0")
+          if MySession.read_date(user_id) == 0: date="今日"
+          elif MySession.read_date(user_id) == 1: date="明日"
+          elif MySession.read_date(user_id) == 2: date="明後日"
+          line_bot_api.reply_message(
+             event.reply_token,
+             [TextSendMessage(text="情報保持しました！次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！"),
+             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + MySession.read_para(user_id)])
+       else:
+          MySession.reset(user_id)
 ###############################
 
 #2か所の場所を聞く####################
@@ -717,10 +766,13 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "26":
        if "暑" in talk or "あつ" in talk or "寒" in talk or "さむ" in talk or "どちら" in talk or "どっち" in talk or "該当" in talk:
           if "暑" in talk or "あつ" in talk:
+              MySession.update_para(user_id, 4)
               para = 4
           elif "寒" in talk or "さむ" in talk:
+              MySession.update_para(user_id, -2)
               para = -2
           elif "どちら" in talk or "どっち" in talk or "該当" in talk:
+              MySession.update_para(user_id, 1)
               para = 1
           picUrlS = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
           tenkiInfoS = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
@@ -835,10 +887,20 @@ def handle_message(event):
           #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
           #TextSendMessageオブジェクトを渡しています。
 
+
+#１か所の情報保持
+    if MySession.read_context(user_id) == 14:
+          if MySession.read_date(user_id) == 0: date="今日"
+          elif MySession.read_date(user_id) == 1: date="明日"
+          elif MySession.read_date(user_id) == 2: date="明後日"
+          line_bot_api.reply_message(
+             event.reply_token,
+             [TextSendMessage(text="情報を保持しますか？保持する場合は「はい」を入力してください。\n保持すると、次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！"),
+             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + MySession.read_para(user_id)])
+          MySession.update_context(user_id, "15")
 ##################################
 ##############################################
 ##############################################
-
 
 ##################その他のinfo#####################
 todoufuken=["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
