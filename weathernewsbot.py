@@ -613,7 +613,7 @@ def handle_message(event):
           elif "寒" in talk or "さむ" in talk:
               MySession.update_para(user_id, -3)
               para = -3
-          elif "どちらか" in talk or "どっちか" in talk or "該当" in talk:
+          elif "どちら" in talk or "どっち" in talk or "該当" in talk:
               MySession.update_para(user_id, 0)
               para = 0
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
