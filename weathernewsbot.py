@@ -272,7 +272,7 @@ def kasaHantei(code, itu):
      return kasaInfo
 
 #1か所の服装判定
-def fukusouHantei(tempMEAN):
+def fukusouHantei(tempMEAN, weather):
   if tempMEAN <= 5:
     fukusou = '＜今日の服装＞\n重ね着をし、もふもふのコートやダウンジャケットの着用をするほか、手袋やマフラー、暖かい靴下など、できる限り暖かい服装選びをしましょう。'
   elif tempMEAN <= 9:
@@ -556,7 +556,7 @@ def handle_message(event):
           elif "どちら" in talk or "どっち" in talk or "該当" in talk:
               para = 0
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
-          fukusouInfo = fukusouHantei(tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para))
+          fukusouInfo = fukusouHantei((tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para)), needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
           tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
           kasaInfo = kasaHantei(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
           if picUrl == "未知の天気":
