@@ -605,7 +605,7 @@ def handle_message(event):
 ###############################
 
 #2か所の場所を聞く####################
-    if MySession.read_context(user_id) == "0" and ("2" in talk or "２" in talk or "二" in talk):
+    elif MySession.read_context(user_id) == "0" and ("2" in talk or "２" in talk or "二" in talk):
        if "2" in talk or "２" in talk or "二" in talk:
           line_bot_api.reply_message(
                event.reply_token,
