@@ -776,7 +776,7 @@ def handle_message(event):
             TextSendMessage(text = seisakuhiwa))
         MySession.reset(user_id)
     elif MySession.read_context(user_id) == "0" and talk == "雑談しよう":
-        x = random.randint(0, len(zatudan))
+        x = random.randint(0, len(zatudan)) - 1
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = zatudan[x]))
@@ -811,9 +811,11 @@ def handle_message(event):
               event.reply_token,
               TextSendMessage(text=kaiwa1_4))
       elif MySession.read_count(user_id) == 16:
+          rep = ""
+          if rep == "うん" or rep == "せやで" or rep == "そうだよ" or rep == "そうだけど" or rep == "ばれた？": rep = talk
           line_bot_api.reply_message(
               event.reply_token,
-              TextSendMessage(text=kaiwa1_3))
+              TextSendMessage(text=rep + kaiwa1_3))
       elif MySession.read_count(user_id) == 15:
           line_bot_api.reply_message(
               event.reply_token,
@@ -905,8 +907,8 @@ kaiwa1_4 = "ただ、ちょっとだけならお話できます。判定は厳�
 
 jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクはフォグ。このぼっと？を取り仕切るお仕事をしてます！こんぺいとうと誰かのお役にたつことが好きです！まだまだ未熟者で至らない点がたくさんあるかもしれませんが、どうぞよろしくお願いいたします！"
 bousiInfo = "これですか？これはボクのパパから譲り受けた帽子なんです。ボクの一族は代々この仕事に従事していて、ボクも最近着任したばかりなんですよ。"
-seisakuhiwa = "卒研でのシステム開発をするにあたって、マスコットキャラクターを使うか否かを悩みましたね。ただ、対話型のBOTである以上会話してる感が欲しいし、有料無料問わず企業がこういったシステムを開発する際はキャラを用意することもあるだろうと思い使いました。ただ、誰でも開発できるという部分には沿わないかもしれませんが..."
-getKonpeitou = "えっいいんですか！！？？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
+seisakuhiwa = "卒研でのシステム開発をするにあたって、マスコットキャラクターを使うか否かを悩みましたね。ただ、対話型のBOTである以上会話してる感が欲しいし、有料無料問わず企業がこういったシステムを開発する際はキャラを用意することもあるだろうと思い使いました。\nただ、誰でも開発できるという部分には沿わないかもしれませんが..."
+getKonpeitou = "えっいいんですか！？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
 zatudan = ["システムの仕様上、BOTからの返信が遅くなったり、返信が来なかったりすることがあります。それが顕著にみられるのが、「使い始め」と「暑がり寒がりを聞いた後」です。前者はBOTサーバーを起動するため、後者は情報取得と処理に時間がかかるから、反応が遅くなっちゃうんです。",
 "「こんぺいとう」っておいしいですよね。あのポリポリっとした触感に、口に入れた瞬間に広がる優しい甘さ...。あれがたまらなく好きです。"]
 
