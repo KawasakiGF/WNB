@@ -787,8 +787,8 @@ def handle_message(event):
       MySession.reset(user_id)
       MySession.update_count(user_id, worngCount+1)
 
-#'''で囲めばその間の行をコメントアウトできる
-#以下は間違えすぎた時のBOTの反応########
+###'''で囲めばその間の行をコメントアウトできる
+###以下は間違えすぎた時のBOTの反応######
 #'''
       if MySession.read_count(user_id) >= 17:
           line_bot_api.reply_message(
