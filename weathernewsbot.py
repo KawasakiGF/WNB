@@ -657,8 +657,7 @@ def handle_message(event):
 
 #１か所の情報保持判定
     elif MySession.read_context(user_id) == "15":
-       if talk == "はい" or talk == "保持する" or talk == "保持" or talk == "お願いします" or talk == "おねがいします" or talk = "おねがい" or talk == "お願い":
-          MySession.update_context(user_id, "0")
+       if talk == "はい" or talk == "保持する" or talk == "保持" or talk == "お願いします" or talk == "おねがいします" or talk == "おねがい" or talk == "お願い":
           if MySession.read_date(user_id) == 0: date="今日"
           elif MySession.read_date(user_id) == 1: date="明日"
           elif MySession.read_date(user_id) == 2: date="明後日"
