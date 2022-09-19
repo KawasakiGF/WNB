@@ -562,14 +562,14 @@ def handle_message(event):
           if picUrl == "未知の天気":
                line_bot_api.reply_message(
                     event.reply_token,
-                    [TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
+                    [TextSendMessage(text="それでは、" + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
                     TextSendMessage(text=kasaInfo),
                     TextSendMessage(text=fukusouInfo)])
           else:
                line_bot_api.reply_message(
                     event.reply_token,
-                    [TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + checkBasyoKwsk + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
+                    [TextSendMessage(text="それでは、" + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                     TextSendMessage(text=kasaInfo),
@@ -793,7 +793,6 @@ tellDayError = "知りたい天気の場所を1か所or2か所で指定してく
 tellBasyo = "の天気情報ですね。分かりました！\nでは次に、知りたい場所の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく!)"
 tellBasyoKwsk = "の天気情報ですね。分かりました！\nでは最後に、知りたい場所に最も近い場所を選んでください。"
 tellHotOrCold = "ですね。分かりました!\n服装のおすすめをするにあたり、暑がりか、寒がりかについてお伺いしたいと思います。あなたは「暑がり」or「寒がり」のどちらに当てはまりますか？どちらでもない場合、「どちらでもない」と入力してください。"
-checkBasyoKwsk = "の天気情報ですね。分かりました！\nそれでは、"
 tellHotOrColdError = "「暑がり」、「寒がり」、「どちらでもない」の中から入力してください。服装のおすすめ提示に使用させていただきます。"
 
 tellDay2_1 = "2か所の天気情報ですね。分かりました!\nでは、始めに出発する日を教えてください。選択できるのは「今日」、「明日」、「明後日」の3日です。"
