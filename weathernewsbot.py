@@ -3,6 +3,7 @@ import requests
 import os
 import json
 import urllib.request
+import random
 from bs4 import BeautifulSoup
 
 from flask import Flask, request, abort
@@ -769,15 +770,28 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = bousiInfo))
         MySession.reset(user_id)
-    elif MySession.read_context(user_id) == "0" and talk == "制作秘話を教えてほしい":
+    elif MySession.read_context(user_id) == "0" and talk == "制作秘話":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = seisakuhiwa))
         MySession.reset(user_id)
-    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね"):
+    elif MySession.read_context(user_id) == "0" and talk == "雑談しよう":
+        x = random.randint(0, len(zatudan))
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
+            TextSendMessage(text = zatudan[x]))
+        MySession.reset(user_id)
+    elif MySession.read_context(user_id) == "0" and ("こんぺいとう" in talk and "あげる" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = getKonpeitou))
+        MySession.reset(user_id)
+    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね" or talk == "教えてくれてありがとう"):
+        thanks = ""
+        if talk == "教えてくれてありがとう": thanks = "こちらこそ、ご利用くださり誠に"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = thanks + "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
         MySession.reset(user_id)
 #'''
 ###############################
@@ -887,11 +901,15 @@ kaiwa1_1 = "あれれ、入力できてないです？「1か所」か「2か所
 kaiwa1_1a = "\n...実は、キーワードが「1(半角)」「１(全角)」「一(漢数字)」(2か所も同じ)って設定されてるので、例えば1って入力するだけでも通っちゃいます。入力ができていないようだったので、一度それで試してみていただけますか？"
 kaiwa1_2 = "ちょっとちょっと、間違えすぎですって！\n...もしかして、わざと間違えてます？"
 kaiwa1_3 = "ひょっとして、ボクに話しかけてくれてますか？\n残念ながら、あなたとお話をしたくても、ボクはプログラムされた存在だからお話はできないんです。ごめんなさい..."
-kaiwa1_4 = "ただ、ちょっとだけならお話できます。判定は厳しめなので、一文字でも間違えちゃダメですよ？\nこんなキーワードを入力してみてください。\n・「自己紹介してくれる？」\n・「その帽子って？」\n・「制作秘話を教えてほしい」"
+kaiwa1_4 = "ただ、ちょっとだけならお話できます。判定は厳しめなので、一文字でも間違えちゃダメですよ？\nこんなキーワードを入力してみてください。\n・「自己紹介してくれる？」\n・「その帽子って？」\n・「雑談しよう」"
 
 jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクはフォグ。このぼっと？を取り仕切るお仕事をしてます！こんぺいとうと誰かのお役にたつことが好きです！まだまだ未熟者で至らない点がたくさんあるかもしれませんが、どうぞよろしくお願いいたします！"
 bousiInfo = "これですか？これはボクのパパから譲り受けた帽子なんです。ボクの一族は代々この仕事に従事していて、ボクも最近着任したばかりなんですよ。"
 seisakuhiwa = "卒研でのシステム開発をするにあたって、マスコットキャラクターを使うか否かを悩みましたね。ただ、対話型のBOTである以上会話してる感が欲しいし、有料無料問わず企業がこういったシステムを開発する際はキャラを用意することもあるだろうと思い使いました。ただ、誰でも開発できるという部分には沿わないかもしれませんが..."
+getKonpeitou = "えっいいんですか！！？？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
+zatudan = ["システムの仕様上、BOTからの返信が遅くなったり、返信が来なかったりすることがあります。それが顕著にみられるのが、「使い始め」と「暑がり寒がりを聞いた後」です。前者はBOTサーバーを起動するため、後者は情報取得と処理に時間がかかるから、反応が遅くなっちゃうんです。",
+"「こんぺいとう」っておいしいですよね。あのポリポリっとした触感に、口に入れた瞬間に広がる優しい甘さ...。あれがたまらなく好きです。"]
+
 ###################################################
 
 
