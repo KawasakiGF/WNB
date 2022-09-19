@@ -492,10 +492,10 @@ def callback():
 #関数名handle_messageは自由
 #statusで1か所or2か所を管理。1x...1か所。2x...2か所
 def handle_message(event):
-    talk = event.message.text
     user_id = event.source.user_id
     profile = line_bot_api.get_profile(user_id)
     user_name = profile.display_name
+    talk = event.message.text
 
     MySession.register(user_id)
 
@@ -503,7 +503,7 @@ def handle_message(event):
     if (talk == "リセット"):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage("最初からやり直します。1か所or2か所を入力してください。"))
+            TextSendMessage("最初からリセットします。1か所or2か所を入力してください。"))
         # 現在のstatusを消して新規statusで初期化。
         MySession.reset(user_id)
 
