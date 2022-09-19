@@ -579,7 +579,7 @@ def handle_message(event):
        else:
             line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text= tellBasyoKwskError +  MySession.read_basyoList(user_id)))
+            TextSendMessage(text=tellHotOrColdError)
 ###############################
 
 #2か所の場所を聞く####################
@@ -730,7 +730,7 @@ def handle_message(event):
        else:
             line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="「暑がり」、「寒がり」、「どちらでもない」の中から入力してください。服装のおすすめ提示に使用させていただきます。"))
+            TextSendMessage(text=tellHotOrColdError)
 
 ###############################
 
@@ -795,6 +795,7 @@ tellBasyo = "の天気情報ですね。分かりました！\nでは次に、�
 tellBasyoKwsk = "の天気情報ですね。分かりました！\nでは最後に、知りたい場所に最も近い場所を選んでください。"
 tellHotOrCold = "ですね。分かりました!\n服装のおすすめをするにあたり、暑がりか、寒がりかについてお伺いしたいと思います。あなたは「暑がり」or「寒がり」のどちらに当てはまりますか？どちらでもない場合、「どちらでもない」と入力してください。"
 checkBasyoKwsk = "の天気情報ですね。分かりました！\nそれでは、"
+tellHotOrColdError = "「暑がり」、「寒がり」、「どちらでもない」の中から入力してください。服装のおすすめ提示に使用させていただきます。"
 
 tellDay2_1 = "2か所の天気情報ですね。分かりました!\nでは、始めに出発する日を教えてください。選択できるのは「今日」、「明日」、「明後日」の3日です。"
 tellBasyo2_1 = "次に、出発地の都道府県名を教えてください。(県、府、都、道の入力もお忘れなく！)"
