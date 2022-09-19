@@ -492,8 +492,7 @@ def handle_message(event):
         MySession.reset(user_id)
 
 #1か所の場所を聞く####################
-    if MySession.read_context(user_id) == "0":
-       if ("1" in talk or "１" in talk or "一" in talk):
+    if MySession.read_context(user_id) == "0" and ("1" in talk or "１" in talk or "一" in talk):
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay))
@@ -583,8 +582,7 @@ def handle_message(event):
 ###############################
 
 #2か所の場所を聞く####################
-    if MySession.read_context(user_id) == "0":
-       if ("2" in talk or "２" in talk or "二" in talk):
+    if MySession.read_context(user_id) == "0" and ("2" in talk or "２" in talk or "二" in talk):
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay2_1))
