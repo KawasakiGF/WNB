@@ -806,7 +806,7 @@ def handle_message(event):
           line_bot_api.reply_message(
               event.reply_token,
               [TextSendMessage(text=kaiwa1_1),
-              TextSendMessage(text=kaiwa1_1a))
+              TextSendMessage(text=kaiwa1_1a)])
       else:
 #'''
 ############################
