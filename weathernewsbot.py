@@ -880,7 +880,8 @@ def handle_message(event):
               TextSendMessage(text=kaiwa1_4))
       elif MySession.read_count(user_id) == 16:
           rep = ""
-          if rep == "うん" or rep == "せやで" or rep == "そうだよ" or rep == "そうだけど" or rep == "ばれた？": rep = talk + "、って...からかわないでくださいよもう。\n...あれ、
+          if rep == "うん" or rep == "せやで" or rep == "そうだよ" or rep == "そうだけど" or rep == "ばれた？":
+              rep = talk + "、って...からかわないでくださいよもう。\n...あれ、"
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=rep + kaiwa1_3))
