@@ -646,10 +646,13 @@ def handle_message(event):
           if MySession.read_date(user_id) == 0: date="今日"
           elif MySession.read_date(user_id) == 1: date="明日"
           elif MySession.read_date(user_id) == 2: date="明後日"
+          if MySession.read_para(user_id) == 3: para="暑がり"
+          elif MySession.read_para(user_id) == 0: para="どちらでもない"
+          elif MySession.read_para(user_id) == -3: para="寒がり"
           line_bot_api.reply_message(
              event.reply_token,
              [TextSendMessage(text="情報保持しました！次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！"),
-             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + MySession.read_para(user_id))])
+             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + para)])
        else:
           MySession.reset(user_id)
 ###############################
@@ -893,10 +896,13 @@ def handle_message(event):
           if MySession.read_date(user_id) == 0: date="今日"
           elif MySession.read_date(user_id) == 1: date="明日"
           elif MySession.read_date(user_id) == 2: date="明後日"
+          if MySession.read_para(user_id) == 3: para="暑がり"
+          elif MySession.read_para(user_id) == 0: para="どちらでもない"
+          elif MySession.read_para(user_id) == -3: para="寒がり"
           line_bot_api.reply_message(
              event.reply_token,
              [TextSendMessage(text="情報を保持しますか？保持する場合は「はい」を入力してください。\n保持すると、次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！"),
-             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + MySession.read_para(user_id))])
+             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + para)])
           MySession.update_context(user_id, "15")
 ##################################
 ##############################################
