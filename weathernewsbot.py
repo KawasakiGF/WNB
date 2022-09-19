@@ -514,7 +514,7 @@ def handle_message(event):
           line_bot_api.reply_message(
                event.reply_token,
                TextSendMessage(text=tellDay))
-          MySession.update_context(user_id, "10")
+          MySession.update_context(user_id, "20")
           MySession.update_count(user_id, 0)
        else:
           line_bot_api.reply_message(
@@ -529,8 +529,8 @@ def handle_message(event):
            else:                                                       MySession.update_date(user_id, 2)
            line_bot_api.reply_message(
            event.reply_token,
-           TextSendMessage(text=tellBasyo2_1))
-           MySession.update_context(user_id, "21")
+           TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo))
+           MySession.update_context(user_id, "11")
        else:
             line_bot_api.reply_message(
             event.reply_token,
