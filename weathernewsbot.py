@@ -494,7 +494,8 @@ def callback():
 def handle_message(event):
     talk = event.message.text
     user_id = event.source.user_id
-    user_name = event.display_name
+    profile = line_bot_api.get_profile(user_id)
+    user_name = profile.display_name
 
     MySession.register(user_id)
 
