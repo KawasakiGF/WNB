@@ -889,7 +889,7 @@ def handle_message(event):
 
 
 #１か所の情報保持
-    if MySession.read_context(user_id) == 14:
+    if MySession.read_context(user_id) == "14":
           if MySession.read_date(user_id) == 0: date="今日"
           elif MySession.read_date(user_id) == 1: date="明日"
           elif MySession.read_date(user_id) == 2: date="明後日"
