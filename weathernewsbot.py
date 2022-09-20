@@ -865,14 +865,14 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = thanks + "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
-    elif MySession.read_context(user_id) == "0" and (talk == "もういらない" or talk == "お前を消す方法":
+    elif MySession.read_context(user_id) == "0" and (talk == "もういらない" or talk == "お前を消す方法"):
         line_bot_api.reply_message(
             event.reply_token,
             [TextSendMessage(text = mouiranai),
             TextSendMessage(text = howToUninstallPC),
             TextSendMessage(text = howToUninstallSP),
             TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい。\n\n(ぐすっ、さようならっ...)")
-    elif MySession.read_context(user_id) == "0" and (talk == "使うのを止めたい" or talk == "botの消し方" or talk == "botの消し方を教えて" or talk == "チャットの消し方" or talk == "チャットの止め方" or talk == "チャットの消し方を教えて" or talk == "チャットの止め方を教えて" or talk == "トークの消し方" or talk == "トークの止め方" or talk == "トークの消し方を教えて" or talk == "トークの止め方を教えて":
+    elif MySession.read_context(user_id) == "0" and (talk == "使うのを止めたい" or talk == "botの消し方" or talk == "botの消し方を教えて" or talk == "チャットの消し方" or talk == "チャットの止め方" or talk == "チャットの消し方を教えて" or talk == "チャットの止め方を教えて" or talk == "トークの消し方" or talk == "トークの止め方" or talk == "トークの消し方を教えて" or talk == "トークの止め方を教えて"):
         line_bot_api.reply_message(
             event.reply_token,
             [TextSendMessage(text = imamadearigatou),
