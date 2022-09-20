@@ -837,7 +837,7 @@ def handle_message(event):
 ###############################
 
 #その他の会話#######################
-    '''
+    #'''
     elif MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？":
         line_bot_api.reply_message(
             event.reply_token,
@@ -879,7 +879,7 @@ def handle_message(event):
             TextSendMessage(text = howToUninstallPC),
             TextSendMessage(text = howToUninstallSP),
             TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい！")])
-    '''
+    #'''
 ###############################
 
 #該当しないメッセージが送られてきた場合#########
@@ -889,7 +889,7 @@ def handle_message(event):
 
 ###'''で囲めばその間の行をコメントアウトできる
 ###以下は間違えすぎた時のBOTの反応######
-      '''
+      #'''
       if MySession.read_count(user_id) >= 17:
           line_bot_api.reply_message(
               event.reply_token,
@@ -911,7 +911,7 @@ def handle_message(event):
               [TextSendMessage(text=kaiwa1_1),
               TextSendMessage(text=kaiwa1_1a)])
       else:
-      '''
+      #'''
 ############################
 #   ←コメントアウト時はここまで下げる
       line_bot_api.reply_message(
