@@ -865,7 +865,7 @@ def handle_message(event):
             TextSendMessage(text = getKonpeitou))
     elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね" or talk == "ありがとうね" or talk == "ありがとう" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね" or talk == "お仕事がんばってるね" or talk == "お仕事がんばってね"):
         thanks = ""
-        if talk == "教えてくれてありがとう": thanks = "こちらこそ、ご利用くださり誠に"
+        if talk == "教えてくれてありがとう" or talk == "ありがとうね" or talk == "ありがとう": thanks = "こちらこそ、ご利用くださり誠に"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = thanks + "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
