@@ -913,7 +913,8 @@ def handle_message(event):
       else:
       '''
 ############################
-          line_bot_api.reply_message(
+#   ←コメントアウト時はここまで下げる
+      line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text="最初からやり直します。「1か所」or「2か所」を入力してください。"))
           #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
