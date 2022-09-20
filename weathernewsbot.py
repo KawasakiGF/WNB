@@ -878,7 +878,7 @@ def handle_message(event):
             [TextSendMessage(text = imamadearigatou),
             TextSendMessage(text = howToUninstallPC),
             TextSendMessage(text = howToUninstallSP),
-            TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい！")
+            TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい！")])
 #'''
 ###############################
 
