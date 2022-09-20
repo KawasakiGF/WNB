@@ -238,7 +238,7 @@ def OtenkiMessageMaker(code, itu):
      pm1COR=jsonData["forecasts"][itu]["chanceOfRain"]["T12_18"]
      pm2COR=jsonData["forecasts"][itu]["chanceOfRain"]["T18_24"] 
      #天気メッセージ作成
-     tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n深夜:{4}　朝:{5}\n昼:{6}　夜:{7}'.format(date,weather,tempMIN,tempMAX,am1COR,am2COR,pm1COR,pm2COR)
+     tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n深夜:{4}　朝:{5}\n　昼:{6}　夜:{7}'.format(date,weather,tempMIN,tempMAX,am1COR,am2COR,pm1COR,pm2COR)
      return tenkiInfo
 
 #知りたい場所の天気を作る
@@ -837,7 +837,7 @@ def handle_message(event):
 ###############################
 
 #その他の会話#######################
-#'''
+'''
     elif MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？":
         line_bot_api.reply_message(
             event.reply_token,
@@ -859,7 +859,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = getKonpeitou))
-    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね" or talk == "お仕事がんばってるね" or talk == "お仕事がんばってね"):
+    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね" or talk == "ありがとうね" or talk == "ありがとう" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね" or talk == "お仕事がんばってるね" or talk == "お仕事がんばってね"):
         thanks = ""
         if talk == "教えてくれてありがとう": thanks = "こちらこそ、ご利用くださり誠に"
         line_bot_api.reply_message(
@@ -879,7 +879,7 @@ def handle_message(event):
             TextSendMessage(text = howToUninstallPC),
             TextSendMessage(text = howToUninstallSP),
             TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい！")])
-#'''
+'''
 ###############################
 
 #該当しないメッセージが送られてきた場合#########
@@ -889,7 +889,7 @@ def handle_message(event):
 
 ###'''で囲めばその間の行をコメントアウトできる
 ###以下は間違えすぎた時のBOTの反応######
-#'''
+'''
       if MySession.read_count(user_id) >= 17:
           line_bot_api.reply_message(
               event.reply_token,
@@ -911,7 +911,7 @@ def handle_message(event):
               [TextSendMessage(text=kaiwa1_1),
               TextSendMessage(text=kaiwa1_1a)])
       else:
-#'''
+'''
 ############################
           line_bot_api.reply_message(
               event.reply_token,
@@ -994,14 +994,15 @@ bousiInfo = "これですか？これはボクのパパから譲り受けた帽�
 seisakuhiwa = "卒研でのシステム開発をするにあたって、マスコットキャラクターを使うか否かを悩みましたね。ただ、対話型のBOTである以上会話してる感が欲しいし、有料無料問わず企業がこういったシステムを開発する際はキャラを用意することもあるだろうと思い使いました。\nただ、誰でも開発できるという部分には沿わないかもしれませんが..."
 getKonpeitou = "えっいいんですか！？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
 mouiranai = "あっ......\nぐすっ、お役に立てず申し訳ございません。お力添えできなかったボクなんて管理者失格ですよね...ごめんなさい......。"
-imamadearigatou = "このbotの削除ですね、分かりました。\nPCからご利用いただいている方とスマホからご利用いただいている方向けに消し方をご紹介しますね。今までありがとうございました。"
+imamadearigatou = "このbotの削除ですね、分かりました。\nPCからご利用いただいている方とスマホからご利用いただいている方向けに消し方をご紹介しますね。今までありがとうございました！"
 howToUninstallPC = "＜PCをご利用の方＞\n1)トーク内右上の︙を左クリック\n2)ブロックを左クリック\n3)トーク一覧のWeatherNewsBotを右クリック\n4)トーク削除を左クリック\n5)左下の…から設定を左クリック\n6)友だち管理からWeatherNewsBotを選び、削除を左クリック"
 howToUninstallSP = "＜スマホをご利用の方＞\n1)トーク一覧のWeatherNewsBotを左にスワイプ(Androidをご利用の方は長押し)して削除\n2)友達リスト→公式アカウントから、WeatherNewsBotを選択し、削除"
 zatudan = ["システムの仕様上、BOTからの返信が遅くなったり、返信が来なかったりすることがあります。それが顕著にみられるのが、「使い始め」と「暑がり寒がりを聞いた後」です。前者はBOTサーバーを起動するため、後者は情報取得と処理に時間がかかるから、反応が遅くなっちゃうんです。",
 "「こんぺいとう」っておいしいですよね。あのポリポリっとした触感に、口に入れた瞬間に広がる優しい甘さ...。あれがたまらなく好きです。",
 "この会話を見れるのは基本的にわざと入力ミスし続けた人だけだと思うのですが、ヒントなしにココにだとりつける人っているんでしょうかね？",
 "墨田区のごみ捨て案内bot っていうのがあるんですけど、ホントにいろんなものの捨て方を教えてくれるみたいです。たとえば傘とか蛍光灯とか上司とか...。ご興味があれば一度調べてみてください。",
-"お豆腐さんに天かすとネギをのせて、上から麺つゆをかけるととってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。"]
+"お豆腐さんに天かすとネギをのせて、上から麺つゆをかけるととってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。",
+"今日のお仕事が終わったら何食べようかな...。あっ、聞いてました？\nえへへ、すみません。お仕事に戻りますね。"]
 
 ###################################################
 
