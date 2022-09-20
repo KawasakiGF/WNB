@@ -855,7 +855,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = zatudan[x]))
-    elif MySession.read_context(user_id) == "0" and (talk == "元気？" or talk == "調子どう？”):
+    elif MySession.read_context(user_id) == "0" and (talk == "元気？" or talk == "調子どう？"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = genki))
