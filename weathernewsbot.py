@@ -233,10 +233,12 @@ def OtenkiMessageMaker(code, itu):
      weather=jsonData["forecasts"][itu]["telop"]
      tempMAX=jsonData["forecasts"][itu]["temperature"]["max"]["celsius"]
      tempMIN=jsonData["forecasts"][itu]["temperature"]["min"]["celsius"]
-     amCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T06_12"]
-     pmCOR=jsonData["forecasts"][itu]["chanceOfRain"]["T12_18"] 
+     am1COR=jsonData["forecasts"][itu]["chanceOfRain"]["T00_06"]
+     am2COR=jsonData["forecasts"][itu]["chanceOfRain"]["T06_12"]
+     pm1COR=jsonData["forecasts"][itu]["chanceOfRain"]["T12_18"]
+     pm2COR=jsonData["forecasts"][itu]["chanceOfRain"]["T18_24"] 
      #天気メッセージ作成
-     tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n午前:{4}　午後{5}'.format(date,weather,tempMIN,tempMAX,amCOR,pmCOR)
+     tenkiInfo = '＜日付＞:{0}\n＜天気＞:{1}\n＜気温＞\n最低気温:{2}℃\n最高気温:{3}℃\n＜降水確率＞\n深夜:{4}　朝:{5}\n昼:{6}　夜:{7}'.format(date,weather,tempMIN,tempMAX,am1COR,am2COR,pm1COR,pm2COR)
      return tenkiInfo
 
 #知りたい場所の天気を作る
@@ -863,6 +865,20 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = thanks + "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
+    elif MySession.read_context(user_id) == "0" and (talk == "もういらない" or talk == "お前を消す方法":
+        line_bot_api.reply_message(
+            event.reply_token,
+            [TextSendMessage(text = mouiranai),
+            TextSendMessage(text = howToUninstallPC),
+            TextSendMessage(text = howToUninstallSP),
+            TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい。\n\n(ぐすっ、さようならっ...)")
+    elif MySession.read_context(user_id) == "0" and (talk == "使うのを止めたい" or talk == "botの消し方" or talk == "botの消し方を教えて" or talk == "チャットの消し方" or talk == "チャットの止め方" or talk == "チャットの消し方を教えて" or talk == "チャットの止め方を教えて" or talk == "トークの消し方" or talk == "トークの止め方" or talk == "トークの消し方を教えて" or talk == "トークの止め方を教えて":
+        line_bot_api.reply_message(
+            event.reply_token,
+            [TextSendMessage(text = imamadearigatou),
+            TextSendMessage(text = howToUninstallPC),
+            TextSendMessage(text = howToUninstallSP),
+            TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい！")
 #'''
 ###############################
 
@@ -881,7 +897,7 @@ def handle_message(event):
       elif MySession.read_count(user_id) == 16:
           rep = ""
           if talk == "うん" or talk == "せやで" or talk == "そうだよ" or talk == "そうだけど" or talk == "ばれた？":
-              rep = talk + "って...からかわないでくださいよもう。\n...あれ、"
+              rep = talk + "って...からかわないでくださいよもう...。\n...あれ、"
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text=rep + kaiwa1_3))
@@ -977,9 +993,15 @@ jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクは
 bousiInfo = "これですか？これはボクのパパから譲り受けた帽子なんです。ボクの一族は代々この仕事に従事していて、ボクも最近着任したばかりなんですよ。"
 seisakuhiwa = "卒研でのシステム開発をするにあたって、マスコットキャラクターを使うか否かを悩みましたね。ただ、対話型のBOTである以上会話してる感が欲しいし、有料無料問わず企業がこういったシステムを開発する際はキャラを用意することもあるだろうと思い使いました。\nただ、誰でも開発できるという部分には沿わないかもしれませんが..."
 getKonpeitou = "えっいいんですか！？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
+mouiranai = "あっ......\nぐすっ、お役に立てず申し訳ございません。お力添えできなかったボクなんて管理者失格ですよね...ごめんなさい......。"
+imamadearigatou = "このbotの削除ですね、分かりました。\nPCからご利用いただいている方とスマホからご利用いただいている方向けに消し方をご紹介しますね。今までありがとうございました。"
+howToUninstallPC = "＜PCをご利用の方＞\n1)トーク内右上の︙を左クリック\n2)ブロックを左クリック\n3)トーク一覧のWeatherNewsBotを右クリック\n4)トーク削除を左クリック\n5)左下の…から設定を左クリック\n6)友だち管理からWeatherNewsBotを選び、削除を左クリック"
+howToUninstallSP = "＜スマホをご利用の方＞\n1)トーク一覧のWeatherNewsBotを左にスワイプ(Androidをご利用の方は長押し)して削除\n2)友達リスト→公式アカウントから、WeatherNewsBotを選択し、削除"
 zatudan = ["システムの仕様上、BOTからの返信が遅くなったり、返信が来なかったりすることがあります。それが顕著にみられるのが、「使い始め」と「暑がり寒がりを聞いた後」です。前者はBOTサーバーを起動するため、後者は情報取得と処理に時間がかかるから、反応が遅くなっちゃうんです。",
 "「こんぺいとう」っておいしいですよね。あのポリポリっとした触感に、口に入れた瞬間に広がる優しい甘さ...。あれがたまらなく好きです。",
-"この会話を見れるのは基本的にわざと入力ミスし続けた人だけだと思うのですが、ヒントなしにココにだとりつける人っているんでしょうかね？"]
+"この会話を見れるのは基本的にわざと入力ミスし続けた人だけだと思うのですが、ヒントなしにココにだとりつける人っているんでしょうかね？",
+"墨田区のごみ捨て案内bot っていうのがあるんですけど、ホントにいろんなものの捨て方を教えてくれるみたいです。たとえば傘とか蛍光灯とか上司とか...。ご興味があれば一度調べてみてください。",
+"お豆腐さんに天かすとネギをのせて、上から麺つゆをかけるととってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。"]
 
 ###################################################
 
