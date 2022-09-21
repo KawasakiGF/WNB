@@ -535,8 +535,25 @@ def handle_message(event):
         # 現在のstatusを消して新規statusで初期化。
         MySession.reset(user_id)
 
+#すやすやフォグくん
+    if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1):
+        if MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2:
+            #レアな寝言は5%の確率で聞ける
+            if random.randint(0, 24) == 0: negoto = suyasuyaFogKunRare
+            else:
+                s = random.randint(0, len(suyasuyaFogKun)) - 1
+                negoto = suyasuyaFogKun[s]
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = negoto))
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = "ふあぁ...よく寝たです...\nあ、" + user_name + ohayou))
+        MySession.update_oyasumi(user_id, MySession.read_oyasumi(user_id)-1)
+
 #いつものセットでお天気検索
-    if MySession.read_context(user_id) == "0" and (talk == "いつもの" or talk == "いつもので" or talk == "いつものでお願い" or talk == "いつものでおねがい" or talk == "いつものお願い" or talk == "いつものおねがい" or talk == "いつもの頼む" or talk == "いつもの頼んだ" or talk == "いつものたのむ" or talk == "いつものたのんだ"):
+    elif MySession.read_context(user_id) == "0" and (talk == "いつもの" or talk == "いつもので" or talk == "いつものでお願い" or talk == "いつものでおねがい" or talk == "いつものお願い" or talk == "いつものおねがい" or talk == "いつもの頼む" or talk == "いつもの頼んだ" or talk == "いつものたのむ" or talk == "いつものたのんだ"):
           para = MySession.read_para(user_id)
           picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
           fukusouInfo = fukusouHantei((tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para)), needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
@@ -559,7 +576,7 @@ def handle_message(event):
                     TextSendMessage(text=fukusouInfo)])
 
 #1か所の場所を聞く####################
-    if MySession.read_context(user_id) == "0" and ("1" in talk or "１" in talk or "一" in talk):
+    elif MySession.read_context(user_id) == "0" and ("1" in talk or "１" in talk or "一" in talk):
        if "1" in talk or "１" in talk or "一" in talk:
           MySession.reset(user_id)
           line_bot_api.reply_message(
@@ -978,22 +995,7 @@ def handle_message(event):
           #TextSendMessageオブジェクトを渡しています。
 
 
-#すやすやフォグくん
-    if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1):
-        if MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2:
-            #レアな寝言は5%の確率で聞ける
-            if random.randint(0, 24) == 0: negoto = suyasuyaFogKunRare
-            else:
-                s = random.randint(0, len(suyasuyaFogKun)) - 1
-                negoto = suyasuyaFogKun[s]
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text = negoto))
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text = "ふあぁ...よく寝たです...\nあ、" + user_name + ohayou))
-        MySession.update_oyasumi(user_id, MySession.read_oyasumi(user_id)-1)
+
 
 ##################################
 ##############################################
