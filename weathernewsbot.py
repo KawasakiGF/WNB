@@ -534,7 +534,7 @@ def handle_message(event):
             if random.randint(0, 24) == 100: negoto = suyasuyaFogKunRare
             else:
                 s = random.randint(0, len(suyasuyaFogKun)) - 1
-               negoto = suyasuyaFogKun[s]
+                negoto = suyasuyaFogKun[s]
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text = negoto))
