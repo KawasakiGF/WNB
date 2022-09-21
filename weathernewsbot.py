@@ -43,6 +43,7 @@ class Status:
           self.areaT2 = ""
           self.basyoList2 = ""
           self.count = 0
+          sefl.oyasumi = 0
 
     def get_context(self):
         return self.context
@@ -95,11 +96,16 @@ class Status:
     def set_para(self, para):
           self.para = para
 
+
     def get_count(self):
         return self.count
     def set_count(self, count):
           self.count = count
 
+    def get_oyasumi(self):
+        return self.oyasumi
+    def set_oyasumi(self, oyasumi):
+          self.oyasumi = oyasumi
 
 
 class MySession:
@@ -188,11 +194,19 @@ class MySession:
         new_status.set_para(para)
         MySession._status_map[user_id] = new_status
 
+
     def read_count(user_id):
         return MySession._status_map.get(user_id).get_count()
     def update_count(user_id, count):
         new_status = MySession._status_map.get(user_id)
         new_status.set_count(count)
+        MySession._status_map[user_id] = new_status
+
+    def read_oyasumi(user_id):
+        return MySession._status_map.get(user_id).get_oyasumi()
+    def update_oyasumi(user_id, oyasumi):
+        new_status = MySession._status_map.get(user_id)
+        new_status.set_oyasumi(oyasumi)
         MySession._status_map[user_id] = new_status
 
 
@@ -513,6 +527,22 @@ def handle_message(event):
 
     MySession.register(user_id)
 
+#すやすやフォグくん
+    if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1:
+        if MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2:
+            #レアな寝言は5%の確率で聞ける
+            if random.randint(0, 24) == 100: negoto = suyasuyaFogKunRare
+            else:
+                s = random.randint(0, len(suyasuyaFogKun)) - 1
+               negoto = suyasuyaFogKun[s]
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = negoto))
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = "ふあぁ...よく寝たです...\nあ、" + user_name + ohayou))
+        MySession.update_oyasumi(user_id, MySession.read_oyasumi(user_id)-1)
 #会話を中断したいとき
     if (talk == "リセット"):
         line_bot_api.reply_message(
@@ -859,6 +889,14 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = genki))
+    elif MySession.read_context(user_id) == "0" and talk == "今何してる？":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = imananisiteru))
+    elif MySession.read_context(user_id) == "0" and (talk == "疲れた" or talk == "仕事疲れた" or talk == "つかれた" or talk == "仕事つかれた"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = negirai))
     elif MySession.read_context(user_id) == "0" and ("こんぺいとう" in talk and "あげる" in talk):
         line_bot_api.reply_message(
             event.reply_token,
@@ -883,6 +921,23 @@ def handle_message(event):
             TextSendMessage(text = howToUninstallPC),
             TextSendMessage(text = howToUninstallSP),
             TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい！")])
+    elif MySession.read_context(user_id) == "0" and (talk == "おやすみ" or talk == "おやすみなさい" or talk == "お休み" or talk == "お休みなさい" or talk == "寝ます" or talk == "寝る" or talk == "ねます" or talk == "ねる" or talk == "眠い" or talk == "ねむい" or talk == "眠たい" or talk == "ねむたい"):
+        nemuitokiha = ""
+        if talk == "眠い" or talk == "ねむい" or talk == "眠たい" or talk == "ねむたい": nemuitokiha = "眠たいときは素直に寝ちゃうのがイチバンですよ！"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = nemuitokiha + netyaimasyou))
+        MySession.update_oyasumi(user_id, 11)
+    elif MySession.read_context(user_id) == "0" and (talk == "寝なよ" or talk == "寝てもいいよ" or talk == "一緒に寝よう" or talk == "休んでもいいよ" or talk == "休んじゃいなよ" or talk == "一緒に寝る？" or talk == "休んでもいいんじゃない？") and MySession.read_oyasumi(user_id) == 11:
+        line_bot_api.reply_message(
+            event.reply_token,
+            [TextSendMessage(text = bokumonetyaou),
+            TextSendMessage(text = user_name + "さん、おやすみなさいです...")])
+        MySession.update_oyasumi(user_id, 3)
+    elif MySession.read_context(user_id) == "0" and (talk == "寝なよ" or talk == "寝てもいいよ" or talk == "一緒に寝よう" or talk == "休んでもいいよ" or talk == "休んじゃいなよ" or talk == "一緒に寝る？" or talk == "休んでもいいんじゃない？"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = madaneruwakeniha))
     #'''
 ###############################
 
@@ -917,7 +972,7 @@ def handle_message(event):
       else:
       #'''
 ############################
-#   ←コメントアウト時はここまで下げる
+      #←コメントアウト時はここまで下げる
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text="最初からやり直します。「1か所」or「2か所」を入力してください。"))
@@ -998,6 +1053,14 @@ jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクは
 bousiInfo = "これですか？これはボクのパパから譲り受けた帽子なんです。ボクの一族は代々この仕事に従事していて、ボクも最近着任したばかりなんですよ。"
 seisakuhiwa = "卒研でのシステム開発をするにあたって、マスコットキャラクターを使うか否かを悩みましたね。ただ、対話型のBOTである以上会話してる感が欲しいし、有料無料問わず企業がこういったシステムを開発する際はキャラを用意することもあるだろうと思い使いました。\nただ、誰でも開発できるという部分には沿わないかもしれませんが..."
 genki = "おかげさまで元気です！お気遣いありがとうございます！"
+negirai = "今日もお仕事お疲れ様です！ボクでよければ話し相手になりますよ！"
+netyaimasyou = "いい夢を、おやすみなさいです！\nふあぁ...なんだかボクも眠たくなってきちゃいました。もうひと頑張りしなきゃです..."
+bokumonetyaou = "...えっ、良いんですか？それじゃあお言葉に甘えて、今日は早く上がっちゃいますね。"
+suyasuyaFogKun = ["くーかー......", "zzz...", "むにゃむにゃ..."]
+suyasuyaFogKunRare = "わああっ、おっきなこんぺいとうさんだぁ...むにゃむにゃ...。"
+ohayou = "さん、おはようございますぅ\n...はっ\nお、お待たせしてしまい申し訳ありません！ご用件はなんでしょうかっ！？"
+madaneruwakeniha = "お気遣いありがとうございます！ですが、まだやらなきゃいけないお仕事が残っているのでもうひとがんばりです。"
+imananisiteru = "今ですか？今は送られてきたメッセージの内容と、よく選んでいただいている場所を記録に残しているんです。これも大事なお仕事の一環ですからね！"
 getKonpeitou = "えっいいんですか！？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
 mouiranai = "あっ......\nぐすっ、お役に立てず申し訳ございません。お力添えできなかったボクなんて管理者失格ですよね...ごめんなさい......。"
 imamadearigatou = "このbotの削除ですね、分かりました。\nPCからご利用いただいている方とスマホからご利用いただいている方向けに消し方をご紹介しますね。今までありがとうございました！"
@@ -1009,7 +1072,8 @@ zatudan = ["システムの仕様上、BOTからの返信が遅くなったり�
 "墨田区のごみ捨て案内bot っていうのがあるんですけど、ホントにいろんなものの捨て方を教えてくれるみたいです。たとえば傘とか蛍光灯とか上司とか...。ご興味があれば一度調べてみてください。",
 "お豆腐さんに天かすとネギをのせて、上から麺つゆをかけたらとってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。",
 "今日のお仕事が終わったら何食べようかな...\nあっ、聞いてました？えへへ、すみません。お仕事に戻りますね。",
-"天気情報の降水確率で表示してる深夜、朝、昼、夜ってありますよね。あれ正確には\n深夜|0:00～6:00\n朝|6:00～12:00\n昼|12:00～18:00\n夜|18:00～24:00\nの時間区分になってます。時間区分がちょっといい加減すぎですよね。"]
+"天気情報の降水確率で表示してる深夜、朝、昼、夜ってありますよね。あれ正確には\n深夜|0:00～6:00\n朝|6:00～12:00\n昼|12:00～18:00\n夜|18:00～24:00\nの時間区分になってます。時間区分がちょっといい加減すぎですよね。",
+"夕焼けってすごくきれいですよね。普段お忙しいと思うのですが、ちょっとしたときにふと足を止めて空を眺めてみるのも乙な感じがしていいですよ。"]
 
 ###################################################
 
