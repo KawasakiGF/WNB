@@ -902,9 +902,10 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = genki))
     elif MySession.read_context(user_id) == "0" and talk == "今何してる？":
+        x = random.randint(0, len(imananisiteru)) - 1
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = imananisiteru))
+            TextSendMessage(text = imananisiteru[y]))
     elif MySession.read_context(user_id) == "0" and (talk == "疲れた" or talk == "仕事疲れた" or talk == "つかれた" or talk == "仕事つかれた"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -1072,7 +1073,9 @@ suyasuyaFogKun = ["くーかー......", "zzz...", "むにゃむにゃ..."]
 suyasuyaFogKunRare = "わああっ、おっきなこんぺいとうさんだぁ...むにゃむにゃ...。"
 ohayou = "さん、おはようございますぅ\n...はっ\nお、お待たせしてしまい申し訳ありません！ご用件はなんでしょうかっ！？"
 madaneruwakeniha = "お気遣いありがとうございます！ですが、まだやらなきゃいけないお仕事が残っているのでもうひとがんばりです。"
-imananisiteru = "今ですか？今は送られてきたメッセージの内容と、よく選んでいただいている場所を記録に残しているんです。これも大事なお仕事の一環ですからね！"
+imananisiteru = ["今ですか？今は送られてきたメッセージの内容と、よく選んでいただいている場所を記録に残しているんです。これも大事なお仕事の一環ですからね！",
+"今ですか？今は、えーと...ぼーっとしてました。えへへ、すみません。お仕事に戻りますね。",
+"ふぃまでふか？むぐぐ、ごくっ。\nすみません、今はゴハンを食べてたとこです。ここに来る前におにぎりを作って持ってきてたので、それを食べてました。\n\nあ、天気情報ですね？少々お待ちを...。\nお待たせしました！ご用件はなんでしょうか？"]
 getKonpeitou = "えっいいんですか！？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
 mouiranai = "あっ......\nぐすっ、お役に立てず申し訳ございません。お力添えできなかったボクなんて管理者失格ですよね...ごめんなさい......。"
 imamadearigatou = "このbotの削除ですね、分かりました。\nPCからご利用いただいている方とスマホからご利用いただいている方向けに消し方をご紹介しますね。今までありがとうございました！"
