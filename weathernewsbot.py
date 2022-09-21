@@ -528,7 +528,7 @@ def handle_message(event):
     MySession.register(user_id)
 
 #すやすやフォグくん
-    if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1:
+    if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1):
         if MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2:
             #レアな寝言は5%の確率で聞ける
             if random.randint(0, 24) == 100: negoto = suyasuyaFogKunRare
