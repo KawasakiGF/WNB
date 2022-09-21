@@ -885,15 +885,15 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = zatudan[x]))
-    elif MySession.read_context(user_id) == "0" and (talk == "おはよう" or talk == "おはようございます"):
+    elif MySession.read_context(user_id) == "0" and (talk == "おはよう" or talk == "おはようございます" or talk == "おはよう！" or talk == "おはようございます！"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "おはようございます！今日も一日がんばりましょう！"))
-    elif MySession.read_context(user_id) == "0" and talk == "こんにちは":
+    elif MySession.read_context(user_id) == "0" and talk == "こんにちは" or talk == "こんにちは！":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "こんにちはです！今日もお仕事やお勉強は順調に進んでいますか？頑張るのも大事ですが、適度に休憩するもの大事ですよ！"))
-    elif MySession.read_context(user_id) == "0" and talk == "こんばんは":
+    elif MySession.read_context(user_id) == "0" and talk == "こんばんは" or talk == "こんばんは！":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "こんばんはです！今日も一日お疲れさまでした！疲れたなと思ったらすぐに休むのが大事ですよ。明日の天気のチェックもお忘れなく！"))
