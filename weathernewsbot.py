@@ -527,22 +527,6 @@ def handle_message(event):
 
     MySession.register(user_id)
 
-#すやすやフォグくん
-    if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1):
-        if MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2:
-            #レアな寝言は5%の確率で聞ける
-            if random.randint(0, 24) == 100: negoto = suyasuyaFogKunRare
-            else:
-                s = random.randint(0, len(suyasuyaFogKun)) - 1
-                negoto = suyasuyaFogKun[s]
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text = negoto))
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text = "ふあぁ...よく寝たです...\nあ、" + user_name + ohayou))
-        MySession.update_oyasumi(user_id, MySession.read_oyasumi(user_id)-1)
 #会話を中断したいとき
     if (talk == "リセット"):
         line_bot_api.reply_message(
@@ -993,6 +977,24 @@ def handle_message(event):
           #用いるトークン。 第二引数にはlinebot.modelsに定義されている返信用の
           #TextSendMessageオブジェクトを渡しています。
 
+
+#すやすやフォグくん
+    if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1):
+        if MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2:
+            #レアな寝言は5%の確率で聞ける
+            if random.randint(0, 24) == 100: negoto = suyasuyaFogKunRare
+            else:
+                s = random.randint(0, len(suyasuyaFogKun)) - 1
+                negoto = suyasuyaFogKun[s]
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = negoto))
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = "ふあぁ...よく寝たです...\nあ、" + user_name + ohayou))
+        MySession.update_oyasumi(user_id, MySession.read_oyasumi(user_id)-1)
+
 ##################################
 ##############################################
 ##############################################
@@ -1075,7 +1077,7 @@ ohayou = "さん、おはようございますぅ\n...はっ\nお、お待たせ
 madaneruwakeniha = "お気遣いありがとうございます！ですが、まだやらなきゃいけないお仕事が残っているのでもうひとがんばりです。"
 imananisiteru = ["今ですか？今は送られてきたメッセージの内容と、よく選んでいただいている場所を記録に残しているんです。これも大事なお仕事の一環ですからね！",
 "今ですか？今は、えーと...ぼーっとしてました。えへへ、すみません。お仕事に戻りますね。",
-"ふぃまでふか？むぐぐ、ごくっ。\nすみません、今はゴハンを食べてたとこです。ここに来る前におにぎりを作って持ってきてたので、それを食べてました。\n\nあ、天気情報ですね？少々お待ちを...。\nお待たせしました！ご用件はなんでしょうか？"]
+"ふぃまでふか？むぐぐ、ごくっ。\nすみません、今はゴハンを食べてたとこです。ここに来る前におにぎりを作って持ってきてたので、それを食べてました。\n\nあ、天気情報ですね？少々お待ちを...\nお待たせしました！ご用件はなんでしょうか？"]
 getKonpeitou = "えっいいんですか！？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
 mouiranai = "あっ......\nぐすっ、お役に立てず申し訳ございません。お力添えできなかったボクなんて管理者失格ですよね...ごめんなさい......。"
 imamadearigatou = "このbotの削除ですね、分かりました。\nPCからご利用いただいている方とスマホからご利用いただいている方向けに消し方をご紹介しますね。今までありがとうございました！"
