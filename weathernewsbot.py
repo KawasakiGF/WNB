@@ -43,7 +43,7 @@ class Status:
           self.areaT2 = ""
           self.basyoList2 = ""
           self.count = 0
-          sefl.oyasumi = 0
+          self.oyasumi = 0
 
     def get_context(self):
         return self.context
