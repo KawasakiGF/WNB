@@ -904,10 +904,13 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = genki))
     elif MySession.read_context(user_id) == "0" and talk == "今何してる？" or talk == "今何してるの？":
-        y = random.randint(0, len(imananisiteru)) - 1
+        if random.randint(0, 24) == 0: imanani = imananisiteruRare
+        else:
+            i = random.randint(0, len(imananisiteru)) - 1
+            imanani = imananisiteru[i]
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = imananisiteru[y]))
+            TextSendMessage(text = imanani))
     elif MySession.read_context(user_id) == "0" and (talk == "疲れた" or talk == "仕事疲れた" or talk == "つかれた" or talk == "仕事つかれた"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -943,16 +946,25 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = nemuitokiha + netyaimasyou))
         MySession.update_oyasumi(user_id, 11)
-    elif MySession.read_context(user_id) == "0" and (talk == "寝なよ" or talk == "寝てもいいよ" or talk == "一緒に寝よう" or talk == "休んでもいいよ" or talk == "休んじゃいなよ" or talk == "一緒に寝る？" or talk == "休んでもいいんじゃない？") and MySession.read_oyasumi(user_id) == 11:
+    elif MySession.read_context(user_id) == "0" and (talk == "寝なよ" or talk == "寝てもいいよ" or talk == "一緒に寝よう" or talk == "休んでもいいよ" or talk == "休んじゃいなよ" or talk == "一緒に寝る？" or talk == "休んでもいいんじゃない？" or talk == "寝ちゃいなよ" or talk == "寝ちゃってもいいよ" or talk == "寝ちゃってもいいんじゃない？") and MySession.read_oyasumi(user_id) == 11:
         line_bot_api.reply_message(
             event.reply_token,
             [TextSendMessage(text = bokumonetyaou),
             TextSendMessage(text = user_name + "さん、おやすみなさいです...")])
         MySession.update_oyasumi(user_id, 3)
-    elif MySession.read_context(user_id) == "0" and (talk == "寝なよ" or talk == "寝てもいいよ" or talk == "一緒に寝よう" or talk == "休んでもいいよ" or talk == "休んじゃいなよ" or talk == "一緒に寝る？" or talk == "休んでもいいんじゃない？"):
+    elif MySession.read_context(user_id) == "0" and (talk == "寝なよ" or talk == "寝てもいいよ" or talk == "一緒に寝よう" or talk == "休んでもいいよ" or talk == "休んじゃいなよ" or talk == "一緒に寝る？" or talk == "休んでもいいんじゃない？" or talk == "寝ちゃいなよ" or talk == "寝ちゃってもいいよ" or talk == "寝ちゃってもいいんじゃない？"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = madaneruwakeniha))
+    elif MySession.read_context(user_id) == "0" and (talk == "git add" or talk == "git commit" or talk == "git push"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "むむ、その言葉は...。さてはあなた、プログラミングしたことありますね？"))
+    elif MySession.read_context(user_id) == "0" and talk == "heroku logs --tail":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "お世話になっております、ヘロクログさん！今日も--尻尾が素敵ですね！（？）"))
+
     #'''
 ###############################
 
@@ -1082,7 +1094,9 @@ ohayou = "さん、おはようございますぅ\n...はっ\nお、お待たせ
 madaneruwakeniha = "お気遣いありがとうございます！ですが、まだやらなきゃいけないお仕事が残っているのでもうひとがんばりです。"
 imananisiteru = ["今ですか？今は送られてきたメッセージの内容と、よく選んでいただいている場所を記録に残しているんです。これも大事なお仕事の一環ですからね！",
 "今ですか？今は、えーと...ぼーっとしてました。えへへ、すみません。お仕事に戻りますね。",
+"今日のお仕事が終わったら何食べようかな...\nあっ、聞いてました？えへへ、すみません。お仕事に戻りますね。",
 "ふぃまでふか？むぐぐ、ごくっ。\nすみません、今はゴハンを食べてたとこです。ここに来る前におにぎりを作って持ってきてたので、それを食べてました。\n\nあ、天気情報ですね？少々お待ちを...\nお待たせしました！ご用件はなんでしょうか？"]
+imananisiteruRare = "いじわる～なんてしないでよ～セーブデータとほうき星～\nえっ、あっ、聞いてました...??あの、そのっ、すみません。どうか今のことを忘れてはいただけないでしょうか......"
 getKonpeitou = "えっいいんですか！？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
 mouiranai = "あっ......\nぐすっ、お役に立てず申し訳ございません。お力添えできなかったボクなんて管理者失格ですよね...ごめんなさい......。"
 imamadearigatou = "このbotの削除ですね、分かりました。\nPCからご利用いただいている方とスマホからご利用いただいている方向けに消し方をご紹介しますね。今までありがとうございました！"
@@ -1091,12 +1105,11 @@ howToUninstallSP = "＜スマホをご利用の方＞\n1)トーク一覧のWeath
 zatudan = ["システムの仕様上、BOTからの返信が遅くなったり、返信が来なかったりすることがあります。それが顕著にみられるのが、「使い始め」と「暑がり寒がりを聞いた後」です。前者はBOTサーバーを起動するため、後者は情報取得と処理に時間がかかるから、反応が遅くなっちゃうんです。",
 "「こんぺいとう」っておいしいですよね。あのポリポリっとした触感に、口に入れた瞬間に広がる優しい甘さ...。あれがたまらなく好きです。",
 "この会話を見れるのは基本的にわざと入力ミスし続けた人だけだと思うのですが、ヒントなしにココにだとりつける人っているんでしょうかね？",
-"墨田区のごみ捨て案内bot っていうのがあるんですけど、ホントにいろんなものの捨て方を教えてくれるみたいです。たとえば傘とか蛍光灯とか上司とか...。ご興味があれば一度調べてみてください。",
+"墨田区のごみ捨て案内bot っていうえーあいちゃっとぼっと？があるんですけど、ホントにいろんなものの捨て方を教えてくれるみたいです。たとえば傘とか蛍光灯とか上司とか...。ご興味があれば一度調べてみてください。\n＜リンク＞\nhttps://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/oyakudachi/gomi-bunbetu-chatbot.html\n(右下の黒猫さん「すみにゃーる」を押すと利用開始です！))",
 "お豆腐さんに天かすとネギをのせて、上から麺つゆをかけたらとってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。",
-"今日のお仕事が終わったら何食べようかな...\nあっ、聞いてました？えへへ、すみません。お仕事に戻りますね。",
 "天気情報の降水確率で表示してる深夜、朝、昼、夜ってありますよね。あれ正確には\n深夜|0:00～6:00\n朝|6:00～12:00\n昼|12:00～18:00\n夜|18:00～24:00\nの時間区分になってます。時間区分がちょっといい加減すぎですよね。",
 "夕焼けってすごくきれいですよね。普段お忙しいと思うのですが、ちょっとしたときにふと足を止めて空を眺めてみるのも乙な感じがしていいですよ。",
-"あれ、こんなところにメモ用紙がありますね。どれどれ...\n『ここだけの話、レア台詞が存在します。寝ているときに5%の確率で見られますよ』...?これなんでしょうか...？"]
+"あれ、こんなところにメモ用紙がありますね。どれどれ...\n『ここだけの話、レア台詞が2つ存在します。5%のものと1%のものがあるので、興味ある方は探してみて下さい。』\n...?なんのことでしょうか？"]
 
 ###################################################
 
