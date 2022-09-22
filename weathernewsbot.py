@@ -869,6 +869,10 @@ def handle_message(event):
 
 #その他の会話#######################
     #'''
+    elif MySession.read_context(user_id) == "0" and (talk == "フォグ" or talk == "フォグくん" or talk == "フォグ君" or talk == "フォグさん"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = FogDesu))
     elif MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？":
         line_bot_api.reply_message(
             event.reply_token,
@@ -904,7 +908,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = genki))
     elif MySession.read_context(user_id) == "0" and talk == "今何してる？" or talk == "今何してるの？":
-        if random.randint(0, 24) == 0: imanani = imananisiteruRare
+        if random.randint(0, 99) == 0: imanani = imananisiteruRare
         else:
             i = random.randint(0, len(imananisiteru)) - 1
             imanani = imananisiteru[i]
@@ -964,6 +968,10 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "お世話になっております、ヘロクログさん！今日も--尻尾が素敵ですね！（？）"))
+    elif MySession.read_context(user_id) == "0" and ((("性能" in talk or "精度" in talk) and ("悪い" in talk or "わるい" in talk)) or (("あて" in talk or "参考" in talk) and ("なら" in talk)) or talk == "使えない" or talk == "使えないね"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = gomennnasai))
 
     #'''
 ###############################
@@ -1079,6 +1087,7 @@ kaiwa1_2 = "ちょっとちょっと、間違えすぎですって！\n...もし
 kaiwa1_3 = "ひょっとしてボクに話しかけてくれてますか？\nでもごめんなさい。あなたとお話をしたくても、ボクはプログラムされた存在だからお話はできないんです。ごめんなさい..."
 kaiwa1_4 = "ただ、ちょっとだけならお話できます。判定は厳しめなので、一文字でも間違えちゃダメですよ？\nこんなキーワードを入力してみてください。\n・「自己紹介してくれる？」\n・「その帽子って？」\n・「雑談しよう\n・「おはよう」\nなどなど"
 
+FogDesu = "こんにちは、フォグです！本日はどのようなご用件でしょうか？"
 jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクはフォグ。このぼっと？を取り仕切るお仕事をしてます！「こんぺいとう」と誰かのお役にたつことが好きです！まだまだ未熟者で至らない点がたくさんあるかと思いますが、どうぞよろしくお願いします！"
 bousiInfo = ["これですか？これはボクのお父さんから譲り受けた帽子なんです。ボクの一族は代々この仕事に従事していて、ボクも最近退職したお父さんの後を継いで着任したばかりなんですよ。",
 "この帽子、かならず晴れと雨の模様がついてる方を前にしろって教えられてるんですけど、どうしてだか分かりますか？\n天気を指す言葉で、狐の嫁入りって言葉があるじゃないですか。それを意識してるそうです。",
@@ -1102,6 +1111,7 @@ mouiranai = "あっ......\nぐすっ、お役に立てず申し訳ございま�
 imamadearigatou = "このbotの削除ですね、分かりました。\nPCからご利用いただいている方とスマホからご利用いただいている方向けに消し方をご紹介しますね。今までありがとうございました！"
 howToUninstallPC = "＜PCをご利用の方＞\n1)トーク内右上の︙を左クリック\n2)ブロックを左クリック\n3)トーク一覧のWeatherNewsBotを右クリック\n4)トーク削除を左クリック\n5)左下の…から設定を左クリック\n6)友だち管理からWeatherNewsBotを選び、削除を左クリック"
 howToUninstallSP = "＜スマホをご利用の方＞\n1)トーク一覧のWeatherNewsBotを左にスワイプ(Androidをご利用の方は長押し)して削除\n2)友達リスト→公式アカウントから、WeatherNewsBotを選択し、削除"
+gomennnasai = "申し訳ございませんっ！精度、良くないですよね...。ボクがまだこのbotを使いこなせていないがためにご不便ご迷惑をおかけしてしまい、誠に申し訳ございません。\nもしよければアンケートを実施しておりますので、不便な点などをご報告いただければ幸いです。"
 zatudan = ["システムの仕様上、BOTからの返信が遅くなったり、返信が来なかったりすることがあります。それが顕著にみられるのが、「使い始め」と「暑がり寒がりを聞いた後」です。前者はBOTサーバーを起動するため、後者は情報取得と処理に時間がかかるから、反応が遅くなっちゃうんです。",
 "「こんぺいとう」っておいしいですよね。あのポリポリっとした触感に、口に入れた瞬間に広がる優しい甘さ...。あれがたまらなく好きです。",
 "この会話を見れるのは基本的にわざと入力ミスし続けた人だけだと思うのですが、ヒントなしにココにだとりつける人っているんでしょうかね？",
