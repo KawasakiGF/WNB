@@ -297,7 +297,7 @@ def kasaHantei(code, itu):
      AC=re.sub(r"\D", "", amCOR)
      PC=re.sub(r"\D", "", pmCOR)
      if ((AC == "") and (PC == "")):
-        kasaInfo = "傘情報を取得できませんでした。"
+        kasaInfo = "傘情報を取得できませんでした..."
         return kasaInfo
      elif AC == "": AC=PC
      elif PC == "": PC=AC
@@ -335,7 +335,7 @@ def fukusouHantei(tempMEAN, weather):
   elif tempMEAN <= 99:
     fukusou = '＜今日の服装＞\n半袖の涼しい服装にし、暑さ対策や熱中症対策を怠らないようにしましょう。'
   else:
-    fukusou = '＜今日の服装＞\n気温の情報を取得できませんでした。'
+    fukusou = '＜今日の服装＞\n気温の情報を取得できませんでした...'
   return fukusou
 
 #2か所の服装判定
@@ -365,7 +365,7 @@ def fukusouHantei2(STM, MTM, para):
   elif tempMEAN <= 99:
     fukusou = '＜今日の服装＞\n半袖の涼しい服装にし、暑さ対策や熱中症対策を怠らないようにしましょう。'
   else:
-    fukusou = '＜今日の服装＞\n気温の情報を取得できませんでした。'
+    fukusou = '＜今日の服装＞\n気温の情報を取得できませんでした...'
   return (fukusou + kandansa)
 
 #2か所の傘の有無判定
@@ -383,7 +383,7 @@ def kasaHantei2(codeS, ituS, codeM, ituM, ST, MT):
      AC=re.sub(r"\D", "", amCOR)
      PC=re.sub(r"\D", "", pmCOR)
      if ((AC == "") and (PC == "")):
-        kasaInfo = "傘情報を取得できませんでした。"
+        kasaInfo = "傘情報を取得できませんでした..."
      elif AC == "": AC=PC
      elif PC == "": PC=AC
      CORMEANS=(int(AC)+int(PC))/2.0
@@ -401,7 +401,7 @@ def kasaHantei2(codeS, ituS, codeM, ituM, ST, MT):
      ACM=re.sub(r"\D", "", amCORM)
      PCM=re.sub(r"\D", "", pmCORM)
      if ((ACM == "") and (PCM == "")):
-        kasaInfo2 = "傘情報を取得できませんでした。"
+        kasaInfo2 = "傘情報を取得できませんでした..."
      elif ACM == "": ACM=PCM
      elif PCM == "": PCM=ACM
      CORMEANM=(int(ACM)+int(PCM))/2.0
@@ -653,7 +653,7 @@ def handle_message(event):
           tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
           kasaInfo = kasaHantei(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
           caution = ""
-          if "気温の情報を取得できませんでした" in fukusouInfo and "傘情報を取得できませんでした" in kasaInfo: caution="\n\n※「今日」の天気情報で情報取得時刻が遅い場合、正常に情報を取得できないことがあります。\n\n"
+          if "気温の情報を取得できませんでした" in fukusouInfo and "傘情報を取得できませんでした" in kasaInfo: caution="\n\n※「今日」の天気情報で情報取得時刻が遅い場合、正常に情報を取得できないことがあります。"
           if picUrl == "未知の天気":
                line_bot_api.reply_message(
                     event.reply_token,
@@ -842,14 +842,16 @@ def handle_message(event):
           ST = MySession.read_areaT(user_id) + MySession.read_area(user_id)
           MT = MySession.read_areaT2(user_id) + MySession.read_area2(user_id)
           kasaInfo = kasaHantei2(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id), Tcode[Tname.index(MySession.read_area2(user_id))], MySession.read_date2(user_id), ST, MT)
-          if picUrlS == "未知の天気" or picUrlM == "未知の天気":
+          caution = ""
+          if "気温の情報を取得できませんでした" in fukusouInfo and "傘情報を取得できませんでした" in kasaInfo: caution="\n\n※「今日」の天気情報で情報取得時刻が遅い場合、正常に情報を取得できないことがあります。"
+           if picUrlS == "未知の天気" or picUrlM == "未知の天気":
                line_bot_api.reply_message(
                     event.reply_token,
                     [TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + "から" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "への天気情報を表示します！"),
                     TextSendMessage(text="[出発地]" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n" + tenkiInfoS),
                     TextSendMessage(text="[目的地]" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "\n" + tenkiInfoM),
                     TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouInfo)])
+                    TextSendMessage(text=fukusouInfo + caution)])
           else:
                line_bot_api.reply_message(
                     event.reply_token,
@@ -859,7 +861,7 @@ def handle_message(event):
                     ImageSendMessage(original_content_url=picUrlS, preview_image_url=picUrlS),
                     TextSendMessage(text="[目的地]" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "\n" + tenkiInfoM),
                     ImageSendMessage(original_content_url=picUrlM, preview_image_url=picUrlM),
-                    TextSendMessage(text=kasaInfo + "\n\n" +fukusouInfo)])
+                    TextSendMessage(text=kasaInfo + "\n\n" +fukusouInfo + caution)])
           MySession.reset(user_id)
        else:
             line_bot_api.reply_message(
@@ -925,7 +927,15 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = getKonpeitou))
-    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね" or talk == "ありがとうね" or talk == "ありがとう" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね" or talk == "お仕事がんばってるね" or talk == "お仕事がんばってね"):
+    elif MySession.read_context(user_id) == "0" and (talk == "頑張って" or talk == "頑張ってるね" or talk == "がんばって" or talk == "がんばってるね" or talk == "お仕事頑張って" or talk == "お仕事頑張ってるね" or talk == "お仕事がんばって" or talk == "お仕事がんばってるね" or talk == "お仕事ご苦労様" or talk == "ご苦労様" or talk == "お仕事ごくろうさま" or talk == "ごくろうさま"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "お気遣いありがとうございます！" + user_name + "さんも頑張って下さい！ただ、無理だけはしちゃダメですよ～！"))
+    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "えへへ、ありがとうございます！"))
+    elif MySession.read_context(user_id) == "0" and (talk == "ありがとうね" or talk == "ありがとう" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね" or talk == "お仕事がんばってるね" or talk == "お仕事がんばってね"):
         thanks = ""
         if talk == "教えてくれてありがとう" or talk == "ありがとうね" or talk == "ありがとう": thanks = "こちらこそ、ご利用くださり誠に"
         line_bot_api.reply_message(
@@ -974,7 +984,10 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = gomennnasai))
-
+    elif MySession.read_context(user_id) == "0" and (talk == "ごみの捨て方" or talk == "捨て方" or talk == "分別" or talk == "分別方法"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "あー...ごみの捨て方はボクの仕事の範疇ではないんです。ただ、頼りになる方を知っているのでご紹介いたしますね！\n墨田区のごみ捨て案内bot\n＜リンク＞\nhttps://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/oyakudachi/gomi-bunbetu-chatbot.html\n(右下の黒猫さん「すみにゃーる」を押すと利用開始です！"))
     #'''
 ###############################
 
@@ -1117,7 +1130,7 @@ gomennnasai = "申し訳ございませんっ！精度、良くないですよ�
 zatudan = ["システムの仕様上、BOTからの返信が遅くなったり、返信が来なかったりすることがあります。それが顕著にみられるのが、「使い始め」と「暑がり寒がりを聞いた後」です。前者はBOTサーバーを起動するため、後者は情報取得と処理に時間がかかるから、反応が遅くなっちゃうんです。",
 "「こんぺいとう」っておいしいですよね。あのポリポリっとした触感に、口に入れた瞬間に広がる優しい甘さ...。あれがたまらなく好きです。",
 "この会話を見れるのは基本的にわざと入力ミスし続けた人だけだと思うのですが、ヒントなしにココにだとりつける人っているんでしょうかね？",
-"墨田区のごみ捨て案内bot っていうえーあいちゃっとぼっと？があるんですけど、ホントにいろんなものの捨て方を教えてくれるみたいです。たとえば傘とか蛍光灯とか上司とか...。ご興味があれば一度調べてみてください。\n＜リンク＞\nhttps://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/oyakudachi/gomi-bunbetu-chatbot.html\n(右下の黒猫さん「すみにゃーる」を押すと利用開始です！))",
+"墨田区のごみ捨て案内bot っていうえーあいちゃっとぼっと？があるんですけど、ホントにいろんなものの捨て方を教えてくれるみたいです。たとえば傘とか蛍光灯とか上司とか...。ご興味があれば一度調べてみてください。\n＜リンク＞\nhttps://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/oyakudachi/gomi-bunbetu-chatbot.html\n(右下の黒猫さん「すみにゃーる」を押すと利用開始です！)",
 "お豆腐さんに天かすとネギをのせて、上から麺つゆをかけたらとってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。",
 "天気情報の降水確率で表示してる深夜、朝、昼、夜ってありますよね。あれ正確には\n深夜|0:00～6:00\n朝|6:00～12:00\n昼|12:00～18:00\n夜|18:00～24:00\nの時間区分になってます。時間区分がちょっといい加減すぎですよね。",
 "夕焼けってすごくきれいですよね。普段お忙しいと思うのですが、ちょっとしたときにふと足を止めて空を眺めてみるのも乙な感じがしていいですよ。",
