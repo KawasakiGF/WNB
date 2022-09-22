@@ -924,10 +924,18 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = negirai))
+    elif MySession.read_context(user_id) == "0" and (talk == "こんぺいとう" or talk ==  "ツナマヨ" or talk == "ツナマヨネーズ"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "じゅるり..."))
     elif MySession.read_context(user_id) == "0" and ("こんぺいとう" in talk and "あげる" in talk):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = getKonpeitou))
+    elif MySession.read_context(user_id) == "0" and (("ツナマヨ" in talk or "ツナマヨネーズ" in talk) and "あげる" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = getTunamayo))
     elif MySession.read_context(user_id) == "0" and (talk == "頑張って" or talk == "頑張ってるね" or talk == "がんばって" or talk == "がんばってるね" or talk == "お仕事頑張って" or talk == "お仕事頑張ってるね" or talk == "お仕事がんばって" or talk == "お仕事がんばってるね" or talk == "お仕事ご苦労様" or talk == "ご苦労様" or talk == "お仕事ごくろうさま" or talk == "ごくろうさま"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -1123,6 +1131,7 @@ imananisiteru = ["今ですか？今は送られてきたメッセージの内�
 "ふぃまでふか？むぐぐ、ごくっ。\nすみません、今はゴハンを食べてたとこです。ここに来る前におにぎりを作って持ってきてたので、それを食べてました。\n\nあ、天気情報ですね？少々お待ちを...\nお待たせしました！ご用件はなんでしょうか？"]
 imananisiteruRare = "いじわる～なんてしないでよ～セーブデータとほうき星～\nえっ、あっ、聞いてました...??あの、そのっ、すみません。どうか今のことを忘れてはいただけないでしょうか......"
 getKonpeitou = "えっいいんですか！？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\nうう、お気持ちだけ頂戴いたします。ありがとうございます..."
+getTunamayo = "いただいていいんですか？では遠慮なくいただ...あっ。\nそうだった、ここからじゃ受け取れませんよね...\n実はボク、ツナマヨ好きなんですよね。このお仕事でずっとここにいるのでおにぎりを持ってきてるんですが、全部ツナマヨ味なんです。\nここからじゃ受け取れないのでお気持ちだけいただきますね。ありがとうございます。"
 mouiranai = "あっ......\nぐすっ、お役に立てず申し訳ございません。お力添えできなかったボクなんて管理者失格ですよね...ごめんなさい......。"
 imamadearigatou = "このbotの削除ですね、分かりました。\nPCからご利用いただいている方とスマホからご利用いただいている方向けに消し方をご紹介しますね。今までありがとうございました！"
 howToUninstallPC = "＜PCをご利用の方＞\n1)トーク内右上の︙を左クリック\n2)ブロックを左クリック\n3)トーク一覧のWeatherNewsBotを右クリック\n4)トーク削除を左クリック\n5)左下の…から設定を左クリック\n6)友だち管理からWeatherNewsBotを選び、削除を左クリック"
