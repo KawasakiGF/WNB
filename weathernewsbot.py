@@ -616,7 +616,7 @@ def handle_message(event):
           MySession.update_basyoList(user_id, kwsiBasyoList)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=(talk + tellBasyoKwsk + MySession.read_basyoList(user_id) + " (3/4)")))
+               TextSendMessage(text=(talk + tellBasyoKwsk + " (3/4)" + MySession.read_basyoList(user_id))))
           MySession.update_context(user_id, "12")
        else:
             line_bot_api.reply_message(
@@ -751,7 +751,7 @@ def handle_message(event):
           MySession.update_basyoList(user_id, kwsiBasyoList)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=(talk + tellBasyoKwsk2_1 + MySession.read_basyoList(user_id) + " (3/7)")))
+               TextSendMessage(text=(talk + tellBasyoKwsk2_1 + " (3/7)" + MySession.read_basyoList(user_id))))
           MySession.update_context(user_id, "22")
        else:
             line_bot_api.reply_message(
@@ -799,7 +799,7 @@ def handle_message(event):
           MySession.update_basyoList2(user_id, kwsiBasyoList2)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=(talk + tellBasyoKwsk2_2 + MySession.read_basyoList2(user_id) + " (6/7)")))
+               TextSendMessage(text=(talk + tellBasyoKwsk2_2 + " (6/7)" + MySession.read_basyoList2(user_id))))
           MySession.update_context(user_id, "25")
        else:
             line_bot_api.reply_message(
