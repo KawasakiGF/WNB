@@ -844,7 +844,7 @@ def handle_message(event):
           kasaInfo = kasaHantei2(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id), Tcode[Tname.index(MySession.read_area2(user_id))], MySession.read_date2(user_id), ST, MT)
           caution = ""
           if "気温の情報を取得できませんでした" in fukusouInfo and "傘情報を取得できませんでした" in kasaInfo: caution="\n\n※「今日」の天気情報で情報取得時刻が遅い場合、正常に情報を取得できないことがあります。"
-           if picUrlS == "未知の天気" or picUrlM == "未知の天気":
+          if picUrlS == "未知の天気" or picUrlM == "未知の天気":
                line_bot_api.reply_message(
                     event.reply_token,
                     [TextSendMessage(text=MySession.read_areaT(user_id) + MySession.read_area(user_id) + "から" + MySession.read_areaT2(user_id) + MySession.read_area2(user_id) + "への天気情報を表示します！"),
