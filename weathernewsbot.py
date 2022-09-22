@@ -581,7 +581,7 @@ def handle_message(event):
           MySession.reset(user_id)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=tellDay))
+               TextSendMessage(text=tellDay + " (1/4)"))
           MySession.update_context(user_id, "10")
           MySession.update_count(user_id, 0)
        else:
@@ -597,7 +597,7 @@ def handle_message(event):
            else:                                                       MySession.update_date(user_id, 2)
            line_bot_api.reply_message(
            event.reply_token,
-           TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo))
+           TextSendMessage(text=day[MySession.read_date(user_id)] + tellBasyo + " (2/4)"))
            MySession.update_context(user_id, "11")
        else:
             line_bot_api.reply_message(
@@ -616,7 +616,7 @@ def handle_message(event):
           MySession.update_basyoList(user_id, kwsiBasyoList)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=(talk + tellBasyoKwsk + MySession.read_basyoList(user_id))))
+               TextSendMessage(text=(talk + tellBasyoKwsk + MySession.read_basyoList(user_id) + " (3/4)")))
           MySession.update_context(user_id, "12")
        else:
             line_bot_api.reply_message(
@@ -630,7 +630,7 @@ def handle_message(event):
           MySession.update_area(user_id, talk)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=("知りたい場所は" + MySession.read_areaT(user_id) + talk + tellHotOrCold)))
+               TextSendMessage(text=("知りたい場所は" + MySession.read_areaT(user_id) + talk + tellHotOrCold + " (4/4)")))
           MySession.update_context(user_id, "13")
        else:
             line_bot_api.reply_message(
@@ -656,14 +656,14 @@ def handle_message(event):
           if picUrl == "未知の天気":
                line_bot_api.reply_message(
                     event.reply_token,
-                    [TextSendMessage(text="それでは、" + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
+                    [TextSendMessage(text="それでは、" + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！" + " (1/2)"),
                     TextSendMessage(text=tenkiInfo),
                     TextSendMessage(text=kasaInfo),
                     TextSendMessage(text=fukusouInfo + "\n∇次へ∇(任意文字を入力)")])
           else:
                line_bot_api.reply_message(
                     event.reply_token,
-                    [TextSendMessage(text="それでは、" + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
+                    [TextSendMessage(text="それでは、" + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！" + " (1/2)"),
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                     TextSendMessage(text=kasaInfo),
@@ -684,7 +684,7 @@ def handle_message(event):
           elif MySession.read_para(user_id) == -3: para="寒がり"
           line_bot_api.reply_message(
              event.reply_token,
-             [TextSendMessage(text="情報を保持しますか？保持する場合は「はい」を入力してください。\n保持すると、次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！"),
+             [TextSendMessage(text="情報を保持しますか？保持する場合は「はい」を入力してください。\n保持すると、次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！" + " (2/2)"),
              TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + para)])
           MySession.update_context(user_id, "15")
 
@@ -716,7 +716,7 @@ def handle_message(event):
           MySession.reset(user_id)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=tellDay2_1))
+               TextSendMessage(text=tellDay2_1 + " (1/7)"))
           MySession.update_context(user_id, "20")
           MySession.update_count(user_id, 0)
        else:
@@ -732,7 +732,7 @@ def handle_message(event):
            else:                                                       MySession.update_date(user_id, 2)
            line_bot_api.reply_message(
            event.reply_token,
-           TextSendMessage(text=tellBasyo2_1))
+           TextSendMessage(text=tellBasyo2_1 + " (2/7)"))
            MySession.update_context(user_id, "21")
        else:
             line_bot_api.reply_message(
@@ -751,7 +751,7 @@ def handle_message(event):
           MySession.update_basyoList(user_id, kwsiBasyoList)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=(talk + tellBasyoKwsk2_1 + MySession.read_basyoList(user_id))))
+               TextSendMessage(text=(talk + tellBasyoKwsk2_1 + MySession.read_basyoList(user_id) + " (3/7)")))
           MySession.update_context(user_id, "22")
        else:
             line_bot_api.reply_message(
@@ -764,7 +764,7 @@ def handle_message(event):
           MySession.update_area(user_id, talk)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=("出発地は" + MySession.read_areaT(user_id) + talk + tellDay2_2)))
+               TextSendMessage(text=("出発地は" + MySession.read_areaT(user_id) + talk + tellDay2_2 + " (4/7)")))
           MySession.update_context(user_id, "23")
        else:
             line_bot_api.reply_message(
@@ -780,7 +780,7 @@ def handle_message(event):
            else:                                                       MySession.update_date2(user_id, 2)
            line_bot_api.reply_message(
            event.reply_token,
-           TextSendMessage(text=tellBasyo2_2))
+           TextSendMessage(text=tellBasyo2_2 + " (5/7)"))
            MySession.update_context(user_id, "24")
        else:
             line_bot_api.reply_message(
@@ -799,7 +799,7 @@ def handle_message(event):
           MySession.update_basyoList2(user_id, kwsiBasyoList2)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=(talk + tellBasyoKwsk2_2 + MySession.read_basyoList2(user_id))))
+               TextSendMessage(text=(talk + tellBasyoKwsk2_2 + MySession.read_basyoList2(user_id) + " (6/7)")))
           MySession.update_context(user_id, "25")
        else:
             line_bot_api.reply_message(
@@ -812,7 +812,7 @@ def handle_message(event):
           MySession.update_area2(user_id, talk)
           line_bot_api.reply_message(
                event.reply_token,
-               TextSendMessage(text=("目的地は" + MySession.read_areaT2(user_id) + talk + tellHotOrCold)))
+               TextSendMessage(text=("目的地は" + MySession.read_areaT2(user_id) + talk + tellHotOrCold + " (7/7)")))
           MySession.update_context(user_id, "26")
        else:
             line_bot_api.reply_message(
@@ -874,9 +874,10 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = jikosyoukai))
     elif MySession.read_context(user_id) == "0" and talk == "その帽子って？":
+        b = random.randint(0, len(bousiInfo)) - 1
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = bousiInfo))
+            TextSendMessage(text = bousiInfo[b]))
     elif MySession.read_context(user_id) == "0" and talk == "制作秘話":
         line_bot_api.reply_message(
             event.reply_token,
@@ -1066,9 +1067,11 @@ kaiwa1_2 = "ちょっとちょっと、間違えすぎですって！\n...もし
 kaiwa1_3 = "ひょっとしてボクに話しかけてくれてますか？\nでもごめんなさい。あなたとお話をしたくても、ボクはプログラムされた存在だからお話はできないんです。ごめんなさい..."
 kaiwa1_4 = "ただ、ちょっとだけならお話できます。判定は厳しめなので、一文字でも間違えちゃダメですよ？\nこんなキーワードを入力してみてください。\n・「自己紹介してくれる？」\n・「その帽子って？」\n・「雑談しよう\n・「おはよう」\nなどなど"
 
-jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクはフォグ。このぼっと？を取り仕切るお仕事をしてます！こんぺいとうと誰かのお役にたつことが好きです！まだまだ未熟者で至らない点がたくさんあるかもしれませんが、どうぞよろしくお願いいたします！"
-bousiInfo = "これですか？これはボクのパパから譲り受けた帽子なんです。ボクの一族は代々この仕事に従事していて、ボクも最近着任したばかりなんですよ。"
-seisakuhiwa = "卒研でのシステム開発をするにあたって、マスコットキャラクターを使うか否かを悩みましたね。ただ、対話型のBOTである以上会話してる感が欲しいし、有料無料問わず企業がこういったシステムを開発する際はキャラを用意することもあるだろうと思い使いました。\nただ、誰でも開発できるという部分には沿わないかもしれませんが..."
+jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクはフォグ。このぼっと？を取り仕切るお仕事をしてます！「こんぺいとう」と誰かのお役にたつことが好きです！まだまだ未熟者で至らない点がたくさんあるかと思いますが、どうぞよろしくお願いします！"
+bousiInfo = ["これですか？これはボクのお父さんから譲り受けた帽子なんです。ボクの一族は代々この仕事に従事していて、ボクも最近退職したお父さんの後を継いで着任したばかりなんですよ。",
+"この帽子、かならず晴れと雨の模様がついてる方を前にしろって教えられてるんですけど、どうしてだか分かりますか？\n天気を指す言葉で、狐の嫁入りって言葉があるじゃないですか。それを意識してるそうです。",
+"この帽子のかぶるところ、雲みたいにとってもふかふかで柔らかいんです。まあ実際に雲を触ったことは無いですけどね。"]
+seisakuhiwa = "卒研でのシステム開発をするにあたって、無料で誰でも開発できるような天気情報提供Botを作るか、どれだけお金をかけても構わないからすごく便利な天気情報提供Botのシステムを構築するかで悩みましたね。ただ後者はもはや個人制作ではなく企業の範疇に入るし、費用もバカにならないという理由で却下しました。ただ、誰でもマスコットキャラクターが描けるかというと...そこはちょっとあれですが...。"
 genki = "おかげさまで元気です！お気遣いありがとうございます！"
 negirai = "今日もお仕事お疲れ様です！ボクでよければ話し相手になりますよ！"
 netyaimasyou = "いい夢を、おやすみなさいです！\nふあぁ...なんだかボクも眠たくなってきちゃいました。もうひと頑張りしなきゃです..."
@@ -1092,7 +1095,8 @@ zatudan = ["システムの仕様上、BOTからの返信が遅くなったり�
 "お豆腐さんに天かすとネギをのせて、上から麺つゆをかけたらとってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。",
 "今日のお仕事が終わったら何食べようかな...\nあっ、聞いてました？えへへ、すみません。お仕事に戻りますね。",
 "天気情報の降水確率で表示してる深夜、朝、昼、夜ってありますよね。あれ正確には\n深夜|0:00～6:00\n朝|6:00～12:00\n昼|12:00～18:00\n夜|18:00～24:00\nの時間区分になってます。時間区分がちょっといい加減すぎですよね。",
-"夕焼けってすごくきれいですよね。普段お忙しいと思うのですが、ちょっとしたときにふと足を止めて空を眺めてみるのも乙な感じがしていいですよ。"]
+"夕焼けってすごくきれいですよね。普段お忙しいと思うのですが、ちょっとしたときにふと足を止めて空を眺めてみるのも乙な感じがしていいですよ。",
+"あれ、こんなところにメモ用紙がありますね。どれどれ...\n『ここだけの話、レア台詞が存在します。寝ているときに5%の確率で見られますよ』...?これなんでしょうか...？"]
 
 ###################################################
 
