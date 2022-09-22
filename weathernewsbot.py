@@ -538,7 +538,8 @@ def handle_message(event):
     if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1):
         if MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2:
             #レアな寝言は5%の確率で聞ける
-            if random.randint(0, 24) == 0: negoto = suyasuyaFogKunRare
+            if random.randint(0, 24) == 0: negoto = suyasuyaFogKunRare[0]
+            elif random.randint(0, 24) == 1: negoto = suyasuyaFogKunRare[1]
             else:
                 s = random.randint(0, len(suyasuyaFogKun)) - 1
                 negoto = suyasuyaFogKun[s]
@@ -984,10 +985,10 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = gomennnasai))
-    elif MySession.read_context(user_id) == "0" and (talk == "ごみの捨て方" or talk == "捨て方" or talk == "分別" or talk == "分別方法"):
+    elif MySession.read_context(user_id) == "0" and (talk == "ごみの捨て方" or talk == "捨て方" or talk == "分別" or talk == "分別方法" or talk == "ごみの分別" or talk == "ゴミの分別"):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "あー...ごみの捨て方はボクの仕事の範疇ではないんです。ただ、頼りになる方を知っているのでご紹介いたしますね！\n墨田区のごみ捨て案内bot\n＜リンク＞\nhttps://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/oyakudachi/gomi-bunbetu-chatbot.html\n(右下の黒猫さん「すみにゃーる」を押すと利用開始です！"))
+            TextSendMessage(text = "あー...すみません、ごみの捨て方はボクの仕事の範疇ではないんです。ただ、頼りになる方を知っているのでご紹介いたしますね！\n墨田区のごみ捨て案内bot\n＜リンク＞\nhttps://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/oyakudachi/gomi-bunbetu-chatbot.html\n(右下の黒猫さん「すみにゃーる」を押すと利用開始です！"))
     #'''
 ###############################
 
@@ -1113,7 +1114,7 @@ negirai = "今日もお仕事お疲れ様です！ボクでよければ話し相
 netyaimasyou = "いい夢を、おやすみなさいです！\nふあぁ...なんだかボクも眠たくなってきちゃいました。もうひと頑張りしなきゃです..."
 bokumonetyaou = "...えっ、良いんですか？それじゃあお言葉に甘えて、今日は早く上がっちゃいますね。"
 suyasuyaFogKun = ["くーかー......", "zzz...", "むにゃむにゃ..."]
-suyasuyaFogKunRare = "わああっ、おっきなこんぺいとうさんだぁ...むにゃむにゃ...。"
+suyasuyaFogKunRare = ["わああっ、おっきなこんぺいとうさんだぁ...むにゃむにゃ...。","好きなおにぎりの具れすか？...んー、つなまよねーず！...zzz"]
 ohayou = "さん、おはようございますぅ\n...はっ\nお、お待たせしてしまい申し訳ありません！ご用件はなんでしょうかっ！？"
 madaneruwakeniha = "お気遣いありがとうございます！ですが、まだやらなきゃいけないお仕事が残っているのでもうひとがんばりです。"
 imananisiteru = ["今ですか？今は送られてきたメッセージの内容と、よく選んでいただいている場所を記録に残しているんです。これも大事なお仕事の一環ですからね！",
@@ -1135,7 +1136,7 @@ zatudan = ["システムの仕様上、BOTからの返信が遅くなったり�
 "天気情報の降水確率で表示してる深夜、朝、昼、夜ってありますよね。あれ正確には\n深夜|0:00～6:00\n朝|6:00～12:00\n昼|12:00～18:00\n夜|18:00～24:00\nの時間区分になってます。時間区分がちょっといい加減すぎですよね。",
 "夕焼けってすごくきれいですよね。普段お忙しいと思うのですが、ちょっとしたときにふと足を止めて空を眺めてみるのも乙な感じがしていいですよ。",
 "あれ、こんなところにメモ用紙がありますね。どれどれ...\n『ここだけの話、レア台詞が2つ存在します。5%のものと1%のものがあるので、興味ある方は探してみて下さい。』\n...?なんのことでしょうか？",
-"このぼっとは、墨田区のごみ捨て案内botというものを少し参考にメッセージを作成したりしています。なにせリアクションが秀逸ですからね。"]
+"このぼっとは、墨田区のごみ捨て案内botというものを少し参考にメッセージを作成したりしています。なにせリアクションの芸が細かくて面白いんですよ。"]
 ###################################################
 
 
