@@ -652,13 +652,15 @@ def handle_message(event):
           fukusouInfo = fukusouHantei((tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para)), needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
           tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
           kasaInfo = kasaHantei(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
+          caution = ""
+          if "気温の情報を取得できませんでした" in fukusouInfo and "傘情報を取得できませんでした" in kasaInfo: caution="\n\n※「今日」の天気情報で情報取得時刻が遅い場合、正常に情報を取得できないことがあります。\n\n"
           if picUrl == "未知の天気":
                line_bot_api.reply_message(
                     event.reply_token,
                     [TextSendMessage(text="それでは、" + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！" + " (1/2)"),
                     TextSendMessage(text=tenkiInfo),
                     TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouInfo + "\n∇次へ∇(任意文字を入力)")])
+                    TextSendMessage(text=fukusouInfo + caution + "\n∇次へ∇(任意文字を入力)")])
           else:
                line_bot_api.reply_message(
                     event.reply_token,
@@ -666,7 +668,7 @@ def handle_message(event):
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                     TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouInfo + "\n\n∇次へ∇(任意文字を入力)")])
+                    TextSendMessage(text=fukusouInfo +  caution + "\n\n∇次へ∇(任意文字を入力)")])
           MySession.update_context(user_id, "14")
        else:
             line_bot_api.reply_message(
@@ -907,6 +909,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = genki))
     elif MySession.read_context(user_id) == "0" and talk == "今何してる？" or talk == "今何してるの？":
+        #レアセリフは1%の確率で聞ける
         if random.randint(0, 99) == 0: imanani = imananisiteruRare
         else:
             i = random.randint(0, len(imananisiteru)) - 1
@@ -1118,8 +1121,8 @@ zatudan = ["システムの仕様上、BOTからの返信が遅くなったり�
 "お豆腐さんに天かすとネギをのせて、上から麺つゆをかけたらとってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。",
 "天気情報の降水確率で表示してる深夜、朝、昼、夜ってありますよね。あれ正確には\n深夜|0:00～6:00\n朝|6:00～12:00\n昼|12:00～18:00\n夜|18:00～24:00\nの時間区分になってます。時間区分がちょっといい加減すぎですよね。",
 "夕焼けってすごくきれいですよね。普段お忙しいと思うのですが、ちょっとしたときにふと足を止めて空を眺めてみるのも乙な感じがしていいですよ。",
-"あれ、こんなところにメモ用紙がありますね。どれどれ...\n『ここだけの話、レア台詞が2つ存在します。5%のものと1%のものがあるので、興味ある方は探してみて下さい。』\n...?なんのことでしょうか？"]
-
+"あれ、こんなところにメモ用紙がありますね。どれどれ...\n『ここだけの話、レア台詞が2つ存在します。5%のものと1%のものがあるので、興味ある方は探してみて下さい。』\n...?なんのことでしょうか？",
+"このぼっとは、墨田区のごみ捨て案内botというものを少し参考にメッセージを作成したりしています。なにせリアクションが秀逸ですからね。"]
 ###################################################
 
 
