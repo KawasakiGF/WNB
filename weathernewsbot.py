@@ -872,7 +872,7 @@ def handle_message(event):
 ###############################
 
 #その他の会話#######################
-    #'''
+    '''
     elif MySession.read_context(user_id) == "0" and (talk == "フォグ" or talk == "フォグくん" or talk == "フォグ君" or talk == "フォグさん"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -1004,12 +1004,12 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "0" and talk == "スペシャルサンクス":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "このシステムを作るにあたり、ボクのキャラクターデザインのご意見などをイラストレーターのほまけさんから頂きました。ボクの面倒を見てくれてありがとうございました！"))
+            TextSendMessage(text = "このシステムを作るにあたり、ボクのキャラクターデザインのご意見などをイラストレーターのほまけさんから頂きました。ボクの面倒を見てくれてありがとうございました！ここからじゃボクの声は届かないだろうけど、この気持ちが届くといいな。"))
     elif MySession.read_context(user_id) == "0" and (talk == "バグ" or talk == "不具合" or talk == "バグある" or talk == "不具合ある" or talk == "バグってる" or talk == "不具合あったよ" or talk == "バグあったよ" or talk == "不具合見つけた" or talk == "不具合見つけたよ" or talk == "バグ見つけた" or talk == "バグ見つけたよ"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "バグがあったんですね！？どこで発生しているか詳細を教えていただけますか？"))
-    #'''
+    '''
 ###############################
 
 #該当しないメッセージが送られてきた場合#########
@@ -1019,7 +1019,7 @@ def handle_message(event):
 
 ###'''で囲めばその間の行をコメントアウトできる
 ###以下は間違えすぎた時のBOTの反応######
-      #'''
+      '''
       if MySession.read_count(user_id) >= 17:
           line_bot_api.reply_message(
               event.reply_token,
@@ -1041,10 +1041,10 @@ def handle_message(event):
               [TextSendMessage(text=kaiwa1_1),
               TextSendMessage(text=kaiwa1_1a)])
       else:
-      #'''
+      '''
 ############################
       #←コメントアウト時はここまで下げる
-          line_bot_api.reply_message(
+      line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text="最初からやり直します。「1か所」or「2か所」を入力してください。"))
           #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
