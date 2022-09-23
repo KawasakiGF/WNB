@@ -924,6 +924,10 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = negirai))
+    elif MySession.read_context(user_id) == "0" and (talk == "しね" or talk == "死ね" or talk == "きえろ" or talk == "消えろ" or talk == "嫌い" or talk == "きらい" or talk == "気に食わない"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = そ、そんな言葉使っちゃだめですっ！))
     elif MySession.read_context(user_id) == "0" and (talk == "こんぺいとう" or talk ==  "ツナマヨ" or talk == "ツナマヨネーズ"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -988,7 +992,7 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "0" and talk == "heroku logs --tail":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "お世話になっております、ヘロクログさん！今日も--尻尾が素敵ですね！（？）"))
+            TextSendMessage(text = "あっ！お世話になっております、ヘロクログさん！今日も--尻尾が素敵ですね！（？）"))
     elif MySession.read_context(user_id) == "0" and ((("性能" in talk or "精度" in talk) and ("悪い" in talk or "わるい" in talk)) or (("あて" in talk or "参考" in talk) and ("なら" in talk)) or talk == "使えない" or talk == "使えないね"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -997,6 +1001,14 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "あー...すみません、ごみの捨て方はボクの仕事の範疇ではないんです。ただ、頼りになる方を知っているのでご紹介いたしますね！\n墨田区のごみ捨て案内bot\n＜リンク＞\nhttps://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/oyakudachi/gomi-bunbetu-chatbot.html\n(右下の黒猫さん「すみにゃーる」を押すと利用開始です！"))
+    elif MySession.read_context(user_id) == "0" and talk == "スペシャルサンクス":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "このシステムを作るにあたり、ボクのキャラクターデザインのご意見などをイラストレーターのほまけさんから頂きました。ボクの面倒を見てくれてありがとうございました！"))
+    elif MySession.read_context(user_id) == "0" and (talk == "バグ" or talk == "不具合" or talk == "バグある" or talk == "不具合ある" or talk == "バグってる" or talk == "不具合あったよ" or talk == "バグあったよ" or talk == "不具合見つけた" or talk == "不具合見つけたよ" or talk == "バグ見つけた" or talk == "バグ見つけたよ"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "バグがあったんですね！？どこで発生しているか詳細を教えていただけますか？"))
     #'''
 ###############################
 
