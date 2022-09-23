@@ -1017,7 +1017,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "バグがあったんですね！？どこで発生しているか詳細を教えていただけますか？"))
-    elif MySession.read_context(user_id) == "0" and (talk == "－－－－　・－・－・　－・－・　・・－・　－・・・" or talk == "－・－・・　－－－－　－・－－－　－・・－　－－－・－　・－・・":
+    elif MySession.read_context(user_id) == "0" and (talk == "－－－－　・－・－・　－・－・　・・－・　－・・・" or talk == "－・－・・　－－－－　－・－－－　－・・－　－－－・－　・－・・"):
         line_bot_api.reply_message(
             event.reply_token,
             [TextSendMessage(text = "ん、もーるす信号だ。えっと、えっと…これがこれで、これがこうかな…よし、送信っと。"),
