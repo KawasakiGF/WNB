@@ -993,6 +993,10 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "あっ！お世話になっております、ヘロクログさん！今日も--尻尾が素敵ですね！（？）"))
+    elif MySession.read_context(user_id) == "0" and talk == "vore" or talk == "ボア"  or talk == "ぼあ":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "ぼあ？それってなんですか？\nうーん、ぼあ？なんだか背筋がぞわぞわするような…？"))
     elif MySession.read_context(user_id) == "0" and ((("性能" in talk or "精度" in talk) and ("悪い" in talk or "わるい" in talk)) or (("あて" in talk or "参考" in talk) and ("なら" in talk)) or talk == "使えない" or talk == "使えないね"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -1010,16 +1014,16 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = "バグがあったんですね！？どこで発生しているか詳細を教えていただけますか？"))
     '''
-    ###############################
+###############################
 
-    #該当しないメッセージが送られてきた場合#########
+#該当しないメッセージが送られてきた場合#########
     else:
+
+###'''で囲めばその間の行をコメントアウトできる
+###以下は間違えすぎた時のBOTの反応######
+      '''
       MySession.update_count(user_id, MySession.read_count(user_id)+1)
 
-
-    ###'''で囲めばその間の行をコメントアウトできる
-    ###以下は間違えすぎた時のBOTの反応######
-      '''
       if MySession.read_count(user_id) >= 17:
           line_bot_api.reply_message(
               event.reply_token,
@@ -1043,8 +1047,7 @@ def handle_message(event):
       else:
       '''
 ############################
-      #←コメントアウト時はここまで下げる
-      line_bot_api.reply_message(
+          line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text="最初からやり直します。「1か所」or「2か所」を入力してください。"))
           #リプライはLineBotApiのメソッドを用いる。 第一引数のevent.reply_tokenはイベントの応答に
