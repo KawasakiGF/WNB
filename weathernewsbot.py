@@ -907,6 +907,10 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "こんばんはです！今日も一日お疲れさまでした！疲れたなと思ったらすぐに休むのが大事ですよ。明日の天気のチェックもお忘れなく！"))
+    elif MySession.read_context(user_id) == "0" and (talk == "優しいね" or talk == "お気遣いありがとう" or talk == "お気遣いどうも" or talk == "お気遣いありがとうございます" or talk == "優しい" or talk == "やさしいね" or talk == "やさしい" or talk == "いい子だね" or talk == "いいコだね" or talk == "いい仔だね"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "いえいえ！"))
     elif MySession.read_context(user_id) == "0" and (talk == "元気？" or talk == "調子どう？"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -948,7 +952,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "えへへ、ありがとうございます！"))
-    elif MySession.read_context(user_id) == "0" and (talk == "ありがとうね" or talk == "ありがとう" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね" or talk == "お仕事がんばってるね" or talk == "お仕事がんばってね"):
+    elif MySession.read_context(user_id) == "0" and (talk == "ありがとうね" or talk == "ありがとう" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね" or talk == "お仕事がんばってるね" or talk == "お仕事がんばってね" or talk == "お気遣いありがとう"):
         thanks = ""
         if talk == "教えてくれてありがとう" or talk == "ありがとうね" or talk == "ありがとう": thanks = "こちらこそ、ご利用くださり誠に"
         line_bot_api.reply_message(
@@ -985,7 +989,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = madaneruwakeniha))
-    elif MySession.read_context(user_id) == "0" and (talk == "git add" or talk == "git commit" or talk == "git push"):
+    elif MySession.read_context(user_id) == "0" and (talk == "git add" or talk == "git commit" or talk == "git push" or talk == "C" or talk == "C++" or talk == "C#" or talk == "Java" or talk == "JavaScript" or talk == "PHP" or talk == "Ruby" or talk == "TypeScript" or talk == "Python" or talk == "R言語" or talk == "GO言語" or talk == "Swift" or talk == "Kotlin" or talk == "Objective-C" or talk == "VisualBasic" or talk == "VBScript" or talk == "BASIC" or talk == "GoogleAppsScript" or talk == "Haskell" or talk == "Scala" or talk == "Groovy" or talk == "Delphi" or talk == "Dart" or talk == "D言語" or talk == "Perl" or talk == "COBOL" or talk == "SQL" or talk == "FORTRAN" or talk == "MATLAB" or talk == "Scratch"):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "むむ、その言葉は...。さてはあなた、プログラミングしたことありますね？"))
@@ -997,7 +1001,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "ぼあ？それってなんですか？\nうーん、ぼあ？なんだか背筋がぞわぞわするような…？"))
-    elif MySession.read_context(user_id) == "0" and ((("性能" in talk or "精度" in talk) and ("悪い" in talk or "わるい" in talk)) or (("あて" in talk or "参考" in talk) and ("なら" in talk)) or talk == "使えない" or talk == "使えないね"):
+    elif MySession.read_context(user_id) == "0" and )((("性能" in talk or "精度" in talk) and ("悪い" in talk or "わるい" in talk)) or (("あて" in talk or "参考" in talk) and ("なら" in talk)) or talk == "使えない" or talk == "使えないね") or (talk == "嘘つき" or talk == "うそつき")):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = gomennnasai))
@@ -1013,6 +1017,11 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "バグがあったんですね！？どこで発生しているか詳細を教えていただけますか？"))
+    elif MySession.read_context(user_id) == "0" and (talk == "－－－－　・－・－・　－・－・　・・－・　－・・・" or talk == "－・－・・　－－－－　－・－－－　－・・－　－－－・－　・－・・":
+        line_bot_api.reply_message(
+            event.reply_token,
+            [TextSendMessage(text = "ん、もーるす信号だ。えっと、えっと…これがこれで、これがこうかな…よし、送信っと。"),
+            TextsendMessage(text = "－－－－　・－・－・　－・－・　・・－・　－・・・　・・－　－・－－－　－・－・－　・・　・－－・－　－・－・　－・・－－　・－－・－　－－－・－　－・・　・・　・・－・・　・－・－－　・・　－－－・－")])
     #'''
 ###############################
 
@@ -1154,7 +1163,7 @@ howToUninstallSP = "＜スマホをご利用の方＞\n1)トーク一覧のWeath
 gomennnasai = "申し訳ございませんっ！精度、良くないですよね…。ボクがまだこのbotを使いこなせていないがためにご不便ご迷惑をおかけしてしまい、誠に申し訳ございません。\nもしよければアンケートを実施しておりますので、不便な点などをご報告いただければ幸いです。"
 zatudan = ["システムの仕様上、BOTからの返信が遅くなったり、返信が来なかったりすることがあります。それが顕著にみられるのが、「使い始め」と「暑がり寒がりを聞いた後」です。前者はBOTサーバーを起動するため、後者は情報取得と処理に時間がかかるから、反応が遅くなっちゃうんです。",
 "「こんぺいとう」っておいしいですよね。あのポリポリっとした触感に、口に入れた瞬間に広がる優しい甘さ…。あれがたまらなく好きです。",
-"この会話を見れるのは基本的にわざと入力ミスし続けた人だけだと思うのですが、ヒントなしにココにだとりつける人っているんでしょうかね？",
+"この会話の存在を知っている人は基本的にわざと入力ミスし続けた人だけだと思うのですが、ヒントなしにココにだとりつける人っているんでしょうかね？",
 "墨田区のごみ捨て案内bot っていうえーあいちゃっとぼっと？があるんですけど、ホントにいろんなものの捨て方を教えてくれるみたいです。たとえば傘とか蛍光灯とか上司とか…。ご興味があれば一度調べてみてください。\n＜リンク＞\nhttps://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/oyakudachi/gomi-bunbetu-chatbot.html\n(右下の黒猫さん「すみにゃーる」を押すと利用開始です！)",
 "お豆腐さんに天かすとネギをのせて、上から麺つゆをかけたらとってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。",
 "天気情報の降水確率で表示してる深夜、朝、昼、夜ってありますよね。あれ正確には\n深夜|0:00～6:00\n朝|6:00～12:00\n昼|12:00～18:00\n夜|18:00～24:00\nの時間区分になってます。時間区分がちょっといい加減すぎですよね。",
