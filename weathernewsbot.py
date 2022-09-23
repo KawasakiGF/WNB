@@ -927,7 +927,7 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "0" and (talk == "しね" or talk == "死ね" or talk == "きえろ" or talk == "消えろ" or talk == "嫌い" or talk == "きらい" or talk == "気に食わない"):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "そ、そんな言葉使っちゃだめですっ！"))
+            TextSendMessage(text = "そ、そんなひどいコト言わないでくださいっ！ぐすんっ…"))
     elif MySession.read_context(user_id) == "0" and (talk == "こんぺいとう" or talk ==  "ツナマヨ" or talk == "ツナマヨネーズ"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -1010,15 +1010,15 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = "バグがあったんですね！？どこで発生しているか詳細を教えていただけますか？"))
     '''
-###############################
+    ###############################
 
-#該当しないメッセージが送られてきた場合#########
+    #該当しないメッセージが送られてきた場合#########
     else:
       MySession.update_count(user_id, MySession.read_count(user_id)+1)
 
 
-###'''で囲めばその間の行をコメントアウトできる
-###以下は間違えすぎた時のBOTの反応######
+    ###'''で囲めばその間の行をコメントアウトできる
+    ###以下は間違えすぎた時のBOTの反応######
       '''
       if MySession.read_count(user_id) >= 17:
           line_bot_api.reply_message(
