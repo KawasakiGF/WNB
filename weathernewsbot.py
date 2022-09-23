@@ -927,7 +927,7 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "0" and (talk == "しね" or talk == "死ね" or talk == "きえろ" or talk == "消えろ" or talk == "嫌い" or talk == "きらい" or talk == "気に食わない"):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = そ、そんな言葉使っちゃだめですっ！))
+            TextSendMessage(text = "そ、そんな言葉使っちゃだめですっ！"))
     elif MySession.read_context(user_id) == "0" and (talk == "こんぺいとう" or talk ==  "ツナマヨ" or talk == "ツナマヨネーズ"):
         line_bot_api.reply_message(
             event.reply_token,
