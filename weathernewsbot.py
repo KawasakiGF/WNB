@@ -1001,7 +1001,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "ぼあ？それってなんですか？\nうーん、ぼあ？なんだか背筋がぞわぞわするような…？"))
-    elif MySession.read_context(user_id) == "0" and )((("性能" in talk or "精度" in talk) and ("悪い" in talk or "わるい" in talk)) or (("あて" in talk or "参考" in talk) and ("なら" in talk)) or talk == "使えない" or talk == "使えないね") or (talk == "嘘つき" or talk == "うそつき")):
+    elif MySession.read_context(user_id) == "0" and (((("性能" in talk or "精度" in talk) and ("悪い" in talk or "わるい" in talk)) or (("あて" in talk or "参考" in talk) and ("なら" in talk)) or talk == "使えない" or talk == "使えないね") or (talk == "嘘つき" or talk == "うそつき")):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = gomennnasai))
