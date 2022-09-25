@@ -558,6 +558,29 @@ def handle_message(event):
                 TextSendMessage(text = "ふあぁ...よく寝たです...\nあ、" + user_name + ohayou))
         MySession.update_oyasumi(user_id, MySession.read_oyasumi(user_id)-1)
 
+#いつものセットでお天気検索
+    elif MySession.read_context(user_id) == "0" and (talk == "いつもの" or talk == "いつもので" or talk == "いつものでお願い" or talk == "いつものでおねがい" or talk == "いつものお願い" or talk == "いつものおねがい" or talk == "いつもの頼む" or talk == "いつもの頼んだ" or talk == "いつものたのむ" or talk == "いつものたのんだ"):
+          para = MySession.read_para(user_id)
+          picUrl = picUrlMaker(needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
+          fukusouInfo = fukusouHantei((tempMEANMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)) + int(para)), needWeatherMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id)))
+          tenkiInfo = OtenkiMessageMaker(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
+          kasaInfo = kasaHantei(Tcode[Tname.index(MySession.read_area(user_id))], MySession.read_date(user_id))
+          if picUrl == "未知の天気":
+               line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
+                    TextSendMessage(text=tenkiInfo),
+                    TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=fukusouInfo)])
+          else:
+               line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！"),
+                    TextSendMessage(text=tenkiInfo),
+                    ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
+                    TextSendMessage(text=kasaInfo),
+                    TextSendMessage(text=fukusouInfo)])
+
 #1か所の場所を聞く####################
     elif MySession.read_context(user_id) == "0" and ("1" in talk or "１" in talk or "一" in talk):
        if "1" in talk or "１" in talk or "一" in talk:
@@ -644,7 +667,7 @@ def handle_message(event):
                     [TextSendMessage(text="それでは、" + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！" + " (1/2)"),
                     TextSendMessage(text=tenkiInfo),
                     TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouInfo + caution)])
+                    TextSendMessage(text=fukusouInfo + caution + "\n∇次へ∇(任意文字を入力)")])
           else:
                line_bot_api.reply_message(
                     event.reply_token,
@@ -652,13 +675,47 @@ def handle_message(event):
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                     TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouInfo +  caution)])
-          MySession.reset(user_id)
+                    TextSendMessage(text=fukusouInfo +  caution + "\n\n∇次へ∇(任意文字を入力)")])
+          MySession.update_context(user_id, "14")
        else:
             line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=tellHotOrColdError))
 
+#１か所の情報保持を聞く
+    elif MySession.read_context(user_id) == "14":
+          if MySession.read_date(user_id) == 0: date="今日"
+          elif MySession.read_date(user_id) == 1: date="明日"
+          elif MySession.read_date(user_id) == 2: date="明後日"
+          if MySession.read_para(user_id) == 3: para="暑がり"
+          elif MySession.read_para(user_id) == 0: para="どちらでもない"
+          elif MySession.read_para(user_id) == -3: para="寒がり"
+          line_bot_api.reply_message(
+             event.reply_token,
+             [TextSendMessage(text="情報を保持しますか？保持する場合は「はい」を入力してください。\n保持すると、次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！" + " (2/2)"),
+             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + para)])
+          MySession.update_context(user_id, "15")
+
+#１か所の情報保持判定
+    elif MySession.read_context(user_id) == "15":
+       if talk == "はい" or talk == "保持する" or talk == "保持" or talk == "お願いします" or talk == "おねがいします" or talk == "おねがい" or talk == "お願い":
+          if MySession.read_date(user_id) == 0: date="今日"
+          elif MySession.read_date(user_id) == 1: date="明日"
+          elif MySession.read_date(user_id) == 2: date="明後日"
+          if MySession.read_para(user_id) == 3: para="暑がり"
+          elif MySession.read_para(user_id) == 0: para="どちらでもない"
+          elif MySession.read_para(user_id) == -3: para="寒がり"
+          line_bot_api.reply_message(
+             event.reply_token,
+             [TextSendMessage(text="情報保持しました！次回以降「いつもの」と入力すれば以下の条件で天気情報を検索できます！"),
+             TextSendMessage(text="<日付>" + date + "\n<場所>" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "\n<体調>" + para),
+             TextSendMessage(text="情報は次の1か所or2か所の天気情報検索時まで保持されます。")])
+          MySession.update_context(user_id, "0")
+       else:
+          line_bot_api.reply_message(
+             event.reply_token,
+             TextSendMessage(text="保持しませんでした。またご利用になられる場合は「1か所」もしくは「2か所」を入力してください"))
+          MySession.reset(user_id)
 ###############################
 
 #2か所の場所を聞く####################
@@ -1138,7 +1195,7 @@ zatudan = ["システムの仕様上、BOTからの返信が遅くなったり�
 "夕焼けってすごくきれいですよね。普段お忙しいと思うのですが、ちょっとしたときにふと足を止めて空を眺めてみるのも乙な感じがしていいですよ。",
 "あれ、こんなところにメモ用紙がありますね。どれどれ…\n『ここだけの話、レア台詞が複数存在します。4%のものと1%のものがあるので、興味ある方は探してみて下さい。ちなみに、ここの雑談には無いですよ。』\n…?なんのことでしょうか？",
 "このぼっとは、墨田区のごみ捨て案内botというものを少し参考にメッセージを作成したりしています。なにせリアクションの芸が細かくて面白いんですよ。",
-"実は開発初期段階時点では、入力した情報を保持して次回以降の入力を簡単に済ませられるシステムが組まれていたそうです。\nどうして無くなったか、ですか？…残念ながら、仕様です。",
+"実は開発初期段階時点では、入力した情報を保持して次回以降の入力を簡単に済ませられるシステムが組まれていたそうです。\nどうして無くなったか、ですか？…残念ながら、仕様が…",
 "回文ってご存じですか？たとえば しんぶんし などがそれにあたります。ボクの好きな回文に リモコンてんこ盛り っていうのがあるんですよね。クスっと笑えるシチュエーションなのが好きなポイントです。"]
 ankeThanks1 = "アンケートにご協力くださりありがとうございました！長い長いアンケートだったと思いますが、ご回答くださり嬉しい限りです！実はボクの方からも"
 ankeThanks2 = "さんの回答結果を見ることができるのですが、とても丁寧にご回答くださっているようで感謝の言葉もありません！"
