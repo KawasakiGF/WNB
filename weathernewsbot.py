@@ -826,7 +826,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text = "現在のバージョンはver1.0です"))
 #フォグ君が追加されたらアンケートに一個メッセージを追加する
-    elif MySession.read_context(user_id) == "0" and ("アンケート" in talk or "questionnaire" in talk or "あんけーと" in talk):
+    elif MySession.read_context(user_id) == "0" and ("アンケート" in talk or "questionnaire" in talk or "あんけーと" in talk) and talk != "アンケート回答した":
         line_bot_api.reply_message(
             event.reply_token,
            [TextSendMessage(text = "↓アンケートはこちらから\nhttps://forms.office.com/r/890X6LLyRU"),
