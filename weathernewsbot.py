@@ -989,7 +989,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             [TextSendMessage(text = anke-toThanks1 + user_name + anke-toThanks2),
-            TextSendMessage(text = anke-toThanks3
+            TextSendMessage(text = anke-toThanks3)])
     #'''
 ###############################
 
