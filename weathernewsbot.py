@@ -824,7 +824,7 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "0" and ("バージョン" in talk or "ver" in talk or "ばーじょん" in talk):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "現在のバージョンはver1.0です"))
+            TextSendMessage(text = "現在のバージョンはver1.0です。"))
 #フォグ君が追加されたらアンケートに一個メッセージを追加する
     elif MySession.read_context(user_id) == "0" and ("アンケート" in talk or "questionnaire" in talk or "あんけーと" in talk) and talk != "アンケート回答した":
         line_bot_api.reply_message(
@@ -928,7 +928,7 @@ def handle_message(event):
             TextSendMessage(text = howToUninstallPC),
             TextSendMessage(text = howToUninstallSP),
             TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい。\n\n(ぐすっ、さようならっ…)")])
-    elif MySession.read_context(user_id) == "0" and (talk == "使うのを止めたい" or talk == "botの消し方" or talk == "botの消し方を教えて" or talk == "チャットの消し方" or talk == "チャットの止め方" or talk == "チャットの消し方を教えて" or talk == "チャットの止め方を教えて" or talk == "トークの消し方" or talk == "トークの止め方" or talk == "トークの消し方を教えて" or talk == "トークの止め方を教えて"):
+    elif MySession.read_context(user_id) == "0" and (talk == "使うのを止めたい" or talk == "botの消し方" or talk == "botの消し方を教えて" or talk == "チャットの消し方" or talk == "チャットの止め方" or talk == "チャットの消し方を教えて" or talk == "チャットの止め方を教えて" or talk == "トークの消し方" or talk == "トークの止め方" or talk == "トークの消し方を教えて" or talk == "トークの止め方を教えて" or talk == "botの削除" or talk == "botの削除方法"):
         line_bot_api.reply_message(
             event.reply_token,
             [TextSendMessage(text = imamadearigatou),
@@ -1142,7 +1142,7 @@ zatudan = ["システムの仕様上、BOTからの返信が遅くなったり�
 "回文ってご存じですか？たとえば しんぶんし などがそれにあたります。ボクの好きな回文に リモコンてんこ盛り っていうのがあるんですよね。クスっと笑えるシチュエーションなのが好きなポイントです。"]
 ankeThanks1 = "アンケートにご協力くださりありがとうございました！長い長いアンケートだったと思いますが、ご回答くださり嬉しい限りです！実はボクの方からも"
 ankeThanks2 = "さんの回答結果を見ることができるのですが、とても丁寧にご回答くださっているようで感謝の言葉もありません！"
-ankeThanks3 = "ひょっとするとすでに知っている方もいらっしゃるかもしれませんが、ボクが反応できるキーワードをは最初にお伝えしたものだけじゃないんです。それこそ、会話をするように話しかけてもらうと反応できたりするかもです。ご興味があれば試してみてくださいね。\nここまでお付き合いくださり、またアンケートにもご回答くださりありがとうございました！！\nではでは～！"
+ankeThanks3 = "ひょっとするとすでに知っている方もいらっしゃるかもしれませんが、ボクが反応できるキーワードをは最初にお伝えしたものだけじゃないんです。それこそ今のように。なので、会話をするように話しかけてもらうと反応できたりするかもです。ご興味があれば試してみてくださいね。\nここまでお付き合いくださり、またアンケートにもご回答くださりありがとうございました！！\nではでは～！"
 
 ###################################################
 
