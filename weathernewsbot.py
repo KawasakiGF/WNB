@@ -644,7 +644,7 @@ def handle_message(event):
                     [TextSendMessage(text="それでは、" + day[MySession.read_date(user_id)] + "の" + MySession.read_areaT(user_id) + MySession.read_area(user_id) + "の天気情報を表示します！" + " (1/2)"),
                     TextSendMessage(text=tenkiInfo),
                     TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouInfo + caution")])
+                    TextSendMessage(text=fukusouInfo + caution)])
           else:
                line_bot_api.reply_message(
                     event.reply_token,
@@ -652,7 +652,7 @@ def handle_message(event):
                     TextSendMessage(text=tenkiInfo),
                     ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),
                     TextSendMessage(text=kasaInfo),
-                    TextSendMessage(text=fukusouInfo +  caution")])
+                    TextSendMessage(text=fukusouInfo +  caution)])
           MySession.reset(user_id)
        else:
             line_bot_api.reply_message(
