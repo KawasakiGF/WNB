@@ -534,10 +534,16 @@ def handle_message(event):
         # 現在のstatusを消して新規statusで初期化。
         MySession.reset(user_id)
 
+#ヘルプ
+    if ("ヘルプ" in talk or "help" in talk or "へるぷ" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "・天気情報を知るキーワードを忘れた\n→キーワード「1か所」or「2か所」を入力してください。1か所は普段の天気確認に、2か所は旅行時などの天気確認に適しています。\n・途中で会話を止めたい\n→キーワード「リセット」を入力してください。\n・現在のバージョンの確認\n→キーワード「バージョン」を入力してください。\n・アンケートのリンク、アンケートで答える内容が分からない\n→キーワード「アンケート」を入力してください。"))
+
 #すやすやフォグくん
     if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1):
         if MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2:
-            #レアな寝言は5%の確率で聞ける
+            #レアな寝言は4%の確率で聞ける
             if random.randint(0, 24) == 0: negoto = suyasuyaFogKunRare[0]
             elif random.randint(0, 24) == 1: negoto = suyasuyaFogKunRare[1]
             else:
@@ -871,6 +877,20 @@ def handle_message(event):
 
 ###############################
 
+#基礎info#########################
+    elif MySession.read_context(user_id) == "0" and ("バージョン" in talk or "ver" in talk or "ばーじょん" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "現在のバージョンはver1.0です"))
+#フォグ君が追加されたらアンケートに一個メッセージを追加する
+    elif MySession.read_context(user_id) == "0" and ("アンケート" in talk or "questionnaire" in talk or "あんけーと" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+           [TextSendMessage(text = "↓アンケートはこちらから"),
+           TextSendMessage(text = "アンケートでは、あなたが現在使用している天気予報のアプリやシステムなどと比べ、WeatherNewsBotがどれくらい便利か、システムの完成度や利便性はどの程度か、追加してほしい機能や不満点、バグの有無などについてお伺いしています。")])
+           #TextSendMEssage(text = "ver1.1では、ver1.0を利用した方と利用されていない方で別にアンケート項目を設けております(ver1.0からご利用いただいている方は、1.0の時に比べどの程度改善したかなどを伺っています)。さらに、WeatherNewsBotのマスコットキャラクター「フォグ」との会話を意識したアップデートを通して使用意欲の向上があったか、知名度や利用者の増加は見込めるかなどについてもお伺いしています")])
+###############################
+
 #その他の会話#######################
     #'''
     elif MySession.read_context(user_id) == "0" and (talk == "フォグ" or talk == "フォグくん" or talk == "フォグ君" or talk == "フォグさん"):
@@ -1016,7 +1036,7 @@ def handle_message(event):
     elif MySession.read_context(user_id) == "0" and (talk == "バグ" or talk == "不具合" or talk == "バグある" or talk == "不具合ある" or talk == "バグってる" or talk == "不具合あったよ" or talk == "バグあったよ" or talk == "不具合見つけた" or talk == "不具合見つけたよ" or talk == "バグ見つけた" or talk == "バグ見つけたよ"):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "バグがあったんですね！？どこで発生しているか詳細を教えていただけますか？"))
+            TextSendMessage(text = "バグがあったんですね！？不具合があり申し訳ございません！\n実施しているアンケートの中に[追加してほしい機能や不具合がありましたら、こちらにご記入ください]という欄がありますので、お手数をおかけしますがそちらに入力していただけますと幸いです！\nアンケートはこちらから↓\n<リンク>"))
     elif MySession.read_context(user_id) == "0" and (talk == "－－－－　・－・－・　－・－・　・・－・　－・・・" or talk == "－・－・・　－－－－　－・－－－　－・・－　－－－・－　・－・・"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -1168,9 +1188,10 @@ zatudan = ["システムの仕様上、BOTからの返信が遅くなったり�
 "お豆腐さんに天かすとネギをのせて、上から麺つゆをかけたらとってもおいしいですよ。揚げ出し豆腐みたいな感じになってパクパク食べられちゃいます。",
 "天気情報の降水確率で表示してる深夜、朝、昼、夜ってありますよね。あれ正確には\n深夜|0:00～6:00\n朝|6:00～12:00\n昼|12:00～18:00\n夜|18:00～24:00\nの時間区分になってます。時間区分がちょっといい加減すぎですよね。",
 "夕焼けってすごくきれいですよね。普段お忙しいと思うのですが、ちょっとしたときにふと足を止めて空を眺めてみるのも乙な感じがしていいですよ。",
-"あれ、こんなところにメモ用紙がありますね。どれどれ…\n『ここだけの話、レア台詞が複数存在します。4%のものと1%のものがあるので、興味ある方は探してみて下さい。』\n…?なんのことでしょうか？",
+"あれ、こんなところにメモ用紙がありますね。どれどれ…\n『ここだけの話、レア台詞が複数存在します。4%のものと1%のものがあるので、興味ある方は探してみて下さい。ちなみに、ここの雑談には無いですよ。』\n…?なんのことでしょうか？",
 "このぼっとは、墨田区のごみ捨て案内botというものを少し参考にメッセージを作成したりしています。なにせリアクションの芸が細かくて面白いんですよ。",
-"実は開発初期段階時点では、入力した情報を保持して次回以降の入力を簡単に済ませられるシステムが組まれていたそうです。\nどうして無くなったか、ですか？…残念ながら、仕様です。"]
+"実は開発初期段階時点では、入力した情報を保持して次回以降の入力を簡単に済ませられるシステムが組まれていたそうです。\nどうして無くなったか、ですか？…残念ながら、仕様です。",
+"回文ってご存じですか？たとえば しんぶんし などがそれにあたります。ボクの好きな回文に リモコンてんこ盛り っていうのがあるんですよね。クスっと笑えるシチュエーションなのが好きなポイントです。"]
 
 ###################################################
 
