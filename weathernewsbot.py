@@ -893,6 +893,26 @@ def handle_message(event):
 
 #その他の会話#######################
     #'''
+    elif MySession.read_context(user_id) == "0" and ("狐" in talk or "キツネ" in talk or "きつね" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = teachKituneTenki))
+    elif MySession.read_context(user_id) == "0" and ("鳥" in talk or "ツバメ" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = teachTubameTenki))
+    elif MySession.read_context(user_id) == "0" and ("猫" in talk or "ネコ" in talk or "ねこ" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = teachNekoTenki))
+    elif MySession.read_context(user_id) == "0" and ("蜘蛛" in talk or "クモ" in talk or "くも" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = teachKumonosuTenki))
+    elif MySession.read_context(user_id) == "0" and (("君" in talk or "あなた" in talk or "フォグ" in talk) and "化か" in talk):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = bakasanaidesu))
     elif MySession.read_context(user_id) == "0" and (talk == "フォグ" or talk == "フォグくん" or talk == "フォグ君" or talk == "フォグさん"):
         line_bot_api.reply_message(
             event.reply_token,
@@ -901,6 +921,10 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = jikosyoukai))
+    elif MySession.read_context(user_id) == "0" and talk == "卒研が終わらない" or talk == "卒研終わらない" or talk == "卒研終わらん" or talk == "卒研が終わらん" or talk == "卒研詰んでる" or talk == "卒研が詰んでる" or talk == "卒研終わってる" or talk == "卒研が終わってる":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "それは大変です！急いで頑張らないと…ですが、頑張りすぎて根を詰めちゃうのはダメですよ！ときには一人で抱え込まず誰かに相談すると少しは焦る気持ちも楽になるかもしれません。\nボクもここからあなたことを応援してますよ、ファイトです！"))
     elif MySession.read_context(user_id) == "0" and talk == "その帽子って？":
         b = random.randint(0, len(bousiInfo)) - 1
         line_bot_api.reply_message(
@@ -1160,6 +1184,11 @@ kaiwa1_2 = "ちょっとちょっと、間違えすぎですって！\n...もし
 kaiwa1_3 = "ひょっとしてボクに話しかけてくれてますか？\nでもごめんなさい。あなたとお話をしたくても、ここからじゃお話はできないんです。ごめんなさい…"
 kaiwa1_4 = "ただ、ちょっとだけならお話できます。判定は厳しめなので、一文字でも間違えちゃダメですよ？\nこんなキーワードを入力してみてください。\n・「自己紹介してくれる？」\n・「その帽子って？」\n・「雑談しよう\n・「おはよう」\nなどなど"
 
+teachKituneTenki = "空は晴れてるのに雨が降った時を 狐の嫁入り といいます。狐の嫁入りとは言いますが、ボクたちキツネの種族は関係無いですよ？遠い昔、他の土地からやってくる嫁入りの行列が山や川を提灯を持って一列でやってきていたそうです。でも、予定はないのに提灯の行列ができているという不思議な現象があったのだとか。それを見た人が、狐が嫁入りのマネをして人を化かしている。と考えて狐の嫁入りという言葉をつけたといわれています。その後狐は雨の日に嫁入りをすると思われていたので、晴れているのに雨が降るという珍しい事にも狐の嫁入りという言葉を使うようになり、今に至るわけですね。"
+teachTubameTenki = "雨が降りそうなときの言葉で、 ツバメが低く飛ぶと雨が降る っていう言葉を聞いたことはありますか？これはツバメが食べる虫が湿度が高くなるとあまり飛べなくなるので、それを食べようとするツバメもおのずと低く飛ぶようになるからだそうです。"
+teachKumonosuTenki = "天気の言葉で、 蜘蛛の巣に朝露が掛かっていると晴れる という言葉は知っていますか？前日の夜が晴れていると地面にたまった熱がそのまま空の方へ逃げていくので、空気中の水蒸気が冷やされて水に変わって蜘蛛の巣に水滴がつくんです。この言葉は前日の夜が良く晴れたら次の日も晴れるだろうという推測からきた言葉みたいです。"
+teachNekoTenki = "ネコ科の方々がされる毛づくろいってかわいい仕草ですよね！そうだ、 猫が顔を洗っていると雨が降る という言葉はご存じですか？ネコ科の方々は気圧の変化を感じ取れるので、耳の後ろまで入念に毛づくろいするときはそれだけ毛が湿気を帯びているからだそうです。"
+bakasanaidesu = "ええっ、そんな不義理なことするわけないじゃないですか！それはおとぎ話の類ですから、キツネの種族で実際にそんなことをするヤツはめったにいませんよ。特にボクみたいな一族は人間さんと昔からお付き合いがありますから、もし化かそうとしようもんならお父さんに首根っこ掴まれて振り回しの刑に処されちゃいますから。大丈夫です、ご安心ください！"
 FogDesu = "こんにちは、フォグです！本日はどのようなご用件でしょうか？"
 jikosyoukai = "えっ、自己紹介ですか？分かりました！\nボクはフォグ。このぼっと？を取り仕切るお仕事をしてます！「こんぺいとう」と誰かのお役にたつことが好きです！まだまだ未熟者で至らない点がたくさんあるかと思いますが、どうぞよろしくお願いします！"
 bousiInfo = ["これですか？これはボクのお父さんから譲り受けた帽子なんです。ボクの一族は代々この仕事に従事していて、ボクも最近退職したお父さんの後を継いで着任したばかりなんですよ。",
