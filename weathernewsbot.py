@@ -541,22 +541,8 @@ def handle_message(event):
             TextSendMessage(text = "・天気情報を知るキーワードを忘れた\n→キーワード「1か所」or「2か所」を入力してください。1か所は普段の天気確認に、2か所は旅行時などの天気確認に適しています。\n・途中で会話を止めたい\n→キーワード「リセット」を入力してください。\n・現在のバージョンの確認\n→キーワード「バージョン」を入力してください。\n・アンケートのリンク、アンケートで答える内容が分からない\n→キーワード「アンケート」を入力してください。"))
 
 #すやすやフォグくん
-    if (MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2 or MySession.read_oyasumi(user_id) == 1):
-        if MySession.read_oyasumi(user_id) == 3 or MySession.read_oyasumi(user_id) == 2:
-            #レアな寝言は4%の確率で聞ける
-            if random.randint(0, 24) == 0: negoto = suyasuyaFogKunRare[0]
-            elif random.randint(0, 24) == 1: negoto = suyasuyaFogKunRare[1]
-            else:
-                s = random.randint(0, len(suyasuyaFogKun)) - 1
-                negoto = suyasuyaFogKun[s]
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text = negoto))
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text = "ふあぁ...よく寝たです...\nあ、" + user_name + ohayou))
-        MySession.update_oyasumi(user_id, MySession.read_oyasumi(user_id)-1)
+
+
 
 #いつものセットでお天気検索
     elif MySession.read_context(user_id) == "0" and (talk == "いつもの" or talk == "いつもので" or talk == "いつものでお願い" or talk == "いつものでおねがい" or talk == "いつものお願い" or talk == "いつものおねがい" or talk == "いつもの頼む" or talk == "いつもの頼んだ" or talk == "いつものたのむ" or talk == "いつものたのんだ"):
@@ -893,184 +879,7 @@ def handle_message(event):
 
 #その他の会話#######################
     #'''
-    elif MySession.read_context(user_id) == "0" and ("狐" in talk or "キツネ" in talk or "きつね" in talk):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = teachKituneTenki))
-    elif MySession.read_context(user_id) == "0" and ("鳥" in talk or "ツバメ" in talk):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = teachTubameTenki))
-    elif MySession.read_context(user_id) == "0" and ("猫" in talk or "ネコ" in talk or "ねこ" in talk):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = teachNekoTenki))
-    elif MySession.read_context(user_id) == "0" and ("蜘蛛" in talk or "クモ" in talk or "くも" in talk):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = teachKumonosuTenki))
-    elif MySession.read_context(user_id) == "0" and (("君" in talk or "あなた" in talk or "フォグ" in talk) and "化か" in talk):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = bakasanaidesu))
-    elif MySession.read_context(user_id) == "0" and (talk == "フォグ" or talk == "フォグくん" or talk == "フォグ君" or talk == "フォグさん"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = FogDesu))
-    elif MySession.read_context(user_id) == "0" and talk == "自己紹介してくれる？":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = jikosyoukai))
-    elif MySession.read_context(user_id) == "0" and talk == "卒研が終わらない" or talk == "卒研終わらない" or talk == "卒研終わらん" or talk == "卒研が終わらん" or talk == "卒研詰んでる" or talk == "卒研が詰んでる" or talk == "卒研終わってる" or talk == "卒研が終わってる":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "それは大変です！急いで頑張らないと…ですが、頑張りすぎて根を詰めちゃうのはダメですよ！ときには一人で抱え込まず誰かに相談すると少しは焦る気持ちも楽になるかもしれません。\nボクもここからあなたことを応援してますよ、ファイトです！"))
-    elif MySession.read_context(user_id) == "0" and talk == "その帽子って？":
-        b = random.randint(0, len(bousiInfo)) - 1
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = bousiInfo[b]))
-    elif MySession.read_context(user_id) == "0" and talk == "制作秘話":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = seisakuhiwa))
-    elif MySession.read_context(user_id) == "0" and talk == "雑談しよう":
-        x = random.randint(0, len(zatudan)) - 1
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = zatudan[x]))
-    elif MySession.read_context(user_id) == "0" and (talk == "おはよう" or talk == "おはようございます" or talk == "おはよう！" or talk == "おはようございます！"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "おはようございます！今日も一日がんばりましょう！"))
-    elif MySession.read_context(user_id) == "0" and talk == "こんにちは" or talk == "こんにちは！":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "こんにちはです！今日もお仕事やお勉強は順調に進んでいますか？頑張るのも大事ですが、適度に休憩するもの大事ですよ！"))
-    elif MySession.read_context(user_id) == "0" and talk == "こんばんは" or talk == "こんばんは！":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "こんばんはです！今日も一日お疲れさまでした！疲れたなと思ったらすぐに休むのが大事ですよ。明日の天気のチェックもお忘れなく！"))
-    elif MySession.read_context(user_id) == "0" and (talk == "優しいね" or talk == "お気遣いありがとう" or talk == "お気遣いどうも" or talk == "お気遣いありがとうございます" or talk == "優しい" or talk == "やさしいね" or talk == "やさしい" or talk == "いい子だね" or talk == "いいコだね" or talk == "いい仔だね"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "いえいえ！"))
-    elif MySession.read_context(user_id) == "0" and (talk == "元気？" or talk == "調子どう？"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = genki))
-    elif MySession.read_context(user_id) == "0" and talk == "今何してる？" or talk == "今何してるの？":
-        #レアセリフは1%の確率で聞ける
-        if random.randint(0, 99) == 0: imanani = imananisiteruRare
-        else:
-            i = random.randint(0, len(imananisiteru)) - 1
-            imanani = imananisiteru[i]
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = imanani))
-    elif MySession.read_context(user_id) == "0" and (talk == "疲れた" or talk == "仕事疲れた" or talk == "つかれた" or talk == "仕事つかれた"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = negirai))
-    elif MySession.read_context(user_id) == "0" and (talk == "しね" or talk == "死ね" or talk == "きえろ" or talk == "消えろ" or talk == "嫌い" or talk == "きらい" or talk == "気に食わない"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "そ、そんなひどいコト言わないでくださいっ！ぐすんっ…"))
-    elif MySession.read_context(user_id) == "0" and (talk == "こんぺいとう" or talk ==  "ツナマヨ" or talk == "ツナマヨネーズ"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "じゅるり..."))
-    elif MySession.read_context(user_id) == "0" and ("こんぺいとう" in talk and "あげる" in talk):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = getKonpeitou))
-    elif MySession.read_context(user_id) == "0" and (("ツナマヨ" in talk or "ツナマヨネーズ" in talk) and "あげる" in talk):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = getTunamayo))
-    elif MySession.read_context(user_id) == "0" and (talk == "頑張って" or talk == "頑張ってるね" or talk == "がんばって" or talk == "がんばってるね" or talk == "お仕事頑張って" or talk == "お仕事頑張ってるね" or talk == "お仕事がんばって" or talk == "お仕事がんばってるね" or talk == "お仕事ご苦労様" or talk == "ご苦労様" or talk == "お仕事ごくろうさま" or talk == "ごくろうさま"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "お気遣いありがとうございます！" + user_name + "さんも頑張って下さい！ただ、無理だけはしちゃダメですよ～！"))
-    elif MySession.read_context(user_id) == "0" and (talk == "かわいい" or talk == "かわいいね"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "えへへ、ありがとうございます！"))
-    elif MySession.read_context(user_id) == "0" and (talk == "ありがとうね" or talk == "ありがとう" or talk == "教えてくれてありがとう" or talk == "お仕事ご苦労様" or talk == "お仕事えらいね" or talk == "お仕事偉いね" or talk == "お仕事がんばってるね" or talk == "お仕事がんばってね" or talk == "お気遣いありがとう"):
-        thanks = ""
-        if talk == "教えてくれてありがとう" or talk == "ありがとうね" or talk == "ありがとう": thanks = "こちらこそ、ご利用くださり誠に"
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = thanks + "ありがとうございます！" + user_name +"さんのお役に立てるよう、精一杯頑張ります！"))
-    elif MySession.read_context(user_id) == "0" and (talk == "もういらない" or talk == "お前を消す方法"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            [TextSendMessage(text = mouiranai),
-            TextSendMessage(text = howToUninstallPC),
-            TextSendMessage(text = howToUninstallSP),
-            TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい。\n\n(ぐすっ、さようならっ…)")])
-    elif MySession.read_context(user_id) == "0" and (talk == "使うのを止めたい" or talk == "botの消し方" or talk == "botの消し方を教えて" or talk == "チャットの消し方" or talk == "チャットの止め方" or talk == "チャットの消し方を教えて" or talk == "チャットの止め方を教えて" or talk == "トークの消し方" or talk == "トークの止め方" or talk == "トークの消し方を教えて" or talk == "トークの止め方を教えて" or talk == "botの削除" or talk == "botの削除方法"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            [TextSendMessage(text = imamadearigatou),
-            TextSendMessage(text = howToUninstallPC),
-            TextSendMessage(text = howToUninstallSP),
-            TextSendMessage(text = user_name + "さん、今までお世話になりました。これからもお体に気を付けて元気でお過ごし下さい！")])
-    elif MySession.read_context(user_id) == "0" and (talk == "おやすみ" or talk == "おやすみなさい" or talk == "お休み" or talk == "お休みなさい" or talk == "寝ます" or talk == "寝る" or talk == "ねます" or talk == "ねる" or talk == "眠い" or talk == "ねむい" or talk == "眠たい" or talk == "ねむたい"):
-        nemuitokiha = ""
-        if talk == "眠い" or talk == "ねむい" or talk == "眠たい" or talk == "ねむたい": nemuitokiha = "眠たいときは素直に寝ちゃうのがイチバンですよ！"
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = nemuitokiha + netyaimasyou))
-        MySession.update_oyasumi(user_id, 11)
-    elif MySession.read_context(user_id) == "0" and (talk == "寝なよ" or talk == "寝てもいいよ" or talk == "一緒に寝よう" or talk == "休んでもいいよ" or talk == "休んじゃいなよ" or talk == "一緒に寝る？" or talk == "休んでもいいんじゃない？" or talk == "寝ちゃいなよ" or talk == "寝ちゃってもいいよ" or talk == "寝ちゃってもいいんじゃない？") and MySession.read_oyasumi(user_id) == 11:
-        line_bot_api.reply_message(
-            event.reply_token,
-            [TextSendMessage(text = bokumonetyaou),
-            TextSendMessage(text = user_name + "さん、おやすみなさいです…")])
-        MySession.update_oyasumi(user_id, 3)
-    elif MySession.read_context(user_id) == "0" and (talk == "寝なよ" or talk == "寝てもいいよ" or talk == "一緒に寝よう" or talk == "休んでもいいよ" or talk == "休んじゃいなよ" or talk == "一緒に寝る？" or talk == "休んでもいいんじゃない？" or talk == "寝ちゃいなよ" or talk == "寝ちゃってもいいよ" or talk == "寝ちゃってもいいんじゃない？"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = madaneruwakeniha))
-    elif MySession.read_context(user_id) == "0" and (talk == "git add" or talk == "git commit" or talk == "git push" or talk == "C" or talk == "C++" or talk == "C#" or talk == "Java" or talk == "JavaScript" or talk == "PHP" or talk == "Ruby" or talk == "TypeScript" or talk == "Python" or talk == "R言語" or talk == "GO言語" or talk == "Swift" or talk == "Kotlin" or talk == "Objective-C" or talk == "VisualBasic" or talk == "VBScript" or talk == "BASIC" or talk == "GoogleAppsScript" or talk == "Haskell" or talk == "Scala" or talk == "Groovy" or talk == "Delphi" or talk == "Dart" or talk == "D言語" or talk == "Perl" or talk == "COBOL" or talk == "SQL" or talk == "FORTRAN" or talk == "MATLAB" or talk == "Scratch"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "むむ、その言葉は...。さてはあなた、プログラミングしたことありますね？"))
-    elif MySession.read_context(user_id) == "0" and talk == "heroku logs --tail":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "あっ！お世話になっております、ヘロクログさん！今日も--尻尾が素敵ですね！（？）"))
-    elif MySession.read_context(user_id) == "0" and talk == "vore" or talk == "ボア"  or talk == "ぼあ":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "ぼあ？それってなんですか？\nうーん、ぼあ？なんだか背筋がぞわぞわするような…？"))
-    elif MySession.read_context(user_id) == "0" and (((("性能" in talk or "精度" in talk) and ("悪い" in talk or "わるい" in talk)) or (("あて" in talk or "参考" in talk) and ("なら" in talk)) or talk == "使えない" or talk == "使えないね") or (talk == "嘘つき" or talk == "うそつき")):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = gomennnasai))
-    elif MySession.read_context(user_id) == "0" and (talk == "ごみの捨て方" or talk == "捨て方" or talk == "分別" or talk == "分別方法" or talk == "ごみの分別" or talk == "ゴミの分別"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "あー...すみません、ごみの捨て方はボクの仕事の範疇ではないんです。ただ、頼りになる方を知っているのでご紹介いたしますね！\n墨田区のごみ捨て案内bot\n＜リンク＞\nhttps://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/oyakudachi/gomi-bunbetu-chatbot.html\n(右下の黒猫さん「すみにゃーる」を押すと利用開始です！)"))
-    elif MySession.read_context(user_id) == "0" and talk == "スペシャルサンクス":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "このシステムを作るにあたり、ボクのキャラクターデザインのご意見などをイラストレーターのほまけさんから頂きました。ボクの面倒を見てくれてありがとうございました！ここからじゃボクの声は届かないだろうけど、この気持ちが届くといいな。"))
-    elif MySession.read_context(user_id) == "0" and (talk == "バグ" or talk == "不具合" or talk == "バグある" or talk == "不具合ある" or talk == "バグってる" or talk == "不具合あったよ" or talk == "バグあったよ" or talk == "不具合見つけた" or talk == "不具合見つけたよ" or talk == "バグ見つけた" or talk == "バグ見つけたよ"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text = "バグがあったんですね！？不具合があり申し訳ございません！\n実施しているアンケートの中に[追加してほしい機能や不具合がありましたら、こちらにご記入ください]という欄がありますので、お手数をおかけしますがそちらに入力していただけますと幸いです！\nアンケートはこちらから↓\n<リンク>"))
-    elif MySession.read_context(user_id) == "0" and (talk == "－－－－　・－・－・　－・－・　・・－・　－・・・" or talk == "－・－・・　－－－－　－・－－－　－・・－　－－－・－　・－・・"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            [TextSendMessage(text = "ん、もーるす信号だ。えっと、えっと…これがこれで、これがこうかな…よし、送信っと。"),
-            TextSendMessage(text = "－－－－　・－・－・　－・－・　・・－・　－・・・　・・－　－・－－－　－・－・－　・・　・－－・－　－・－・　－・・－－　・－－・－　－－－・－　－・・　・・　・・－・・　・－・－－　・・　－－－・－")])
-    elif MySession.read_context(user_id) == "0" and talk == "アンケート回答した":
-        line_bot_api.reply_message(
-            event.reply_token,
-            [TextSendMessage(text = ankeThanks1 + user_name + ankeThanks2),
-            TextSendMessage(text = ankeThanks3)])
+
     #'''
 ###############################
 
@@ -1080,29 +889,7 @@ def handle_message(event):
 ###'''で囲めばその間の行をコメントアウトできる
 ###以下は間違えすぎた時のBOTの反応######
       #'''
-      MySession.update_count(user_id, MySession.read_count(user_id)+1)
 
-      if MySession.read_count(user_id) >= 17:
-          line_bot_api.reply_message(
-              event.reply_token,
-              TextSendMessage(text=kaiwa1_4))
-      elif MySession.read_count(user_id) == 16:
-          rep = ""
-          if talk == "うん" or talk == "せやで" or talk == "そうだよ" or talk == "そうだけど" or talk == "ばれた？":
-              rep = talk + "って...からかわないでくださいよもう…。\n…あれ、"
-          line_bot_api.reply_message(
-              event.reply_token,
-              TextSendMessage(text=rep + kaiwa1_3))
-      elif MySession.read_count(user_id) == 15:
-          line_bot_api.reply_message(
-              event.reply_token,
-              TextSendMessage(text=kaiwa1_2))
-      elif MySession.read_count(user_id) > 10:
-          line_bot_api.reply_message(
-              event.reply_token,
-              [TextSendMessage(text=kaiwa1_1),
-              TextSendMessage(text=kaiwa1_1a)])
-      else:
       #'''
 ############################
           line_bot_api.reply_message(
@@ -1196,8 +983,12 @@ bousiInfo = ["これですか？これはボクのお父さんから譲り受け
 "この帽子のかぶるところ、雲みたいにとってもふかふかで柔らかいんです。まあ実際に雲を触ったことは無いですけどね。"]
 seisakuhiwa = "卒研でのシステム開発をするにあたって、無料で誰でも開発できるような天気情報提供Botを作るか、どれだけお金をかけても構わないからすごく便利な天気情報提供Botのシステムを構築するかで悩みましたね。ただ後者はもはや個人制作ではなく企業の範疇に入るし、費用もバカにならないという理由で却下しました。ただ、誰でもマスコットキャラクターが描けるかというと…そこはちょっとあれですが…。"
 genki = "おかげさまで元気です！お気遣いありがとうございます！"
+koukaisitemo = "間違えちゃうことは誰にだって、ボクにだってあります。そこから大事なのは、間違えちゃったことを反省して次に生かすことですよね。ボクも後悔しちゃいそうになることもありますが、過去は変えられないですからね…。時を戻せる魔法が使えるのなら使いたいものです。"
+koinokatikann = "誰かを好きになって、結婚して…いいですね！恋愛のコツとして色々理論があったりしますが、それよりも相手の方との相性が大事だと思いますね。例えば趣味、休みの日にすること、価値観、食べ物の好き嫌いとか。ただ好きという感情で決めるよりは、お互いのことを良く知って末永く円満にお付き合いできるのがいいのかなと思っています。誠実に生きて、ボクにも素敵な番の方ができるといいなあ…。"
+imanobasyo = "ボクが今いるのはお仕事のための場所で、ボクの故郷から随分遠い場所になります。\nこの部屋には机とベッド、それから皆さんと通信する用の精密機械がズラーっと並んでいます。窓からは真っ暗な空にお星さまがキラキラ輝いてるのが見えますよ！キッチンやお風呂なんかは別のところにあるんですが、ここには色んな種族、年齢の方がいらっしゃるようです。すごく静かで清らかな場所なので、皆さんも機会があればぜひ一度いらしてみてくださいね！"
 negirai = "今日もお仕事お疲れ様です！ボクでよければ話し相手になりますよ！"
 netyaimasyou = "いい夢を、おやすみなさいです！\nふあぁ...なんだかボクも眠たくなってきちゃいました。もうひと頑張りしなきゃです…"
+bokugaimasuyo = "つらいこと、あったんですね。あなたの苦しみをすべて理解できるなんて言いません。何もできないボクで不甲斐ないですが、心はいつでもあなたのそばにいますよ。つらいときは信頼できる方に相談したり、ぐっすり眠ると少しは楽になるかもしれません。ボクもつらくて泣いちゃった時はなるべくすべてを忘れてぐっすり寝るようにしているので、気が向いたら試していただくといいことがあるかもしれないです。"
 bokumonetyaou = "...えっ、良いんですか？それじゃあお言葉に甘えて、今日は早く上がっちゃいますね。"
 suyasuyaFogKun = ["くーかー……", "zzz…", "むにゃむにゃ…"]
 suyasuyaFogKunRare = ["わああっ、おっきなこんぺいとうさんだぁ…むにゃむにゃ…。","好きなおにぎりの具れすか？…んー、つなまよねーず！…zzz"]
