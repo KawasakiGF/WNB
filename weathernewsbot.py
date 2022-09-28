@@ -700,7 +700,7 @@ def handle_message(event):
        else:
           line_bot_api.reply_message(
              event.reply_token,
-             TextSendMessage(text="保持しませんでした。またご利用になられる場合は「1か所」もしくは「2か所」を入力してください"))
+             TextSendMessage(text="保持しませんでした。またご利用になられる場合は「1か所」もしくは「2か所」を入力してください。"))
           MySession.reset(user_id)
 ###############################
 
