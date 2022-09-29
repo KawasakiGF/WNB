@@ -23,8 +23,8 @@ from linebot.models import (
 app = Flask(__name__)
 
 #環境変数取得
-YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
-YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
+YOUR_CHANNEL_ACCESS_TOKEN = "N36OuiOhCe90y5dnFw/YSfbIo3pfHbhHG1Ap+scj94GbwR8X14b+jVaXQOjgRcTvuxAFVMauvTN1JQp9YFWGANPWveghfO8Y4l31rda7g+dMaaodZJESFNRBtJEcnxi3j4jEIgth5XQFtzGgAeLIHgdB04t89/1O/w1cDnyilFU="
+YOUR_CHANNEL_SECRET = "723582d476ecb5ddd8812490a7b16f2f"
 
 #環境変数を実用的な変数に代入しているかも
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
